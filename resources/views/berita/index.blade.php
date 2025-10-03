@@ -31,7 +31,7 @@
         <div class="card mb-4 shadow-sm">
             <div class="row g-0 align-items-center">
                 
-                {{-- Kolom Gambar (Ditambahkan padding p-3 dan menyesuaikan gambar) --}}
+                {{-- Kolom Gambar --}}
                 <div class="col-md-3 p-3"> 
                     @if($berita->gambar)
                         <img 
@@ -40,7 +40,6 @@
                             alt="{{ $berita->judul }}" 
                             style="width: 100%; height: 180px; object-fit: cover;">
                     @else
-                        {{-- Placeholder jika gambar tidak ada --}}
                         <div class="d-flex align-items-center justify-content-center bg-light text-muted rounded" 
                              style="width: 100%; height: 180px; border: 1px solid #ccc;">
                             Tidak Ada Gambar
@@ -64,7 +63,7 @@
 
                         {{-- Tombol Aksi --}}
                         <div class="mt-3 text-end">
-                            {{-- TOMBOL LIHAT DETAIL (Memicu Modal) --}}
+                            {{-- TOMBOL LIHAT DETAIL --}}
                             <button type="button" class="btn btn-info btn-sm me-2 text-white" 
                                 data-bs-toggle="modal" 
                                 data-bs-target="#detailModal{{ $berita->id_berita }}" 
@@ -78,7 +77,9 @@
                             </a>
                             
                             {{-- Tombol Hapus --}}
-                            <form action="{{ route('berita.destroy', $berita->id_berita) }}" method="POST" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus berita ini?');">
+                            <form action="{{ route('berita.destroy', $berita->id_berita) }}" 
+                                  method="POST" 
+                                  class="d-inline form-delete">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
@@ -91,7 +92,7 @@
             </div>
         </div>
 
-        {{-- MODAL DETAIL BERITA (Ditempatkan di dalam loop agar datanya dinamis) --}}
+        {{-- MODAL DETAIL BERITA --}}
         <div class="modal fade" id="detailModal{{ $berita->id_berita }}" tabindex="-1" aria-labelledby="detailModalLabel{{ $berita->id_berita }}" aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-scrollable">
                 <div class="modal-content">
@@ -114,7 +115,6 @@
 
                         <hr>
                         <h6>Isi Konten:</h6>
-                        {{-- Tampilkan konten lengkap (gunakan {!! $berita->konten !!} jika Anda menggunakan Rich Text Editor) --}}
                         <div class="content-detail">
                             <p>{!! nl2br(e($berita->konten)) !!}</p> 
                         </div>
@@ -137,3 +137,43 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+{{-- SweetAlert2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const forms = document.querySelectorAll('.form-delete');
+        forms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); 
+
+                Swal.fire({
+                    title: 'Apakah kamu yakin?',
+                    text: "Data berita yang dihapus tidak bisa dikembalikan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); 
+                    }
+                });
+            });
+        });
+
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: "{{ session('success') }}",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        @endif
+    });
+</script>
+@endpush

@@ -12,67 +12,70 @@ use Illuminate\Validation\Rule;
 class BeritaController extends Controller
 {
     /**
-     * Menampilkan daftar semua berita dan pengumuman dengan pagination. (INDEX)
-     * @return \Illuminate\View\View
+     * Daftar kategori default.
      */
-    public function index()
+    private $kategoriList = ['Kegiatan Warga', 'Rapat', 'Pengumuman', 'Lain-lain'];
+
+    /**
+     * Menampilkan daftar semua berita & pengumuman dengan pagination (INDEX).
+     * Bisa difilter berdasarkan kategori.
+     */
+    public function index(Request $request)
     {
-        // Ambil data berita dengan pagination, urutkan dari yang terbaru
-        $beritaList = Berita::latest('tanggal_publikasi')->paginate(10);
+        $query = Berita::latest('tanggal_publikasi');
 
-        // Daftar kategori (bisa diambil dari tabel kategori jika ada)
-        $kategoriList = ['Kegiatan Warga', 'Rapat', 'Pengumuman', 'Lain-lain']; 
+        // Filter kategori jika dipilih
+        if ($request->filled('kategori')) {
+            $query->where('kategori', $request->kategori);
+        }
 
-        return view('berita.index', compact('beritaList', 'kategoriList'));
+        $beritaList = $query->paginate(10);
+
+        return view('berita.index', [
+            'beritaList'   => $beritaList,
+            'kategoriList' => $this->kategoriList,
+        ]);
     }
 
     /**
-     * Menampilkan form untuk membuat berita baru. (CREATE)
-     * @return \Illuminate\View\View
+     * Menampilkan form untuk membuat berita baru (CREATE).
      */
     public function create()
     {
-        $kategoriList = ['Kegiatan Warga', 'Rapat', 'Pengumuman', 'Lain-lain']; 
-        return view('berita.create', compact('kategoriList'));
+        return view('berita.create', [
+            'kategoriList' => $this->kategoriList,
+        ]);
     }
 
     /**
-     * Menyimpan berita baru ke database. (STORE)
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
+     * Menyimpan berita baru ke database (STORE).
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required|string',
-            'kategori' => 'required|string|max:50|in:Kegiatan Warga,Rapat,Pengumuman,Lain-lain', // Tambah in: untuk validasi kategori
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Opsional, Max 2MB
-            'tanggal_publikasi' => 'required|date|after_or_equal:today', // Cegah tanggal masa lalu
+            'judul'             => 'required|string|max:255',
+            'konten'            => 'required|string',
+            'kategori'          => 'required|string|max:50|in:' . implode(',', $this->kategoriList),
+            'gambar'            => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'tanggal_publikasi' => 'required|date|after_or_equal:today',
         ]);
 
-        // 1. Upload Gambar
-        $gambarPath = null;
-        if ($request->hasFile('gambar')) {
-            $gambarPath = $request->file('gambar')->store('berita/gambar', 'public');
-        }
+        // Upload gambar jika ada
+        $gambarPath = $request->hasFile('gambar')
+            ? $request->file('gambar')->store('berita/gambar', 'public')
+            : null;
 
-        // 2. Buat Slug unik
-        $slug = Str::slug($request->judul);
-        $originalSlug = $slug;
-        $count = 1;
-        while (Berita::where('slug', $slug)->exists()) {
-            $slug = $originalSlug . '-' . $count++;
-        }
+        // Slug unik
+        $slug = $this->generateUniqueSlug($validated['judul']);
 
-        // 3. Simpan data
+        // Simpan data
         Berita::create([
-            'judul' => $validated['judul'],
-            'slug' => $slug,
-            'konten' => $validated['konten'],
-            'gambar' => $gambarPath,
-            'penulis' => Auth::check() ? Auth::user()->name : 'Admin', // Menggunakan nama admin yang login
-            'kategori' => $validated['kategori'],
+            'judul'             => $validated['judul'],
+            'slug'              => $slug,
+            'konten'            => $validated['konten'],
+            'gambar'            => $gambarPath,
+            'penulis'           => Auth::check() ? Auth::user()->name : 'Admin',
+            'kategori'          => $validated['kategori'],
             'tanggal_publikasi' => $validated['tanggal_publikasi'],
         ]);
 
@@ -80,93 +83,79 @@ class BeritaController extends Controller
     }
 
     /**
-     * Menampilkan detail berita (biasanya untuk tampilan frontend). (SHOW)
-     * Laravel secara otomatis menemukan Berita berdasarkan ID.
-     * @param  \App\Models\Berita  $berita
-     * @return \Illuminate\View\View
+     * Menampilkan detail berita (SHOW).
      */
     public function show(Berita $berita)
     {
-        // Di admin, ini mungkin jarang dipakai, tapi disertakan untuk Route::resource
         return view('berita.show', compact('berita'));
     }
 
     /**
-     * Menampilkan form edit berita yang sudah ada. (EDIT)
-     * Laravel secara otomatis menemukan Berita berdasarkan ID.
-     * @param  \App\Models\Berita  $berita
-     * @return \Illuminate\View\View
+     * Menampilkan form edit berita (EDIT).
      */
-    public function edit(Berita $berita)
+    public function edit($id_berita)
     {
-        $kategoriList = ['Kegiatan Warga', 'Rapat', 'Pengumuman', 'Lain-lain']; 
-        return view('berita.edit', compact('berita', 'kategoriList'));
+        $berita = Berita::findOrFail($id_berita);
+
+        return view('berita.edit', [
+            'berita'       => $berita,
+            'kategoriList' => $this->kategoriList,
+        ]);
     }
 
     /**
-     * Menyimpan perubahan berita yang diedit. (UPDATE)
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Berita  $berita
-     * @return \Illuminate\Http\RedirectResponse
+     * Menyimpan perubahan berita yang diedit (UPDATE).
      */
-    public function update(Request $request, Berita $berita)
+    public function update(Request $request, $id_berita)
     {
+        $berita = Berita::findOrFail($id_berita);
+
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required|string',
-            'kategori' => 'required|string|max:50|in:Kegiatan Warga,Rapat,Pengumuman,Lain-lain',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'judul'             => 'required|string|max:255',
+            'konten'            => 'required|string',
+            'kategori'          => 'required|string|max:50|in:' . implode(',', $this->kategoriList),
+            'gambar'            => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'tanggal_publikasi' => 'required|date|after_or_equal:today',
-            // Pastikan slug yang baru tidak sama dengan slug lain (kecuali slug sendiri)
-            'slug' => ['required', 'string', 'max:255', Rule::unique('berita', 'slug')->ignore($berita->id_berita, 'id_berita')],
+            'slug'              => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('berita', 'slug')->ignore($id_berita, 'id_berita')
+            ],
         ]);
 
+        // Upload gambar baru jika ada
         $gambarPath = $berita->gambar;
-
-        // 1. Handle Upload Gambar Baru
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
             if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
                 Storage::disk('public')->delete($berita->gambar);
             }
-            // Simpan gambar baru
             $gambarPath = $request->file('gambar')->store('berita/gambar', 'public');
         }
 
-        // 2. Buat Slug unik jika slug kosong atau sama dengan judul (fallback seperti store)
-        $slug = $validated['slug'];
-        if (empty($slug) || $slug === Str::slug($validated['judul'])) {
-            $originalSlug = Str::slug($validated['judul']);
-            $count = 1;
-            $slug = $originalSlug;
-            while (Berita::where('slug', $slug)->where('id_berita', '!=', $berita->id_berita)->exists()) {
-                $slug = $originalSlug . '-' . $count++;
-            }
-        }
+        // Slug unik
+        $slug = $this->generateUniqueSlug($validated['judul'], $id_berita, $validated['slug']);
 
-        // 3. Update data (gunakan fill() + save() untuk efisiensi)
-        $berita->fill([
-            'judul' => $validated['judul'],
-            'slug' => $slug,
-            'konten' => $validated['konten'],
-            'gambar' => $gambarPath,
-            'kategori' => $validated['kategori'],
+        // Update data
+        $berita->update([
+            'judul'             => $validated['judul'],
+            'slug'              => $slug,
+            'konten'            => $validated['konten'],
+            'gambar'            => $gambarPath,
+            'kategori'          => $validated['kategori'],
             'tanggal_publikasi' => $validated['tanggal_publikasi'],
-            // 'penulis' => Auth::check() ? Auth::user()->name : 'Admin', // Komentar: Jangan update penulis di edit, biarkan asli
         ]);
-        $berita->save();
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil diperbarui!');
     }
 
     /**
-     * Menghapus berita dari database. (DESTROY)
-     * @param  \App\Models\Berita  $berita
-     * @return \Illuminate\Http\RedirectResponse
+     * Menghapus berita dari database (DESTROY).
      */
-    public function destroy(Berita $berita)
+    public function destroy($id_berita)
     {
-        // Hapus gambar terkait dari storage
+        $berita = Berita::findOrFail($id_berita);
+
         if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
             Storage::disk('public')->delete($berita->gambar);
         }
@@ -174,5 +163,29 @@ class BeritaController extends Controller
         $berita->delete();
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus.');
+    }
+    /**
+     * Generate slug unik berdasarkan judul.
+     */
+    private function generateUniqueSlug(string $judul, $ignoreId = null, $slugInput = null): string
+    {
+        $slug = $slugInput ?: Str::slug($judul);
+        $originalSlug = $slug;
+        $count = 1;
+
+        $query = Berita::where('slug', $slug);
+        if ($ignoreId) {
+            $query->where('id_berita', '!=', $ignoreId);
+        }
+
+        while ($query->exists()) {
+            $slug = $originalSlug . '-' . $count++;
+            $query = Berita::where('slug', $slug);
+            if ($ignoreId) {
+                $query->where('id_berita', '!=', $ignoreId);
+            }
+        }
+
+        return $slug;
     }
 }
