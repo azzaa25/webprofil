@@ -38,9 +38,20 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard
 Route::resource('berita', BeritaController::class)->parameters([
     'berita' => 'id_berita'
 ]);
-Route::resource('galeri', GaleriController::class);
+// 3. KELOLA GALERI
+    
+Route::delete('/galeri/foto/{foto}', [GaleriController::class, 'destroyFoto'])
+    ->name('galeri.destroy_foto'); 
+
+// RESOURCE GALERI (Menggunakan binding id_galeri)
+Route::resource('galeri', GaleriController::class)->parameters([
+    'galeri' => 'id_galeri'
+]); 
+// 4. KELOLA BUKU TAMU
 Route::resource('buku-tamu', BukuTamuController::class);
+// 5. KELOLA FAQ
 Route::resource('faq', FaqController::class);
+// 6. KELOLA PELAYANAN
 Route::resource('pelayanan', PelayananController::class);
 
 // route logout
