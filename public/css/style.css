@@ -1,0 +1,15 @@
+/* Judul utama "KOTA KEDIRI MAPAN" */
+.hero-title {
+    font-size: 3.5em;
+    font-weight: 700;
+    color: #4B0082;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Gambar utama */
+.hero-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}

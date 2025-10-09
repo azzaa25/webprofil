@@ -9,21 +9,23 @@ use App\Http\Controllers\BukuTamuController;
 use App\Http\Controllers\FaqController;
 use Illuminate\Support\Facades\Auth;
 
-
 // Halaman utama (welcome tetap ada)
-Route::get('/', function () {
-    return view('welcome'); // tetap tampil welcome.blade.php
-});
+Route::get('/', function () {return view('welcome');});
+Route::get('/galeri', function () {return view('galeri');});
+Route::get('/berita', function () {return view('berita');});
+Route::get('/buku-tamu', function () {return view('buku_tamu');});
+Route::get('/pelayanan', function () {return view('pelayanan');});
+Route::get('/profil', function () {return view('profil');});
 
 // Dashboard admin
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Resource route untuk kelola konten
-Route::resource('profil', ProfilController::class);
-Route::resource('berita', BeritaController::class);
-Route::resource('galeri', GaleriController::class);
-Route::resource('buku-tamu', BukuTamuController::class);
-Route::resource('faq', FaqController::class);
+Route::resource('admin-profil', ProfilController::class);
+Route::resource('admin-berita', BeritaController::class);
+Route::resource('admin-galeri', GaleriController::class);
+Route::resource('admin-buku-tamu', BukuTamuController::class);
+Route::resource('admin-faq', FaqController::class);
 
 // route logout
 Route::post('/logout', function () {
