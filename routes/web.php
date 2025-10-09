@@ -22,13 +22,13 @@ Route::get('/profil', function () {return view('profil');});
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 // Resource route untuk kelola konten
-<<<<<<< HEAD
+
 Route::resource('admin-profil', ProfilController::class);
 Route::resource('admin-berita', BeritaController::class);
 Route::resource('admin-galeri', GaleriController::class);
 Route::resource('admin-buku-tamu', BukuTamuController::class);
 Route::resource('admin-faq', FaqController::class);
-=======
+
 // 1. KELOLA PROFIL (Menyesuaikan dengan ProfilController sebelumnya)
     Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
     
@@ -62,7 +62,7 @@ Route::resource('buku-tamu', BukuTamuController::class);
 Route::resource('faq', FaqController::class);
 // 6. KELOLA PELAYANAN
 Route::resource('pelayanan', PelayananController::class);
->>>>>>> 9ba55949e5685ead2e72e00af0ecf1146bd4aafd
+
 
 // route logout
 Route::post('/logout', function () {
