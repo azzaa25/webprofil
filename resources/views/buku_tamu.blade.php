@@ -21,7 +21,7 @@
             </div>
 
             {{-- Form Buku Tamu --}}
-            <form action="#" method="POST"
+            <form action="{{ route('bukutamu.store') }}" method="POST"
                 class="max-w-xl mx-auto bg-gray-50 border border-gray-200 shadow-xl rounded-3xl px-8 py-10 space-y-6 hover:shadow-2xl transition-all duration-300 ease-in-out">
                 @csrf
                 {{-- Nama Lengkap --}}
