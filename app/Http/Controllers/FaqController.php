@@ -49,7 +49,7 @@ class FaqController extends Controller
         
         Faq::create($validated);
 
-        return redirect()->route('faq.index')->with('success', 'Pertanyaan berhasil ditambahkan!');
+        return redirect()->route('admin.faq.index')->with('success', 'Pertanyaan berhasil ditambahkan!');
     }
 
     /**
@@ -78,7 +78,7 @@ class FaqController extends Controller
 
         $faq->update($validated);
 
-        return redirect()->route('faq.index')->with('success', 'Pertanyaan berhasil diperbarui!');
+        return redirect()->route('admin.faq.index')->with('success', 'Pertanyaan berhasil diperbarui!');
     }
 
     /**
@@ -90,6 +90,6 @@ class FaqController extends Controller
         $faq = Faq::findOrFail($id_faq);
         $faq->delete();
         
-        return redirect()->route('faq.index')->with('success', 'Pertanyaan berhasil dihapus!');
+        return redirect()->route('admin.faq.index')->with('success', 'Pertanyaan berhasil dihapus!');
     }
 }

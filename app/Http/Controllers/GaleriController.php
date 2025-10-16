@@ -61,7 +61,7 @@ class GaleriController extends Controller
             }
         }
 
-        return redirect()->route('galeri.index')->with('success', 'Album baru berhasil ditambahkan!');
+        return redirect()->route('admin.galeri.index')->with('success', 'Album baru berhasil ditambahkan!');
     }
 
     /**
@@ -126,7 +126,7 @@ class GaleriController extends Controller
             }
         }
         
-        return redirect()->route('galeri.index')->with('success', 'Album berhasil diperbarui!');
+        return redirect()->route('admin.galeri.index')->with('success', 'Album berhasil diperbarui!');
     }
     
     /**
@@ -168,6 +168,6 @@ class GaleriController extends Controller
 
         $galeri->delete();
 
-        return redirect()->route('galeri.index')->with('success', 'Album berhasil dihapus!');
+        return redirect()->route('admin.galeri.index')->with('success', 'Album berhasil dihapus!');
     }
 }

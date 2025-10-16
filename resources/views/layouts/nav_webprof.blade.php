@@ -199,7 +199,7 @@
 
         <div class="bg-black bg-opacity-20">
             <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-3 text-center text-sm">
-                © 2022 Kelurahan Sukorame. Designed By 3E
+                © 2025 Kelurahan Sukorame. Designed By 3E
             </div>
         </div>
     </footer>

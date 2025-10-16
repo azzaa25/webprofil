@@ -65,7 +65,7 @@ class PelayananController extends Controller
             'tanggal_publikasi' => now(),
         ]);
 
-        return redirect()->route('pelayanan.index')->with('success', 'Layanan berhasil ditambahkan!');
+        return redirect()->route('admin.pelayanan.index')->with('success', 'Layanan berhasil ditambahkan!');
     }
 
     /**
@@ -123,7 +123,7 @@ class PelayananController extends Controller
             'keterangan' => $validated['keterangan'],
         ]);
 
-        return redirect()->route('pelayanan.index')->with('success', 'Layanan berhasil diperbarui!');
+        return redirect()->route('admin.pelayanan.index')->with('success', 'Layanan berhasil diperbarui!');
     }
 
     /**
@@ -132,6 +132,6 @@ class PelayananController extends Controller
     public function destroy(Pelayanan $pelayanan)
     {
         $pelayanan->delete();
-        return redirect()->route('pelayanan.index')->with('success', 'Layanan berhasil dihapus!');
+        return redirect()->route('admin.pelayanan.index')->with('success', 'Layanan berhasil dihapus!');
     }
 }

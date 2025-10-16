@@ -9,7 +9,7 @@
         <p class="text-muted">Anda sedang mengedit: **{{ $pelayanan->nama_pelayanan }}**</p>
         
         <div class="card shadow-sm p-4 mb-4">
-            <form action="{{ route('pelayanan.update', $pelayanan->id_pelayanan) }}" method="POST">
+            <form action="{{ route('admin.pelayanan.update', $pelayanan->id_pelayanan) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -76,7 +76,7 @@
                 <button type="submit" class="btn btn-primary me-2">
                     <i class="bi bi-arrow-repeat me-1"></i> Simpan Perubahan
                 </button>
-                <a href="{{ route('pelayanan.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <a href="{{ route('admin.pelayanan.index') }}" class="btn btn-outline-secondary">Batal</a>
             </form>
         </div>
     </div>

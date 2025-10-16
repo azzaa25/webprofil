@@ -17,11 +17,11 @@
         
         {{-- Form Pencarian dan Tambah --}}
         <div class="d-flex justify-content-between mb-4">
-            <form action="{{ route('faq.index') }}" method="GET" class="d-flex me-3 w-50">
+            <form action="{{ route('admin.faq.index') }}" method="GET" class="d-flex me-3 w-50">
                 <input type="text" name="search" class="form-control me-2" placeholder="Cari Pertanyaan..." value="{{ request('search') }}">
                 <button type="submit" class="btn btn-outline-secondary">Cari</button>
             </form>
-            <a href="{{ route('faq.create') }}" class="btn btn-success">
+            <a href="{{ route('admin.faq.create') }}" class="btn btn-success">
                 <i class="bi bi-plus-circle-fill me-1"></i> Tambah Pertanyaan
             </a>
         </div>
@@ -46,7 +46,7 @@
                             <td>{{ Str::limit($faq->jawaban, 100) }}</td>
                             <td>
                                 {{-- Tombol Edit --}}
-                                <a href="{{ route('faq.edit', $faq->id_faq) }}" class="btn btn-primary btn-sm me-2" title="Edit">
+                                <a href="{{ route('admin.faq.edit', $faq->id_faq) }}" class="btn btn-primary btn-sm me-2" title="Edit">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
             deleteFaqName.textContent = name;
 
             // Menggunakan rute 'faq.destroy'
-            const routeBase = "{{ route('faq.destroy', ':id') }}";
+            const routeBase = "{{ route('admin.faq.destroy', ':id') }}";
             const routeUrl = routeBase.replace(':id', id);
 
             deleteForm.action = routeUrl;

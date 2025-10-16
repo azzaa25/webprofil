@@ -9,7 +9,7 @@
         
         {{-- Tombol Aksi dan Filter --}}
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <a href="{{ route('berita.create') }}" class="btn btn-success me-3">
+            <a href="{{ route('admin.berita.create') }}" class="btn btn-success me-3">
                 <i class="bi bi-plus-circle-fill me-1"></i> Tambah Berita Baru
             </a>
             
@@ -18,9 +18,9 @@
                     Filter Kategori
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="{{ route('berita.index') }}">Semua Kategori</a></li>
+                    <li><a class="dropdown-item" href="{{ route('admin.berita.index') }}">Semua Kategori</a></li>
                     @foreach($kategoriList as $kategori)
-                        <li><a class="dropdown-item" href="{{ route('berita.index', ['kategori' => $kategori]) }}">{{ $kategori }}</a></li>
+                        <li><a class="dropdown-item" href="{{ route('admin.berita.index', ['kategori' => $kategori]) }}">{{ $kategori }}</a></li>
                     @endforeach
                 </ul>
             </div>
@@ -72,12 +72,12 @@
                             </button>
                             
                             {{-- Tombol Edit --}}
-                            <a href="{{ route('berita.edit', $berita->id_berita) }}" class="btn btn-primary btn-sm me-2" title="Edit">
+                            <a href="{{ route('admin.berita.edit', $berita->id_berita) }}" class="btn btn-primary btn-sm me-2" title="Edit">
                                 <i class="bi bi-pencil-square"></i>
                             </a>
                             
                             {{-- Tombol Hapus --}}
-                            <form action="{{ route('berita.destroy', $berita->id_berita) }}" 
+                            <form action="{{ route('admin.berita.destroy', $berita->id_berita) }}" 
                                   method="POST" 
                                   class="d-inline form-delete">
                                 @csrf
@@ -132,7 +132,9 @@
 
         {{-- Pagination --}}
         <div class="d-flex justify-content-center mt-4">
-            {{ $beritaList->links('pagination::bootstrap-5') }}
+            @if($beritaList instanceof \Illuminate\Pagination\AbstractPaginator)
+                {{ $beritaList->links('pagination::bootstrap-5') }}
+            @endif
         </div>
     </div>
 </div>

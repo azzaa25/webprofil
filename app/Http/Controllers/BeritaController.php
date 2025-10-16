@@ -79,7 +79,7 @@ class BeritaController extends Controller
             'tanggal_publikasi' => $validated['tanggal_publikasi'],
         ]);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil dipublikasikan!');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dipublikasikan!');
     }
 
     /**
@@ -146,7 +146,7 @@ class BeritaController extends Controller
             'tanggal_publikasi' => $validated['tanggal_publikasi'],
         ]);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil diperbarui!');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui!');
     }
 
     /**
@@ -162,7 +162,7 @@ class BeritaController extends Controller
 
         $berita->delete();
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus.');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus.');
     }
     /**
      * Generate slug unik berdasarkan judul.

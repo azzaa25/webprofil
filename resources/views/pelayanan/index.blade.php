@@ -17,11 +17,11 @@
         
         {{-- Form Pencarian dan Tambah --}}
         <div class="d-flex justify-content-between mb-4">
-            <form action="{{ route('pelayanan.index') }}" method="GET" class="d-flex me-3 w-50">
+            <form action="{{ route('admin.pelayanan.index') }}" method="GET" class="d-flex me-3 w-50">
                 <input type="text" name="search" class="form-control me-2" placeholder="Cari Pelayanan..." value="{{ request('search') }}">
                 <button type="submit" class="btn btn-outline-secondary">Cari</button>
             </form>
-            <a href="{{ route('pelayanan.create') }}" class="btn btn-success">
+            <a href="{{ route('admin.pelayanan.create') }}" class="btn btn-success">
                 <i class="bi bi-plus-circle-fill me-1"></i> Tambah Pelayanan
             </a>
         </div>
@@ -54,7 +54,7 @@
                                 </button>
                                 
                                 {{-- Tombol Edit --}}
-                                <a href="{{ route('pelayanan.edit', $pelayanan->id_pelayanan) }}" class="btn btn-primary btn-sm" title="Edit">
+                                <a href="{{ route('admin.pelayanan.edit', $pelayanan->id_pelayanan) }}" class="btn btn-primary btn-sm" title="Edit">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
             // 2. Update aksi (URL) form DELETE
             // Asumsi rute adalah 'pelayanan.destroy' yang memerlukan {id_pelayanan}
             // Kita membangun URL secara dinamis
-            const routeBase = "{{ route('pelayanan.destroy', ':id') }}";
+            const routeBase = "{{ route('admin.pelayanan.destroy', ':id') }}";
             const routeUrl = routeBase.replace(':id', id);
 
             deleteForm.action = routeUrl;

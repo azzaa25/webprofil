@@ -44,7 +44,7 @@
             {{-- 1. Tab Visi & Misi (Edit) --}}
             <div class="tab-pane fade show active" id="pills-visi-misi" role="tabpanel" aria-labelledby="pills-visi-misi-tab" tabindex="0">
                 <div class="card shadow-sm p-4 mb-4">
-                    <form action="{{ route('profil.update', ['type' => 'visi_misi']) }}" method="POST">
+                    <form action="{{ route('admin.profil.update', ['type' => 'visi_misi']) }}" method="POST">
                         @csrf
                         @method('PUT')
 
@@ -73,7 +73,7 @@
                     <h5 class="mb-3 text-primary">Upload Gambar Struktur Organisasi</h5>
                     
                     {{-- Form Upload --}}
-                    <form action="{{ route('profil.upload_struktur') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('admin.profil.upload_struktur') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Pilih Gambar Baru (.jpg, .png)</label>
@@ -93,7 +93,7 @@
                         <img src="{{ asset('storage/' . $profileData->struktur_path) }}" alt="Struktur Organisasi" class="img-fluid rounded shadow-sm" style="max-height: 400px;">
                     </div>
                     {{-- Form Hapus --}}
-                    <form action="{{ route('profil.delete_struktur') }}" method="POST" onsubmit="return confirm('ANDA YAKIN INGIN MENGHAPUS GAMBAR INI SECARA PERMANEN?');">
+                    <form action="{{ route('admin.profil.delete_struktur') }}" method="POST" onsubmit="return confirm('ANDA YAKIN INGIN MENGHAPUS GAMBAR INI ?');">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">Hapus Gambar</button>
@@ -110,7 +110,7 @@
                     
                     <h5 class="mb-3 text-primary">Tambah Lembaga Baru</h5>
                     {{-- Form Tambah Lembaga Baru (INLINE ADD) --}}
-                    <form action="{{ route('lembaga.store') }}" method="POST" class="mb-5 p-3 border rounded bg-light">
+                    <form action="{{ route('admin.lembaga.store') }}" method="POST" class="mb-5 p-3 border rounded bg-light">
                         @csrf
                         {{-- Menggunakan form-control-sm agar lebih ringkas --}}
                         <div class="row g-3">
@@ -145,7 +145,7 @@
                                 @forelse($lembagaList as $lembaga)
                                 <tr class="py-2">
                                     {{-- FORM EDIT INLINE: setiap baris adalah satu form --}}
-                                    <form action="{{ route('lembaga.update', $lembaga->id_lembaga) }}" method="POST">
+                                    <form action="{{ route('admin.lembaga.update', $lembaga->id_lembaga) }}" method="POST">
                                         @csrf
                                         @method('PUT')
                                         
@@ -166,7 +166,7 @@
                                 </tr>
 
                                 {{-- Form Hapus tersembunyi --}}
-                                <form id="delete-form-{{ $lembaga->id_lembaga }}" action="{{ route('lembaga.destroy', $lembaga->id_lembaga) }}" method="POST" style="display: none;">
+                                <form id="delete-form-{{ $lembaga->id_lembaga }}" action="{{ route('admin.lembaga.destroy', $lembaga->id_lembaga) }}" method="POST" style="display: none;">
                                     @csrf
                                     @method('DELETE')
                                 </form>
@@ -184,7 +184,7 @@
             {{-- 4. Tab Sejarah Kelurahan (Edit) --}}
             <div class="tab-pane fade" id="pills-sejarah" role="tabpanel" aria-labelledby="pills-sejarah-tab" tabindex="0">
                 <div class="card shadow-sm p-4 mb-4">
-                    <form action="{{ route('profil.update', ['type' => 'sejarah']) }}" method="POST">
+                    <form action="{{ route('admin.profil.update', ['type' => 'sejarah']) }}" method="POST">
                         @csrf
                         @method('PUT')
 

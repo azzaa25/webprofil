@@ -9,7 +9,7 @@
         
         <div class="card shadow-sm p-4 mb-4">
             {{-- Form Update Album Utama --}}
-            <form action="{{ route('galeri.update', $galeri->id_galeri) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.galeri.update', $galeri->id_galeri) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -43,7 +43,7 @@
                 </div>
 
                 <h5 class="mt-4">Simpan Perubahan Album</h5>
-                <a href="{{ route('galeri.index') }}" class="btn btn-outline-secondary me-2">Kembali</a>
+                <a href="{{ route('admin.galeri.index') }}" class="btn btn-outline-secondary me-2">Kembali</a>
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-arrow-repeat me-1"></i> Simpan Album
                 </button>
@@ -64,7 +64,7 @@
             @endif
 
             {{-- Form Tambah Foto Baru --}}
-            <form action="{{ route('galeri.update', $galeri->id_galeri) }}" method="POST" enctype="multipart/form-data" class="mb-5 p-3 border rounded bg-light">
+            <form action="{{ route('admin.galeri.update', $galeri->id_galeri) }}" method="POST" enctype="multipart/form-data" class="mb-5 p-3 border rounded bg-light">
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="action_type" value="add_photo">
@@ -92,7 +92,7 @@
                                  style="width: 100%; height: 150px; object-fit: cover;">
                             
                             {{-- Form Hapus Foto Detail --}}
-                            <form action="{{ route('galeri.destroy_foto', $foto->id) }}" method="POST" class="mt-2">
+                            <form action="{{ route('admin.galeri.destroy_foto', $foto->id) }}" method="POST" class="mt-2">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-danger btn-sm w-100" 

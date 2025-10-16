@@ -1,56 +1,136 @@
-{{-- Lokasi file: resources/views/pelayanan.blade.php --}}
 @extends('layouts.nav_webprof')
 
 @section('title', 'Pelayanan - Kelurahan Sukorame')
 
 @section('content')
+<div class="bg-[#f9fdf5] py-14 px-6 md:px-10 overflow-hidden">
+    <div class="container mx-auto max-w-6xl">
 
-    {{-- Catatan: Untuk mengaktifkan menu 'Pelayanan' di header, Anda perlu menambahkan logika di file `layouts/master.blade.php`.
-    Contoh: <a href="/pelayanan" class="{{ Request::is('pelayanan') ? 'text-sukorame-purple font-bold' : 'font-semibold text-sukorame-purple' }}">Pelayanan</a>
-    --}}
+        {{-- Header --}}
+        <header class="text-center mb-14">
+            <h1 class="font-poppins text-4xl font-extrabold text-gray-900 leading-tight">
+                Pelayanan Kantor Kelurahan Sukorame
+            </h1>
+            <p class="text-gray-600 mt-2 text-base md:text-lg font-medium">
+                Komitmen kami memberikan pelayanan publik terbaik bagi masyarakat.
+            </p>
+        </header>
 
-    <div class="bg-white py-12 md:py-20 px-4">
-        <div class="container mx-auto max-w-4xl">
+        {{-- Janji & Jenis Pelayanan --}}
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <div class="bg-[#D4F36B] p-8 rounded-2xl shadow-md border border-[#C5E25E]
+                        transition-all duration-300 ease-in-out 
+                        hover:shadow-xl hover:-translate-y-1 hover:scale-[1.01]">
+                <h2 class="font-poppins text-lg font-bold uppercase mb-4 text-[#166534] border-b-2 border-[#166534] pb-2">
+                    Janji Pelayanan
+                </h2>
+                <p class="font-poppins text-gray-800 text-base leading-relaxed">
+                    Kami berkomitmen memberikan pelayanan publik yang cepat, mudah, ramah, transparan, dan akuntabel.
+                </p>
+            </div>
 
-            <header class="text-center mb-12">
-                <h1 class="font-poppins text-3xl font-extrabold text-black">
-                    Pelayanan Kantor Kelurahan Sukorame
-                </h1>
-            </header>
+            <div class="bg-[#D4F36B] p-8 rounded-2xl shadow-md border border-[#C5E25E]
+                        transition-all duration-300 ease-in-out 
+                        hover:shadow-xl hover:-translate-y-1 hover:scale-[1.01]">
+                <h2 class="font-poppins text-lg font-bold uppercase mb-4 text-[#166534] border-b-2 border-[#166534] pb-2">
+                    Jenis Pelayanan
+                </h2>
+                <p class="font-poppins text-gray-800 text-base leading-relaxed">
+                    Pelayanan administrasi kependudukan, surat keterangan, perizinan, dan layanan sosial masyarakat.
+                </p>
+            </div>
+        </section>
 
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-                <div class="bg-[#D4F36B] p-5 rounded-xl shadow-md">
-                    <h2 class="font-poppins text-lg font-bold uppercase mb-3">JANJI PELAYANAN</h2>
-                    <p class="font-poppins text-sm text-gray-800">
-                        lorem ipsum dolor sitamet lorem impsumdolor sit ametlorem ipsum dolor sit ameticlorem ipsum dolor sit amet lorem impsumdolor sit amet loremipsum dolor sit amet lorem ipsum dolor sit amet lorem impsumdolor sit amet lorem impsum olor sit amet lorem
+        {{-- SOP Pelayanan --}}
+        <section class="mb-16">
+            <h2 class="font-poppins text-2xl font-bold uppercase mb-10 text-center text-gray-900">
+                Pelayanan Masyarakat
+            </h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {{-- Card Item --}}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-6 hover:shadow-xl transition-all">
+                    
+                    <h3 class="font-poppins text-xl font-bold text-gray-900 mb-2">Posyandu Lansia</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                        Reprehenderit cum voluptatibus atque debitis nemo aut. Quis dicta laudantium ut omnis et qui.
                     </p>
+                    <div class="flex items-center text-gray-600 text-sm mb-2">
+                        <i class="fas fa-map-marker-alt mr-2 text-green-700"></i> Posyandu
+                    </div>
+                    <div class="flex items-center text-gray-600 text-sm mb-5">
+                        <i class="fas fa-clock mr-2 text-green-700"></i> Senin–Jumat: 08.00–15.00
+                    </div>
+                    <div class="flex justify-between">
+                        <a href="#" class="bg-[#4c3588] hover:bg-[#4c3588]-800 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i> Detail Layanan
+                        </a>
+                        
+                    </div>
                 </div>
 
-                <div class="bg-[#D4F36B] p-5 rounded-xl shadow-md">
-                    <h2 class="font-poppins text-lg font-bold uppercase mb-3">JENIS PELAYANAN</h2>
-                    <p class="font-poppins text-sm text-gray-800">
-                        lorem ipsum dolor sitamet lorem impsumdolor sit ametlorem ipsum dolor sit ameticlorem ipsum dolor sit amet lorem impsumdolor sit amet loremipsum dolor sit amet lorem ipsum dolor sit amet lorem impsumdolor sit amet lorem impsum olor sit amet lorem
+                {{-- Tambahkan card lain sesuai kebutuhan --}}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-6 hover:shadow-xl transition-all">
+                    
+                    <h3 class="font-poppins text-xl font-bold text-gray-900 mb-2">Program KB</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                        Rerum natus sequi accusantium officiis natus. Recusandae voluptas ducimus nostrum soluta quas cumque.
                     </p>
+                    <div class="flex items-center text-gray-600 text-sm mb-2">
+                        <i class="fas fa-map-marker-alt mr-2 text-green-700"></i> Balai Kesehatan Desa
+                    </div>
+                    <div class="flex items-center text-gray-600 text-sm mb-5">
+                        <i class="fas fa-clock mr-2 text-green-700"></i> Senin–Jumat: 08.00–15.00
+                    </div>
+                    <div class="flex justify-between">
+                        <a href="#" class="bg-[#4c3588] hover:bg-[#4c3588]-800 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i> Detail Layanan
+                        </a>
+                        
+                    </div>
                 </div>
-            </section>
 
-            <section class="text-center mb-12">
-                <h2 class="font-poppins text-xl font-bold uppercase mb-4">SOP PELAYANAN</h2>
-                <div class="bg-[#B9A6E3] p-5 rounded-xl shadow-md min-h-[200px] flex items-center justify-center">
-                    <p class="text-gray-700 font-semibold"><img src="{{ asset('img/pelayanan.png') }}" alt="SOP Pelayanan"></p>
-                </div>
-            </section>
-
-            <section>
-                <div class="bg-[#5D4BA2] text-white p-5 rounded-xl shadow-md">
-                    <h2 class="font-poppins text-lg font-bold uppercase mb-3">MAKLUMAT PELAYANAN</h2>
-                    <p class="font-poppins text-sm">
-                        lorem ipsum dolor sitamet lorem impsumdolor sit ametlorem ipsum dolor sit ameticlorem ipsum dolor sit amet lorem impsumdolor sit amet loremipsum dolor sit amet lorem ipsum dolor sit amet lorem impsumdolor sit amet lorem impsum olor sit amet lorem
+                
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-md p-6 hover:shadow-xl transition-all">
+                    
+                    <h3 class="font-poppins text-xl font-bold text-gray-900 mb-2">Program KB</h3>
+                    <p class="text-gray-700 text-sm leading-relaxed mb-4">
+                        Rerum natus sequi accusantium officiis natus. Recusandae voluptas ducimus nostrum soluta quas cumque.
                     </p>
+                    <div class="flex items-center text-gray-600 text-sm mb-2">
+                        <i class="fas fa-map-marker-alt mr-2 text-green-700"></i> Balai Kesehatan Desa
+                    </div>
+                    <div class="flex items-center text-gray-600 text-sm mb-5">
+                        <i class="fas fa-clock mr-2 text-green-700"></i> Senin–Jumat: 08.00–15.00
+                    </div>
+                    <div class="flex justify-between">
+                        <a href="#" class="bg-[#4c3588] hover:bg-[#4c3588]-800 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center">
+                            <i class="fas fa-info-circle mr-2"></i> Detail Layanan
+                        </a>
+                        
+                    </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </div>
+        {{-- Maklumat Pelayanan --}}
+        <section>
+            <div class="bg-[#5D4BA2] text-white p-8 rounded-2xl shadow-md 
+                        transition-all duration-300 ease-in-out 
+                        hover:shadow-xl hover:-translate-y-1 hover:scale-[1.01]">
+                <h2 class="font-poppins text-xl font-bold uppercase mb-4 border-b border-white/40 pb-2">
+                    Maklumat Pelayanan
+                </h2>
+                <p class="font-poppins text-base leading-relaxed">
+                    Kami menyatakan kesanggupan untuk menyelenggarakan pelayanan sesuai standar yang telah ditetapkan.
+                    Apabila tidak menepati janji tersebut, kami siap menerima sanksi sesuai peraturan yang berlaku.
+                </p>
+            </div>
+        </section>
+
     </div>
+</div>
 
+{{-- Font Awesome untuk ikon --}}
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 @endsection

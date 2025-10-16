@@ -8,7 +8,7 @@
         <h2 class="mb-4 text-primary">Edit Pertanyaan Umum (FAQ)</h2>
         
         <div class="card shadow-sm p-4 mb-4">
-            <form action="{{ route('faq.update', $faq->id_faq) }}" method="POST">
+            <form action="{{ route('admin.faq.update', $faq->id_faq) }}" method="POST">
                 @csrf
                 @method('PUT')
 
@@ -46,7 +46,7 @@
                     @enderror
                 </div>
 
-                <a href="{{ route('faq.index') }}" class="btn btn-outline-secondary me-2">Kembali</a>
+                <a href="{{ route('admin.faq.index') }}" class="btn btn-outline-secondary me-2">Kembali</a>
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-arrow-repeat me-1"></i> Simpan Perubahan
                 </button>

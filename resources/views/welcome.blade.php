@@ -5,101 +5,165 @@
 
 @section('content')
 
-    <section class="text-center py-12 md:py-20 px-4">
-        <div class="container mx-auto">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-sukorame-purple mb-8">
+    {{-- Hero Section --}}
+    <section
+        class="relative bg-gradient-to-br from-sukorame-purple via-sukorame-purple-light to-sukorame-green text-white text-center py-20 overflow-hidden">
+        <div class="absolute inset-0 opacity-25">
+            <img src="{{ asset('img/hewani.jpg') }}" alt="Foto Kelurahan Sukorame" class="w-full h-full object-cover">
+        </div>
+        <div class="relative z-10 container mx-auto px-6">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg tracking-wide">
                 KOTA KEDIRI MAPAN
             </h1>
-            <div class="w-full max-w-5xl mx-auto h-64 md:h-96 bg-gray-300 rounded-lg shadow-lg flex items-center justify-center">
-                <img src="{{ asset('img/hewani.jpg') }}" alt="">
+            <div
+                class="w-full max-w-5xl mx-auto h-64 md:h-96 rounded-xl overflow-hidden shadow-2xl ring-4 ring-white/20 transform hover:scale-[1.02] transition duration-500 ease-out">
+                <img src="{{ asset('img/hewani.jpg') }}" alt="Foto Kelurahan" class="w-full h-full object-cover">
             </div>
         </div>
     </section>
 
-    <section class="py-12 md:py-20">
-        <div class="bg-sukorame-green py-4 mb-12">
-            <h2 class="text-3xl font-bold text-sukorame-purple text-center">
+    {{-- Tentang Kelurahan --}}
+    <section class="py-20 bg-gradient-to-b from-white via-gray-50 to-sukorame-green/10">
+        <div class="bg-sukorame-green py-4 mb-12 rounded-lg shadow-lg shadow-sukorame-green/30">
+            <h2 class="text-3xl font-extrabold text-sukorame-purple text-center tracking-wide uppercase">
                 KELURAHAN SUKORAME
             </h2>
         </div>
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <p class="text-center max-w-3xl mx-auto mb-12">
-                Kelurahan sukorame adalah lorem ipsum dolor sit amet kelurahan sukorame adalah lorem ipsum dolor sit amet kelurahan sukorame adalah lorem ipsum dolor sit amet kelurahan sukorame.
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-700 max-w-4xl mx-auto mb-16 text-lg leading-relaxed">
+                Kelurahan Sukorame berkomitmen memberikan pelayanan publik yang modern, profesional, dan transparan berbasis
+                teknologi informasi untuk mewujudkan masyarakat yang MAPAN (Mandiri, Aman, Produktif, dan Nyaman).
             </p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                <div class="bg-sukorame-purple-light p-8 rounded-lg shadow-md">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                <div
+                    class="bg-gradient-to-br from-white to-sukorame-purple-light/20 border border-sukorame-purple-light p-8 rounded-2xl shadow-md hover:shadow-2xl hover:scale-[1.03] transition duration-500 transform hover:-translate-y-1">
                     <h3 class="text-xl font-bold text-sukorame-purple mb-4">Pelayanan Online</h3>
-                    <p class="text-sukorame-purple">Kelurahan Sukorame sudah menyediakan fasilitas online yang berbasis web yang bertujuan untuk memudahkan masyarakat Kelurahan Sukorame khususnya dalam mengurus surat.</p>
+                    <p class="text-gray-700 leading-relaxed">
+                        Layanan berbasis web yang memudahkan masyarakat dalam pengurusan surat tanpa harus datang langsung
+                        ke kantor kelurahan.
+                    </p>
                 </div>
-                <div class="bg-sukorame-green p-8 rounded-lg shadow-md">
+                <div
+                    class="bg-gradient-to-br from-white to-sukorame-green/20 border border-sukorame-green p-8 rounded-2xl shadow-md hover:shadow-2xl hover:scale-[1.03] transition duration-500 transform hover:-translate-y-1">
                     <h3 class="text-xl font-bold text-sukorame-purple mb-4">Berita Warga</h3>
-                    <p class="text-gray-700">Update berita terkini di Lingkungan Kelurahan Sukorame dan sekitarnya untuk memantau perkembangan di lingkungan sekitar.</p>
+                    <p class="text-gray-700 leading-relaxed">
+                        Informasi dan berita terkini dari masyarakat dan kegiatan kelurahan untuk memperkuat transparansi
+                        dan partisipasi warga.
+                    </p>
                 </div>
-                <div class="bg-sukorame-purple text-white p-8 rounded-lg shadow-md">
+                <div
+                    class="bg-gradient-to-br from-sukorame-purple to-sukorame-purple-light text-white p-8 rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.03] transition duration-500 transform hover:-translate-y-1">
                     <h3 class="text-xl font-bold mb-4">Galeri Kelurahan</h3>
-                    <p>Galeri kegiatan Pemerintahan dan Warga Sukorame.</p>
+                    <p class="leading-relaxed opacity-90">
+                        Dokumentasi kegiatan pemerintahan dan masyarakat sebagai bentuk akuntabilitas publik dan kebersamaan
+                        warga Sukorame.
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-12 md:py-20">
-        <div class="bg-sukorame-green py-4 mb-12">
-            <h2 class="text-3xl font-bold text-sukorame-purple text-center">
+    {{-- Pemangku Jabatan --}}
+    <section class="py-20 bg-gradient-to-t from-sukorame-green/10 via-white to-sukorame-purple-light/10">
+        <div class="bg-sukorame-green py-4 mb-12 rounded-lg shadow-lg shadow-sukorame-green/40">
+            <h2 class="text-3xl font-extrabold text-sukorame-purple text-center uppercase tracking-wide">
                 PEMANGKU JABATAN
             </h2>
         </div>
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-around">
-                <button class="text-sukorame-purple p-2 rounded-full hover:bg-gray-200">
-                    <!-- <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg> -->
-                </button>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-16 text-center">
-                    <div class="flex flex-col items-center">
-                        <img src="https://i.pravatar.cc/150?img=1" alt="Kepala Desa" class="w-32 h-32 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-center gap-16">
+                <!-- Kepala Desa -->
+                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
+                    <div
+                        class="bg-gradient-to-br from-white to-sukorame-purple-light/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
+                        <img src="https://i.pravatar.cc/150?img=1" alt="Kepala Desa"
+                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
                         <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kepala Desa</h4>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <img src="https://i.pravatar.cc/150?img=2" alt="Sekretaris" class="w-32 h-32 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg">
-                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Sekretaris</h4>
-                    </div>
-                    <div class="flex flex-col items-center">
-                        <img src="https://i.pravatar.cc/150?img=3" alt="Kasi Pelayanan" class="w-32 h-32 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg">
-                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kasi Pelayanan</h4>
+                        <p class="text-gray-500 text-sm">Pimpinan Kelurahan Sukorame</p>
                     </div>
                 </div>
 
-                <button class="text-sukorame-purple p-2 rounded-full hover:bg-gray-200">
-                    <!-- <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg> -->
-                </button>
+                <!-- Sekretaris -->
+                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
+                    <div
+                        class="bg-gradient-to-br from-white to-sukorame-green/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
+                        <img src="https://i.pravatar.cc/150?img=2" alt="Sekretaris"
+                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
+                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Sekretaris</h4>
+                        <p class="text-gray-500 text-sm">Koordinasi Administratif</p>
+                    </div>
+                </div>
+
+                <!-- Kasi Pelayanan -->
+                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
+                    <div
+                        class="bg-gradient-to-br from-white to-sukorame-purple-light/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
+                        <img src="https://i.pravatar.cc/150?img=3" alt="Kasi Pelayanan"
+                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
+                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kasi Pelayanan</h4>
+                        <p class="text-gray-500 text-sm">Pelayanan Masyarakat</p>
+                    </div>
+                </div>
+
+                <!-- Kasi Keuangan -->
+                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
+                    <div
+                        class="bg-gradient-to-br from-white to-sukorame-green/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
+                        <img src="https://i.pravatar.cc/150?img=4" alt="Kasi Keuangan"
+                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
+                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kasi Keuangan</h4>
+                        <p class="text-gray-500 text-sm">Pengelolaan Keuangan Desa</p>
+                    </div>
+                </div>
+
+                <!-- Kasi Pembangunan -->
+                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
+                    <div
+                        class="bg-gradient-to-br from-white to-sukorame-purple-light/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="Kasi Pembangunan"
+                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
+                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kasi Pembangunan</h4>
+                        <p class="text-gray-500 text-sm">Perencanaan dan Infrastruktur</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="py-12 md:py-20 text-center">
-         <div class="bg-sukorame-green py-4 mb-12">
-            <h2 class="text-3xl font-bold text-sukorame-purple text-center">
+    {{-- Aplikasi Layanan Publik --}}
+    <section class="py-20 bg-gradient-to-b from-white via-gray-50 to-sukorame-green/10 text-center">
+        <div class="bg-sukorame-green py-4 mb-12 rounded-lg shadow-lg shadow-sukorame-green/40">
+            <h2 class="text-3xl font-extrabold text-sukorame-purple uppercase tracking-wide">
                 APLIKASI LAYANAN PUBLIK
             </h2>
         </div>
-        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-wrap justify-center items-start gap-12 md:gap-20 mb-12">
-                <div class="flex flex-col items-center">
-                    <img src="{{ asset('img/logo_kediri.png') }}" alt="Logo E-Suket" class="w-28 h-28 object-contain">
-                    <span class="mt-2 font-semibold">E-Suket</span>
+        <div class="container mx-auto px-6">
+            <div class="flex flex-wrap justify-center gap-12 md:gap-20 mb-16">
+                <div class="flex flex-col items-center transform hover:scale-[1.1] transition duration-500">
+                    <div
+                        class="bg-gradient-to-br from-white to-sukorame-purple-light/20 p-6 rounded-xl shadow-md hover:shadow-xl">
+                        <img src="{{ asset('img/logo_kediri.png') }}" alt="Logo E-Suket" class="w-28 h-28 object-contain">
+                    </div>
+                    <span class="mt-3 font-semibold text-sukorame-purple">E-Suket</span>
                 </div>
-                <div class="flex flex-col items-center">
-                    <img src="{{ asset('img/logo_kediri.png') }}" alt="Logo SAKTI" class="w-28 h-28 object-contain">
-                    <span class="mt-2 font-semibold">SAKTI</span>
+                <div class="flex flex-col items-center transform hover:scale-[1.1] transition duration-500">
+                    <div class="bg-gradient-to-br from-white to-sukorame-green/20 p-6 rounded-xl shadow-md hover:shadow-xl">
+                        <img src="{{ asset('img/logo_kediri.png') }}" alt="Logo SAKTI" class="w-28 h-28 object-contain">
+                    </div>
+                    <span class="mt-3 font-semibold text-sukorame-purple">SAKTI</span>
                 </div>
-                <div class="flex flex-col items-center">
-                    <img src="{{ asset('img/logo_kediri.png') }}" alt="Logo Cek Bansos" class="w-28 h-28 object-contain">
-                    <span class="mt-2 font-semibold">Cek Bansos</span>
+                <div class="flex flex-col items-center transform hover:scale-[1.1] transition duration-500">
+                    <div
+                        class="bg-gradient-to-br from-white to-sukorame-purple-light/20 p-6 rounded-xl shadow-md hover:shadow-xl">
+                        <img src="{{ asset('img/logo_kediri.png') }}" alt="Logo Cek Bansos"
+                            class="w-28 h-28 object-contain">
+                    </div>
+                    <span class="mt-3 font-semibold text-sukorame-purple">Cek Bansos</span>
                 </div>
             </div>
 
-            <a href="{{ url('/buku-tamu') }}" class="inline-block bg-sukorame-purple-light text-sukorame-purple font-bold py-4 px-10 rounded-lg shadow-md hover:bg-opacity-80 transition-colors">
+            <a href="{{ url('/buku-tamu') }}"
+                class="inline-block bg-sukorame-purple-light text-sukorame-purple font-bold py-4 px-10 rounded-full shadow-md hover:shadow-xl hover:bg-opacity-90 hover:scale-[1.05] transition duration-500 ease-out">
                 Klik untuk mengisi buku tamu
             </a>
         </div>

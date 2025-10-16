@@ -9,7 +9,7 @@
         <h2 class="mb-4 text-primary">Tambah Berita & Pengumuman Baru</h2>
         
         <div class="card shadow-sm p-4 mb-4">
-            <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 {{-- Judul Berita --}}
@@ -69,7 +69,7 @@
                 <button type="submit" class="btn btn-success me-2">
                     <i class="bi bi-save me-1"></i> Publikasikan
                 </button>
-                <a href="{{ route('berita.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <a href="{{ route('admin.berita.index') }}" class="btn btn-outline-secondary">Batal</a>
             </form>
         </div>
     </div>

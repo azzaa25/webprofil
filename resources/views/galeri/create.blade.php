@@ -8,7 +8,7 @@
         <h2 class="mb-4 text-primary">Tambah Album Baru</h2>
         
         <div class="card shadow-sm p-4 mb-4">
-            <form action="{{ route('galeri.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.galeri.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 {{-- Nama Album --}}
@@ -44,7 +44,7 @@
                     @error('foto_album') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
-                <a href="{{ route('galeri.index') }}" class="btn btn-outline-secondary me-2">Kembali</a>
+                <a href="{{ route('admin.galeri.index') }}" class="btn btn-outline-secondary me-2">Kembali</a>
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-save me-1"></i> Simpan
                 </button>

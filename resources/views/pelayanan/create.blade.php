@@ -8,7 +8,7 @@
         <h2 class="mb-4 text-primary">Tambah Pelayanan Baru</h2>
         
         <div class="card shadow-sm p-4 mb-4">
-            <form action="{{ route('pelayanan.store') }}" method="POST">
+            <form action="{{ route('admin.pelayanan.store') }}" method="POST">
                 @csrf
 
                 {{-- Nama Pelayanan --}}
@@ -72,7 +72,7 @@
                 <button type="submit" class="btn btn-success me-2">
                     <i class="bi bi-save me-1"></i> Simpan Layanan
                 </button>
-                <a href="{{ route('pelayanan.index') }}" class="btn btn-outline-secondary">Batal</a>
+                <a href="{{ route('admin.pelayanan.index') }}" class="btn btn-outline-secondary">Batal</a>
             </form>
         </div>
     </div>

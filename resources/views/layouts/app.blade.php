@@ -14,7 +14,6 @@
   <style>
     body { 
       background-color: #f0f3ff; 
-      /* Tambahkan padding-top agar konten tidak tertutup navbar fixed */
       padding-top: 60px; 
       margin: 0;
     } 
@@ -84,6 +83,7 @@
       margin-right: 15px;
     }
   </style>
+
   @stack('styles')
 </head>
 <body>
@@ -101,13 +101,12 @@
       </div>
       
       <!-- Kanan -->
-      <div>
-        <span class="me-3"><i class="bi bi-person-circle"></i> Admin</span>
-        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-          @csrf
-          <button type="submit" class="btn btn-danger btn-sm">Logout</button>
-        </form>
-      </div>
+      <form action="{{ route('logout') }}" method="POST" class="m-0">
+        @csrf
+        <button type="submit" class="btn btn-danger btn-sm">
+          <i class="bi bi-box-arrow-right"></i> Logout
+        </button>
+      </form>
 
     </div>
   </nav>
@@ -115,19 +114,19 @@
   <!-- Sidebar -->
   <div class="sidebar d-flex flex-column p-3" id="sidebar">
     <div class="text-center mb-4 border-bottom pb-3">
-      <a href="{{ route('dashboard') }}" class="d-block text-decoration-none text-white">
+      <a href="{{ route('admin.dashboard') }}" class="d-block text-decoration-none text-white">
         <i class="bi bi-building fs-3"></i>
         <div class="fw-bold mt-1">Kelurahan Sukorame</div>
       </a>
     </div>
 
-    <a href="{{ route('dashboard') }}" class="{{ request()->is('dashboard') ? 'active' : '' }}">🏠 Dashboard</a>
-    <a href="{{ route('profil.index') }}" class="{{ request()->is('profil*') ? 'active' : '' }}">👤 Profil</a>
-    <a href="{{ route('berita.index') }}" class="{{ request()->is('berita*') ? 'active' : '' }}">📰 Berita & Pengumuman</a>
-    <a href="{{ route('pelayanan.index') }}" class="{{ request()->is('pelayanan*') ? 'active' : '' }}">📋 Pelayanan</a>
-    <a href="{{ route('galeri.index') }}" class="{{ request()->is('galeri*') ? 'active' : '' }}">🖼️ Galeri</a>
-    <a href="{{ route('buku-tamu.index') }}" class="{{ request()->is('buku-tamu*') ? 'active' : '' }}">📖 Buku Tamu</a>
-    <a href="{{ route('faq.index') }}" class="{{ request()->is('faq*') ? 'active' : '' }}">❓ FAQ</a>
+    <a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin/dashboard*') ? 'active' : '' }}">🏠 Dashboard</a>
+    <a href="{{ route('admin.profil.index') }}" class="{{ request()->is('admin/profil*') ? 'active' : '' }}">👤 Profil</a>
+    <a href="{{ route('admin.berita.index') }}" class="{{ request()->is('admin/berita*') ? 'active' : '' }}">📰 Berita & Pengumuman</a>
+    <a href="{{ route('admin.pelayanan.index') }}" class="{{ request()->is('admin/pelayanan*') ? 'active' : '' }}">📋 Pelayanan</a>
+    <a href="{{ route('admin.galeri.index') }}" class="{{ request()->is('admin/galeri*') ? 'active' : '' }}">🖼️ Galeri</a>
+    <a href="{{ route('admin.buku_tamu.index') }}" class="{{ request()->is('admin/buku-tamu*') ? 'active' : '' }}">📖 Buku Tamu</a>
+    <a href="{{ route('admin.faq.index') }}" class="{{ request()->is('admin/faq*') ? 'active' : '' }}">❓ FAQ</a>
   </div>
 
   <!-- Konten -->

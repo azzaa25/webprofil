@@ -19,7 +19,7 @@
             {{-- Search Bar --}}
             <input type="text" class="form-control me-3" style="width: 300px;" placeholder="Nama album/Kegiatan...">
             
-            <a href="{{ route('galeri.create') }}" class="btn btn-success">
+            <a href="{{ route('admin.galeri.create') }}" class="btn btn-success">
                 <i class="bi bi-plus-circle-fill me-1"></i> Tambah Album Baru
             </a>
         </div>
@@ -63,7 +63,7 @@
                                 </button>
                                 
                                 {{-- Tombol Edit --}}
-                                <a href="{{ route('galeri.edit', $album->id_galeri) }}" class="btn btn-primary btn-sm me-2" title="Edit">
+                                <a href="{{ route('admin.galeri.edit', $album->id_galeri) }}" class="btn btn-primary btn-sm me-2" title="Edit">
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 
@@ -123,7 +123,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="{{ route('galeri.edit', $album->id_galeri) }}" class="btn btn-warning me-auto">
+                                        <a href="{{ route('admin.galeri.edit', $album->id_galeri) }}" class="btn btn-warning me-auto">
                                             <i class="bi bi-pencil"></i> Edit Album
                                         </a>
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             deleteAlbumName.textContent = name;
 
-            const routeBase = "{{ route('galeri.destroy', ':id') }}";
+            const routeBase = "{{ route('admin.galeri.destroy', ':id') }}";
             const routeUrl = routeBase.replace(':id', id);
 
             deleteForm.action = routeUrl;
