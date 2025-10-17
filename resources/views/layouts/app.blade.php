@@ -115,17 +115,21 @@
   <div class="sidebar d-flex flex-column p-3" id="sidebar">
     <div class="text-center mb-4 border-bottom pb-3">
       <a href="{{ route('admin.dashboard') }}" class="d-block text-decoration-none text-white">
-        <i class="bi bi-building fs-3"></i>
-        <div class="fw-bold mt-1">Kelurahan Sukorame</div>
+        <img src="{{ asset('img/logo_sukorame.png') }}" 
+            alt="Logo Kelurahan Sukorame" 
+            class="img-fluid mb-2"
+            style="width: 70px; height: 70px; object-fit: contain; border-radius: 50%; background-color: #fff; padding: 5px;">
+        <div class="fw-bold mt-2">Kelurahan Sukorame</div>
       </a>
     </div>
+
 
     <a href="{{ route('admin.dashboard') }}" class="{{ request()->is('admin/dashboard*') ? 'active' : '' }}">🏠 Dashboard</a>
     <a href="{{ route('admin.profil.index') }}" class="{{ request()->is('admin/profil*') ? 'active' : '' }}">👤 Profil</a>
     <a href="{{ route('admin.berita.index') }}" class="{{ request()->is('admin/berita*') ? 'active' : '' }}">📰 Berita & Pengumuman</a>
     <a href="{{ route('admin.pelayanan.index') }}" class="{{ request()->is('admin/pelayanan*') ? 'active' : '' }}">📋 Pelayanan</a>
     <a href="{{ route('admin.galeri.index') }}" class="{{ request()->is('admin/galeri*') ? 'active' : '' }}">🖼️ Galeri</a>
-    <a href="{{ route('admin.buku_tamu.index') }}" class="{{ request()->is('admin/buku-tamu*') ? 'active' : '' }}">📖 Buku Tamu</a>
+    <a href="{{ route('admin.buku-tamu.index') }}" class="{{ request()->is('admin/buku-tamu*') ? 'active' : '' }}">📖 Buku Tamu</a>
     <a href="{{ route('admin.faq.index') }}" class="{{ request()->is('admin/faq*') ? 'active' : '' }}">❓ FAQ</a>
   </div>
 
