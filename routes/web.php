@@ -22,6 +22,7 @@ Route::get('/berita', [PublikController::class, 'berita'])->name('publik.berita'
 Route::get('/buku-tamu', [PublikController::class, 'bukuTamu'])->name('publik.buku_tamu');
 Route::get('/pelayanan', [PublikController::class, 'pelayanan'])->name('publik.pelayanan');
 Route::get('/profil', [PublikController::class, 'profil'])->name('publik.profil');
+Route::get('/faq', [PublikController::class, 'faq'])->name('publik.faq');
 
 /*
 |--------------------------------------------------------------------------
