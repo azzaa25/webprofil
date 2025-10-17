@@ -9,6 +9,7 @@ use App\Http\Controllers\BukuTamuController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\PublikController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -23,6 +24,18 @@ Route::get('/buku-tamu', [PublikController::class, 'bukuTamu'])->name('publik.bu
 Route::post('/buku-tamu', [BukuTamuController::class, 'store'])->name('bukutamu.store');
 Route::get('/pelayanan', [PublikController::class, 'pelayanan'])->name('publik.pelayanan');
 Route::get('/profil', [PublikController::class, 'profil'])->name('publik.profil');
+
+/*
+|--------------------------------------------------------------------------
+| ROUTE LOGIN ADMIN
+|--------------------------------------------------------------------------
+*/
+Route::middleware('guest')->group(function () {
+    // Halaman Login
+    Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
+
+});
 
 /*
 |--------------------------------------------------------------------------

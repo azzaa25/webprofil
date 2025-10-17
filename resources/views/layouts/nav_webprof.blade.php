@@ -43,11 +43,13 @@
     <header class="bg-sukorame-green sticky top-0 z-50 shadow-md" x-data="{ open: false }">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
+                {{-- Logo --}}
                 <div class="flex items-center">
                     <img class="h-24" src="{{ asset('img/logo_kediri.png') }}" alt="Logo Kota Kediri">
                     <img class="h-12" src="{{ asset('img/logo_sukorame.png') }}" alt="Logo Kelurahan Sukorame">
                 </div>
 
+                {{-- Navigation Desktop --}}
                 <nav class="hidden md:flex items-center space-x-8">
 
                     <div x-data="{ open: false }" @click.away="open = false" class="relative">
@@ -62,16 +64,10 @@
                             </svg>
                         </button>
 
-                        <div x-show="open" x-transition:enter="transition ease-out duration-100"
-                            x-transition:enter-start="transform opacity-0 scale-95"
-                            x-transition:enter-end="transform opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-75"
-                            x-transition:leave-start="transform opacity-100 scale-100"
-                            x-transition:leave-end="transform opacity-0 scale-95"
+                        <div x-show="open" x-transition
                             class="absolute z-10 mt-2 w-48 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                             style="display: none;">
                             <div class="py-1">
-                                {{-- Asumsi URL, sesuaikan dengan route Anda --}}
                                 <a href="{{ url('/') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Beranda</a>
                                 <a href="{{ url('/profil') }}"
@@ -82,10 +78,10 @@
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kependudukan</a>
                                 <a href="{{ url('/buku-tamu') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Buku Tamu</a>
-                                
                             </div>
                         </div>
                     </div>
+
                     <a href="{{ url('/profil') }}"
                         class="font-semibold transition-colors duration-300 {{ Request::is('profil') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">Profil</a>
                     <a href="{{ url('/pelayanan') }}"
@@ -94,12 +90,25 @@
                         class="font-semibold transition-colors duration-300 {{ Request::is('berita') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">Berita</a>
                     <a href="{{ url('/galeri') }}"
                         class="font-semibold transition-colors duration-300 {{ Request::is('galeri') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">Galeri</a>
-                    <a href="#"
+                    <a href="#faq"
                         class="font-semibold transition-colors duration-300 text-sukorame-purple hover:text-black">FAQ ?</a>
+
+                    {{-- Tombol Login --}}
+                    <a href="{{ url('/login') }}"
+                        class="ml-4 px-4 py-2 rounded-lg bg-sukorame-purple text-white font-semibold hover:bg-sukorame-purple-light transition-colors duration-300">
+                        Login
+                    </a>
 
                 </nav>
 
-                <div class="md:hidden">
+                {{-- Tombol Menu Mobile --}}
+                <div class="md:hidden flex items-center space-x-3">
+                    {{-- Tombol Login versi Mobile --}}
+                    <a href="{{ url('/login') }}"
+                        class="px-3 py-1 rounded-md bg-sukorame-purple text-white text-sm font-semibold hover:bg-sukorame-purple-light transition-colors">
+                        Login
+                    </a>
+
                     <button @click="open = !open" class="text-sukorame-purple focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -110,8 +119,8 @@
             </div>
         </div>
 
+        {{-- Menu Mobile Dropdown --}}
         <div x-show="open" @click.away="open = false" class="md:hidden bg-sukorame-green border-t border-gray-200">
-
             <div x-data="{ subMenuOpen: false }">
                 <button @click="subMenuOpen = !subMenuOpen"
                     class="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left text-sukorame-purple hover:bg-sukorame-purple hover:text-white">
@@ -125,7 +134,6 @@
                 </button>
 
                 <div x-show="subMenuOpen" x-transition class="bg-gray-100">
-                    {{-- Asumsi URL, sesuaikan dengan route Anda --}}
                     <a href="{{ url('/') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('/') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Beranda</a>
                     <a href="{{ url('/profil') }}"
@@ -136,9 +144,11 @@
                     <a href="#"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold text-sukorame-purple hover:bg-gray-200">Kependudukan</a>
                     <a href="{{ url('/buku-tamu') }}"
-                        class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('buku-tamu') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Buku Tamu</a>
+                        class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('buku-tamu') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Buku
+                        Tamu</a>
                 </div>
             </div>
+
             <a href="{{ url('/profil') }}"
                 class="block px-4 py-3 text-sm font-semibold {{ Request::is('profil') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Profil</a>
             <a href="{{ url('/pelayanan') }}"
