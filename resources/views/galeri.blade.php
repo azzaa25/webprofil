@@ -35,12 +35,12 @@
 
                 @php
                     $galleries = [
-                        ['title' => 'Kegiatan PKK', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-sukorame-purple'],
+                        ['title' => 'Kegiatan PKK', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-gray-800'],
                         ['title' => 'Musyawarah', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-gray-800'],
-                        ['title' => 'Kirab Budaya', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-white'],
-                        ['title' => 'Kerja Bakti', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-sukorame-purple'],
+                        ['title' => 'Kirab Budaya', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-gray-800'],
+                        ['title' => 'Kerja Bakti', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-gray-800'],
                         ['title' => 'Sosialisasi', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-gray-800'],
-                        ['title' => 'Lomba Desa', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-white'],
+                        ['title' => 'Lomba Desa', 'bg_color' => 'bg-[#cbb2ff]', 'text_color' => 'text-gray-800'],
                     ];
                 @endphp
 

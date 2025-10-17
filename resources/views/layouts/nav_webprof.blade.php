@@ -90,7 +90,7 @@
                         class="font-semibold transition-colors duration-300 {{ Request::is('berita') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">Berita</a>
                     <a href="{{ url('/galeri') }}"
                         class="font-semibold transition-colors duration-300 {{ Request::is('galeri') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">Galeri</a>
-                    <a href="#faq"
+                    <a href="{{url('/faq')}}"
                         class="font-semibold transition-colors duration-300 text-sukorame-purple hover:text-black">FAQ ?</a>
 
                     {{-- Tombol Login --}}
@@ -157,7 +157,7 @@
                 class="block px-4 py-3 text-sm font-semibold {{ Request::is('berita') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Berita</a>
             <a href="{{ url('/galeri') }}"
                 class="block px-4 py-3 text-sm font-semibold {{ Request::is('galeri') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Galeri</a>
-            <a href="#faq"
+            <a href="{{url('/faq')}}"
                 class="block px-4 py-3 text-sm font-semibold">FAQ ?</a>
         </div>
     </header>

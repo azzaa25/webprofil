@@ -41,4 +41,8 @@ class PublikController extends Controller
     {
         return view('profil');
     }
+    public function faq()
+    {
+        return view('faq');
+    }
 }
