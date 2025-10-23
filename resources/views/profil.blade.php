@@ -1,4 +1,3 @@
-{{-- Lokasi file: resources/views/profil.blade.php --}}
 @extends('layouts.nav_webprof')
 
 @section('title', 'Profil - Kelurahan Sukorame')
@@ -17,7 +16,7 @@
             </p>
         </header>
 
-        {{-- TENTANG DESA --}}
+        {{-- TENTANG DESA (statis) --}}
         <section class="bg-[#D4F36B] p-6 md:p-8 rounded-2xl mb-8 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h2 class="font-poppins text-xl font-bold uppercase text-gray-900 mb-6 border-b-2 border-[#7D5AB5] inline-block pb-1">
                 Tentang Desa
@@ -43,13 +42,13 @@
             </div>
         </section>
 
-        {{-- SEJARAH --}}
+        {{-- SEJARAH (dari database) --}}
         <section class="bg-[#D4F36B] p-6 md:p-8 rounded-2xl mb-8 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h2 class="font-poppins text-xl font-bold uppercase text-gray-900 mb-4 border-b-2 border-[#7D5AB5] inline-block pb-1">
                 Sejarah
             </h2>
             <p class="font-poppins text-sm md:text-base text-gray-800 leading-relaxed">
-                Kelurahan Sukorame berdiri sejak masa pemerintahan kolonial dan terus berkembang menjadi salah satu wilayah yang aktif dan produktif di Kota Kediri. Dengan semangat gotong royong, masyarakat Sukorame membangun daerahnya menuju kelurahan yang sejahtera, aman, dan berdaya saing.
+                {{ $profil->sejarah ?? 'Belum ada data sejarah yang diinput.' }}
             </p>
         </section>
 
@@ -59,11 +58,17 @@
                 Struktur Pemerintahan
             </h2>
             <div class="bg-white p-4 rounded-lg shadow-inner">
-                <img src="{{ asset('img/struktur.png') }}" alt="Struktur Organisasi Kelurahan Sukorame" class="w-full h-auto rounded-md">
+                @if (!empty($profil->struktur_path) && Storage::disk('public')->exists($profil->struktur_path))
+                    <img src="{{ asset('storage/' . $profil->struktur_path) }}" alt="Struktur Organisasi"
+                        class="w-full h-auto rounded-md">
+                @else
+                    <img src="{{ asset('img/struktur.png') }}" alt="Struktur Organisasi Kelurahan Sukorame"
+                        class="w-full h-auto rounded-md">
+                @endif
             </div>
         </section>
 
-        {{-- VISI & MISI --}}
+        {{-- VISI & MISI (dari database) --}}
         <section class="bg-[#D4F36B] p-6 md:p-8 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
             <h2 class="font-poppins text-xl font-bold uppercase text-gray-900 mb-6 border-b-2 border-[#7D5AB5] inline-block pb-1">
                 Visi dan Misi
@@ -73,18 +78,22 @@
                     <h3 class="font-poppins font-semibold text-lg text-gray-900 mb-2">Visi</h3>
                     <div class="bg-white p-4 rounded-lg shadow-inner">
                         <p class="font-poppins text-sm md:text-base text-gray-800 italic">
-                            “Pelayanan Prima untuk meningkatkan pemberdayaan masyarakat demi terciptanya kesejahteraan.”
+                            “{{ $profil->visi ?? 'Belum ada data visi yang diinput.' }}”
                         </p>
                     </div>
                 </div>
                 <div>
                     <h3 class="font-poppins font-semibold text-lg text-gray-900 mb-2">Misi</h3>
                     <div class="bg-white p-4 rounded-lg shadow-inner">
-                        <ol class="list-decimal list-inside space-y-2 font-poppins text-sm md:text-base text-gray-800">
-                            <li>Meningkatkan kedisiplinan dan fungsi kelurahan dalam pelayanan publik.</li>
-                            <li>Menyebarluaskan informasi tentang penyelenggaraan pemerintahan.</li>
-                            <li>Mendorong partisipasi masyarakat dalam perencanaan pembangunan.</li>
-                        </ol>
+                        @if(!empty($profil->misi))
+                            <ul class="list-disc list-inside space-y-2 font-poppins text-sm md:text-base text-gray-800">
+                                @foreach(explode("\n", $profil->misi) as $misi)
+                                    <li>{{ $misi }}</li>
+                                @endforeach
+                            </ul>
+                        @else
+                            <p class="text-gray-700 italic">Belum ada data misi yang diinput.</p>
+                        @endif
                     </div>
                 </div>
             </div>

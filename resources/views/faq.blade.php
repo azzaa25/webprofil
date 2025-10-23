@@ -5,7 +5,7 @@
 
 @section('content')
 <div class="bg-[#f9fdf5] py-14 px-6 md:px-10 overflow-hidden font-[Poppins]">
-    <div class="container mx-auto max-w-5xl">
+    <div class="container mx-auto max-w-5xl faq">
 
         {{-- Judul Halaman --}}
         <div class="text-center mb-12">
@@ -22,9 +22,10 @@
 
             {{-- Item 1 --}}
             <div class="bg-[#D4F36B] rounded-2xl p-5 shadow-sm">
-                <button type="button" class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
+                <button type="button"
+                    class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
                     1. Bagaimana cara mengurus surat keterangan domisili?
-                    <span class="transform transition-transform duration-300">+</span>
+                    <i class="faq-icon text-xl font-bold">+</i>
                 </button>
                 <div class="hidden mt-3 text-sm text-black leading-relaxed">
                     Untuk mengurus surat keterangan domisili, warga dapat datang ke kantor kelurahan dengan membawa fotokopi KTP dan KK.
@@ -34,21 +35,23 @@
 
             {{-- Item 2 --}}
             <div class="bg-[#D4F36B] rounded-2xl p-5 shadow-sm">
-                <button type="button" class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
+                <button type="button"
+                    class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
                     2. Apa saja syarat untuk membuat surat keterangan usaha?
-                    <span class="transform transition-transform duration-300">+</span>
+                    <i class="faq-icon text-xl font-bold">+</i>
                 </button>
                 <div class="hidden mt-3 text-sm text-black leading-relaxed">
-                    Warga harus membawa fotokopi KTP, KK, dan surat pengantar RT/RW setempat. 
+                    Warga harus membawa fotokopi KTP, KK, dan surat pengantar RT/RW setempat.
                     Selain itu, nama usaha dan alamat lengkap tempat usaha perlu dicantumkan pada formulir permohonan.
                 </div>
             </div>
 
             {{-- Item 3 --}}
             <div class="bg-[#D4F36B] rounded-2xl p-5 shadow-sm">
-                <button type="button" class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
+                <button type="button"
+                    class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
                     3. Bagaimana prosedur pengajuan surat keterangan tidak mampu?
-                    <span class="transform transition-transform duration-300">+</span>
+                    <i class="faq-icon text-xl font-bold">+</i>
                 </button>
                 <div class="hidden mt-3 text-sm text-black leading-relaxed">
                     Surat keterangan tidak mampu diajukan dengan membawa fotokopi KTP, KK, dan surat pengantar dari RT/RW.
@@ -58,9 +61,10 @@
 
             {{-- Item 4 --}}
             <div class="bg-[#D4F36B] rounded-2xl p-5 shadow-sm">
-                <button type="button" class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
+                <button type="button"
+                    class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
                     4. Apakah pelayanan di kelurahan bisa dilakukan secara online?
-                    <span class="transform transition-transform duration-300">+</span>
+                    <i class="faq-icon text-xl font-bold">+</i>
                 </button>
                 <div class="hidden mt-3 text-sm text-black leading-relaxed">
                     Beberapa pelayanan dapat dilakukan secara online melalui situs resmi Kelurahan Sukorame.
@@ -74,11 +78,15 @@
 
 {{-- Script Dropdown Toggle --}}
 <script>
-document.querySelectorAll('button').forEach(button => {
+document.querySelectorAll('.faq button').forEach(button => {
     button.addEventListener('click', () => {
         const content = button.nextElementSibling;
-        const icon = button.querySelector('span');
+        const icon = button.querySelector('.faq-icon');
+
+        // Toggle konten
         content.classList.toggle('hidden');
+
+        // Ubah ikon + ↔ −
         icon.textContent = content.classList.contains('hidden') ? '+' : '−';
     });
 });

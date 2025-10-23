@@ -8,17 +8,55 @@
     {{-- Hero Section --}}
     <section
         class="relative bg-gradient-to-br from-sukorame-purple via-sukorame-purple-light to-sukorame-green text-white text-center py-20 overflow-hidden">
-        <div class="absolute inset-0 opacity-25">
-            <img src="{{ asset('img/hewani.jpg') }}" alt="Foto Kelurahan Sukorame" class="w-full h-full object-cover">
+        <div class="absolute inset-0 opacity-50">
+            <img src="{{ asset('img/kantor.jpg') }}" alt="Foto Kelurahan Sukorame" class="w-full h-full object-cover">
         </div>
         <div class="relative z-10 container mx-auto px-6">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg tracking-wide">
                 KOTA KEDIRI MAPAN
             </h1>
-            <div
-                class="w-full max-w-5xl mx-auto h-64 md:h-96 rounded-xl overflow-hidden shadow-2xl ring-4 ring-white/20 transform hover:scale-[1.02] transition duration-500 ease-out">
-                <img src="{{ asset('img/hewani.jpg') }}" alt="Foto Kelurahan" class="w-full h-full object-cover">
+            <div x-data="{ active: 0, total: {{ count($berita) }} }"
+                x-init="setInterval(() => active = (active + 1) % total, 4000)"
+                class="relative w-full max-w-5xl mx-auto h-64 md:h-96 rounded-xl overflow-hidden shadow-2xl ring-4 ring-white/20 transform hover:scale-[1.02] transition duration-500 ease-out">
+
+                {{-- Slider Gambar --}}
+                @foreach($berita as $i => $item)
+                    <div x-show="active === {{ $i }}" x-transition.opacity.duration.700ms class="absolute inset-0">
+                        @if(!empty($item->gambar) && Storage::disk('public')->exists($item->gambar))
+                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}"
+                                class="w-full h-full object-cover">
+                        @else
+                            <img src="{{ asset('img/default.jpg') }}" alt="Gambar tidak tersedia"
+                                class="w-full h-full object-cover">
+                        @endif
+
+                        {{-- Teks judul opsional di bawah gambar --}}
+                        <!-- <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/70 to-transparent p-3">
+                            <h3 class="text-white text-lg font-semibold">{{ $item->judul }}</h3>
+                        </div> -->
+                    </div>
+                @endforeach
+
+                {{-- Tombol panah kiri-kanan --}}
+                <button @click="active = active > 0 ? active - 1 : total - 1"
+                    class="absolute top-1/2 left-3 -translate-y-1/2 bg-white/60 hover:bg-white text-gray-700 rounded-full p-2 shadow-md">
+                    ‹
+                </button>
+                <button @click="active = (active + 1) % total"
+                    class="absolute top-1/2 right-3 -translate-y-1/2 bg-white/60 hover:bg-white text-gray-700 rounded-full p-2 shadow-md">
+                    ›
+                </button>
+
+                {{-- Indikator lingkaran kecil --}}
+                <div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
+                    @foreach($berita as $i => $item)
+                        <button @click="active = {{ $i }}" :class="active === {{ $i }} ? 'bg-white' : 'bg-gray-400/70'"
+                            class="w-3 h-3 rounded-full transition"></button>
+                    @endforeach
+                </div>
             </div>
+
+
         </div>
     </section>
 

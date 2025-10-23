@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Berita;
+use App\Models\Profile;
+use App\Models\Pelayanan;
+
 
 class PublikController extends Controller
 {
     // Halaman utama
     public function index()
     {
-        return view('welcome');
+        $berita = Berita::latest()->get();
+        return view('welcome', compact('berita'));
     }
 
     // Halaman galeri
@@ -30,16 +35,31 @@ class PublikController extends Controller
         return view('buku_tamu');
     }
 
-    // Halaman pelayanan
+    // Halaman daftar pelayanan
     public function pelayanan()
     {
-        return view('pelayanan');
+        $data = Pelayanan::orderBy('tanggal_publikasi', 'desc')->get();
+        return view('pelayanan', compact('data'));
     }
+
+    // Halaman detail pelayanan
+    public function detailPelayanan($id)
+    {
+        $pelayanan = Pelayanan::findOrFail($id);
+        $lainnya = Pelayanan::where('id_pelayanan', '!=', $id)
+            ->orderBy('tanggal_publikasi', 'desc')
+            ->take(3)
+            ->get();
+
+        return view('detail_pelayanan', compact('pelayanan', 'lainnya'));
+    }
+
 
     // Halaman profil
     public function profil()
     {
-        return view('profil');
+        $profil = Profile::first(); // ambil 1 data (misal hanya ada 1 baris profil)
+        return view('profil', compact('profil'));
     }
     public function faq()
     {
