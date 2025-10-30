@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Berita;
 use App\Models\Profile;
 use App\Models\Pelayanan;
+use App\Models\GaleriAlbum;
+use App\Models\GaleriFoto;
 
 
 class PublikController extends Controller
@@ -17,16 +19,56 @@ class PublikController extends Controller
         return view('welcome', compact('berita'));
     }
 
-    // Halaman galeri
+    // Halaman Galeri
     public function galeri()
     {
-        return view('galeri');
+        // Ambil semua album galeri
+        $albums = GaleriAlbum::withCount('fotos')->orderBy('tanggal', 'desc')->get();
+
+        // Ambil gambar slider dari berita
+        $sliderImages = Berita::whereNotNull('gambar')
+            ->latest('tanggal_publikasi')
+            ->take(5)
+            ->pluck('gambar');
+
+        return view('galeri', compact('albums', 'sliderImages'));
     }
 
-    // Halaman berita
+    // Halaman Detail Album
+    public function galeriDetail(GaleriAlbum $album)
+    {
+        // Ambil semua foto berdasarkan album yang dipilih
+        $fotos = $album->fotos()->get();
+
+        // Ambil beberapa album lain untuk rekomendasi
+        $albumLain = GaleriAlbum::where('id_galeri', '!=', $album->id_galeri)
+            ->latest('tanggal')
+            ->take(3)
+            ->get();
+
+        return view('detail_galeri', compact('album', 'fotos', 'albumLain'));
+    }
+
+    // Halaman daftar berita
     public function berita()
     {
-        return view('berita');
+        $beritaList = Berita::orderBy('tanggal_publikasi', 'desc')->get();
+        return view('berita', compact('beritaList'));
+    }
+
+    // Halaman detail berita
+    public function beritaDetail($slug)
+    {
+        // Ambil berita berdasarkan slug
+        $berita = Berita::where('slug', $slug)->firstOrFail();
+
+        // Ambil berita lain untuk rekomendasi
+        $beritaLain = Berita::where('slug', '!=', $slug)
+            ->latest('tanggal_publikasi')
+            ->take(3)
+            ->get();
+
+        return view('detail_berita', compact('berita', 'beritaLain'));
     }
 
     // Halaman buku tamu

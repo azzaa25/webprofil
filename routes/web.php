@@ -19,7 +19,9 @@ use Illuminate\Support\Facades\Auth;
 */
 Route::get('/', [PublikController::class, 'index'])->name('publik.home');
 Route::get('/galeri', [PublikController::class, 'galeri'])->name('publik.galeri');
+Route::get('/galeri/{album}', [PublikController::class, 'galeriDetail'])->name('publik.galeri_detail');
 Route::get('/berita', [PublikController::class, 'berita'])->name('publik.berita');
+Route::get('/berita/{slug}', [PublikController::class, 'beritaDetail'])->name('publik.berita_detail');
 Route::get('/buku-tamu', [PublikController::class, 'bukuTamu'])->name('publik.buku_tamu');
 Route::post('/buku-tamu', [BukuTamuController::class, 'store'])->name('bukutamu.store');
 Route::get('/pelayanan', [PublikController::class, 'pelayanan'])->name('publik.pelayanan');

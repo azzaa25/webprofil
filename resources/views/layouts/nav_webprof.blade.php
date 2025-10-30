@@ -71,7 +71,8 @@
                                 <a href="{{ url('/') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Beranda</a>
                                 <a href="{{ url('/profil') }}"
-                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Struktur Organisasi</a>
+                                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Struktur
+                                    Organisasi</a>
                                 <a href="#"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Demografi</a>
                                 <a href="#"
@@ -91,7 +92,8 @@
                     <a href="{{ url('/galeri') }}"
                         class="font-semibold transition-colors duration-300 {{ Request::is('galeri') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">Galeri</a>
                     <a href="{{url('/faq')}}"
-                        class="font-semibold transition-colors duration-300 text-sukorame-purple hover:text-black">FAQ ?</a>
+                        class="font-semibold transition-colors duration-300 text-sukorame-purple hover:text-black">FAQ
+                        ?</a>
 
                     {{-- Tombol Login --}}
                     <a href="{{ url('/login') }}"
@@ -157,8 +159,7 @@
                 class="block px-4 py-3 text-sm font-semibold {{ Request::is('berita') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Berita</a>
             <a href="{{ url('/galeri') }}"
                 class="block px-4 py-3 text-sm font-semibold {{ Request::is('galeri') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Galeri</a>
-            <a href="{{url('/faq')}}"
-                class="block px-4 py-3 text-sm font-semibold">FAQ ?</a>
+            <a href="{{url('/faq')}}" class="block px-4 py-3 text-sm font-semibold">FAQ ?</a>
         </div>
     </header>
 
@@ -198,12 +199,14 @@
                     </div>
                 </div>
 
-                <div>
-                    <iframe class="w-full h-48 rounded-lg shadow-lg"
+                <div class="text-center">
+                    <h2 class="font-bold text-white mb-2">Peta Wilayah</h2>
+                    <iframe class="w-full h-52 rounded-lg shadow-lg"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15810.15783329976!2d112.015497!3d-7.838503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7857053365a633%3A0x134b2a3f5898516e!2sSukorame%2C%20Kec.%20Mojoroto%2C%20Kota%20Kediri%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1664500000000!5m2!1sid!2sid"
-                        style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                        style="border:0;" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
+
             </div>
         </div>
 
