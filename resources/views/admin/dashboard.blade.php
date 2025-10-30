@@ -102,32 +102,6 @@
                 showConfirmButton: false
             });
         @endif
-
-        // 2. LOGIKA KONFIRMASI LOGOUT DENGAN SWEETALERT
-        const logoutButton = document.getElementById('logout-button'); // ID ini harus ada di tombol logout Anda
-        
-        // Cek apakah tombol logout ada, biasanya di layouts/app.blade.php
-        if (logoutButton) {
-            logoutButton.addEventListener('click', function (e) {
-                e.preventDefault(); 
-                const form = this.closest('form'); // Cari form terdekat
-
-                Swal.fire({
-                    title: 'Keluar dari Akun?',
-                    text: "Anda akan mengakhiri sesi saat ini. Apakah Anda yakin ingin logout?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#dc3545', // Merah untuk aksi logout
-                    cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, Logout!',
-                    cancelButtonText: 'Batal'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        form.submit(); // Submit form logout jika dikonfirmasi
-                    }
-                });
-            });
-        }
     });
 
     // Kode Chart.js Anda (tidak diubah)

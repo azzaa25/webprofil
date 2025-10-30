@@ -10,6 +10,7 @@ use App\Http\Controllers\FaqController;
 use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\PublikController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -47,6 +48,10 @@ Route::middleware('guest')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::prefix('admin')->group(function () {
+    Route::get('/user', [AdminUserController::class, 'index'])->name('admin.user.index');
+    Route::post('/user', [AdminUserController::class, 'store'])->name('admin.user.store');
+    Route::put('/user/{id}', [AdminUserController::class, 'update'])->name('admin.user.update');
+    Route::delete('/user/{id}', [AdminUserController::class, 'destroy'])->name('admin.user.destroy');
     // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
