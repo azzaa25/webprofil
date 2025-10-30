@@ -5,15 +5,13 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <h2 class="mb-4 text-primary">Kelola Pelayanan</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold text-primary">
+                <i class="bi bi-clipboard-check me-2"></i> Kelola Pelayanan
+            </h4>
+        </div>
         
-        {{-- Pesan Status --}}
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        {{-- Pesan Status (Dihapus, karena sudah ditangani oleh SweetAlert global di layouts/app.blade.php) --}}
         
         {{-- Form Pencarian dan Tambah --}}
         <div class="d-flex justify-content-between mb-4">
@@ -58,15 +56,16 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 
-                                {{-- Tombol Hapus (Memicu Modal Konfirmasi) --}}
-                                <button type="button" class="btn btn-danger btn-sm" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#confirmDeleteModal"
-                                    data-id="{{ $pelayanan->id_pelayanan }}"
-                                    data-name="{{ $pelayanan->nama_pelayanan }}"
-                                    title="Hapus Layanan">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
+                                {{-- Tombol Hapus (Memicu SweetAlert) --}}
+                                <form action="{{ route('admin.pelayanan.destroy', $pelayanan->id_pelayanan) }}" 
+                                    method="POST" 
+                                    class="d-inline form-delete"> {{-- Tambahkan class form-delete --}}
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
 
@@ -148,61 +147,44 @@
     </div>
 </div>
 
-{{-- MODAL KONFIRMASI HAPUS (DITEMPATKAN DI LUAR LOOP) --}}
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Penghapusan</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Apakah Anda yakin ingin menghapus layanan <span id="deletePelayananName" class="fw-bold"></span> secara permanen? Aksi ini tidak dapat dibatalkan.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                {{-- Form DELETE sebenarnya yang akan disubmit --}}
-                <form id="deleteForm" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Ya, Hapus Permanen</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+{{-- MODAL KONFIRMASI HAPUS ASLI TELAH DIHAPUS --}}
 
 @push('scripts')
+{{-- Karena SweetAlert sudah dipindahkan secara global di layouts/app.blade.php, 
+     kita hanya perlu menambahkan logika spesifik untuk form delete di sini. --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const deleteModal = document.getElementById('confirmDeleteModal');
+    // Cari semua form dengan class 'form-delete'
+    const forms = document.querySelectorAll('.form-delete');
     
-    // Pastikan modal ada sebelum menambahkan listener
-    if (deleteModal) {
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            // Tombol yang memicu modal
-            const button = event.relatedTarget; 
-            
-            // Ambil data dari atribut data-* tombol
-            const id = button.getAttribute('data-id');
-            const name = button.getAttribute('data-name');
-            
-            // Dapatkan elemen di dalam modal
-            const deleteForm = document.getElementById('deleteForm');
-            const deletePelayananName = document.getElementById('deletePelayananName');
+    forms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Mencegah submit form bawaan
 
-            // 1. Update teks nama pelayanan di modal
-            deletePelayananName.textContent = name;
+            // Ambil nama item dari atribut data (jika ada, atau buat manual)
+            // Di sini kita tidak punya data-name di tombol, jadi kita bisa ambil dari form action URL,
+            // tapi yang termudah adalah menggunakan nama default yang generik.
+            // Atau, jika mau spesifik, kita bisa passing ID ke SweetAlert dan meminta detail via AJAX.
+            // Untuk kesederhanaan, kita akan menggunakan nama generik.
 
-            // 2. Update aksi (URL) form DELETE
-            // Asumsi rute adalah 'pelayanan.destroy' yang memerlukan {id_pelayanan}
-            // Kita membangun URL secara dinamis
-            const routeBase = "{{ route('admin.pelayanan.destroy', ':id') }}";
-            const routeUrl = routeBase.replace(':id', id);
+            const namaPelayanan = "Layanan ini"; // Ganti dengan nama yang lebih spesifik jika data-name bisa diakses
 
-            deleteForm.action = routeUrl;
+            Swal.fire({
+                title: 'Konfirmasi Hapus',
+                text: `Apakah Anda yakin ingin menghapus ${namaPelayanan}? Data yang dihapus tidak bisa dikembalikan!`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Hapus Permanen!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); // Submit form jika user mengkonfirmasi
+                }
+            });
         });
-    }
+    });
 });
 </script>
 @endpush

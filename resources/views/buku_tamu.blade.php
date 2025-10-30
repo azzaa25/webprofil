@@ -4,10 +4,6 @@
 @section('title', 'Buku Tamu - Kelurahan Sukorame')
 
 @section('content')
-    {{-- Catatan: Untuk mengaktifkan menu 'Buku Tamu' di header, tambahkan logika di layouts/master.blade.php:
-        <a href="/bukutamu" class="{{ Request::is('bukutamu') ? 'text-sukorame-purple font-bold' : 'font-semibold text-sukorame-purple' }}">Buku Tamu</a>
-    --}}
-
     <section class="bg-[#f9fdf5] py-16 md:py-24 px-6">
         <div class="container mx-auto">
             {{-- Judul Halaman --}}
@@ -20,10 +16,11 @@
                 </p>
             </div>
 
-            {{-- Form Buku Tamu --}}
+            {{-- FORM BUKU TAMU --}}
             <form action="{{ route('bukutamu.store') }}" method="POST"
                 class="max-w-xl mx-auto bg-gray-50 border border-gray-200 shadow-xl rounded-3xl px-8 py-10 space-y-6 hover:shadow-2xl transition-all duration-300 ease-in-out">
                 @csrf
+                
                 {{-- Nama Lengkap --}}
                 <div>
                     <label for="nama_lengkap" class="block text-left text-gray-800 font-semibold mb-2">
@@ -34,8 +31,13 @@
                         name="nama_lengkap"
                         id="nama_lengkap"
                         placeholder="Masukkan nama lengkap Anda"
-                        class="w-full px-5 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-4 focus:ring-[#cbb2ff] focus:border-[#cbb2ff] transition-all duration-300"
-                        required>
+                        value="{{ old('nama_lengkap') }}"
+                        class="w-full px-5 py-3 border @error('nama_lengkap') border-red-500 ring-red-200 @else border-gray-300 @enderror rounded-full focus:outline-none focus:ring-4 focus:ring-[#cbb2ff] focus:border-[#cbb2ff] transition-all duration-300"
+                        {{-- Hapus atribut 'required' --}}
+                        >
+                    @error('nama_lengkap')
+                        <div class="text-red-600 text-sm mt-1 font-medium">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 {{-- Alamat Lengkap --}}
@@ -48,8 +50,12 @@
                         id="alamat_lengkap"
                         rows="4"
                         placeholder="Masukkan alamat lengkap Anda"
-                        class="w-full px-5 py-3 border border-gray-300 rounded-2xl focus:outline-none focus:ring-4 focus:ring-[#cbb2ff] focus:border-[#cbb2ff] transition-all duration-300"
-                        required></textarea>
+                        class="w-full px-5 py-3 border @error('alamat_lengkap') border-red-500 ring-red-200 @else border-gray-300 @enderror rounded-2xl focus:outline-none focus:ring-4 focus:ring-[#cbb2ff] focus:border-[#cbb2ff] transition-all duration-300"
+                        {{-- Hapus atribut 'required' --}}
+                    >{{ old('alamat_lengkap') }}</textarea>
+                    @error('alamat_lengkap')
+                        <div class="text-red-600 text-sm mt-1 font-medium">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 {{-- Keperluan --}}
@@ -62,8 +68,13 @@
                         name="keperluan"
                         id="keperluan"
                         placeholder="Tuliskan keperluan Anda di sini"
-                        class="w-full px-5 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-4 focus:ring-[#cbb2ff] focus:border-[#cbb2ff] transition-all duration-300"
-                        required>
+                        value="{{ old('keperluan') }}"
+                        class="w-full px-5 py-3 border @error('keperluan') border-red-500 ring-red-200 @else border-gray-300 @enderror rounded-full focus:outline-none focus:ring-4 focus:ring-[#cbb2ff] focus:border-[#cbb2ff] transition-all duration-300"
+                        {{-- Hapus atribut 'required' --}}
+                        >
+                    @error('keperluan')
+                        <div class="text-red-600 text-sm mt-1 font-medium">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 {{-- Tombol Submit --}}
@@ -92,4 +103,21 @@
             </div>
         </div>
     </section>
+    
+    {{-- SWEETALERT SCRIPTS --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Menangkap pesan sukses dari Controller (setelah submit berhasil)
+            @if(session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}", // Menampilkan pesan: "Terima kasih! ✅ Data buku tamu Anda telah berhasil dicatat."
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+            @endif
+        });
+    </script>
 @endsection

@@ -41,15 +41,29 @@ class FaqController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. Definisikan Pesan Validasi Kustom
+        $messages = [
+            'required'   => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'max'        => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
+            'integer'    => 'Kolom **Urutan** harus berupa angka bilangan bulat.',
+            'min'        => 'Kolom **Urutan** tidak boleh kurang dari :min.',
+
+            // Pesan spesifik
+            'pertanyaan.required' => 'Pertanyaan wajib diisi.',
+            'jawaban.required' => 'Jawaban wajib diisi. Tidak boleh kosong.',
+            'urutan.required' => 'Nomor Urutan wajib diisi.',
+        ];
+
+        // 2. Lakukan Validasi dengan Pesan Kustom
         $validated = $request->validate([
             'pertanyaan' => 'required|string|max:500',
             'jawaban' => 'required|string',
             'urutan' => 'required|integer|min:0',
-        ]);
+        ], $messages); // <-- PESAN KUSTOM DITERAPKAN DI SINI
         
         Faq::create($validated);
 
-        return redirect()->route('admin.faq.index')->with('success', 'Pertanyaan berhasil ditambahkan!');
+        return redirect()->route('admin.faq.index')->with('success', '✅ Pertanyaan berhasil ditambahkan!');
     }
 
     /**
@@ -70,15 +84,29 @@ class FaqController extends Controller
     {
         $faq = Faq::findOrFail($id_faq);
 
+        // 1. Definisikan Pesan Validasi Kustom
+        $messages = [
+            'required'   => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'max'        => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
+            'integer'    => 'Kolom **Urutan** harus berupa angka bilangan bulat.',
+            'min'        => 'Kolom **Urutan** tidak boleh kurang dari :min.',
+
+            // Pesan spesifik
+            'pertanyaan.required' => 'Pertanyaan wajib diisi.',
+            'jawaban.required' => 'Jawaban wajib diisi. Tidak boleh kosong.',
+            'urutan.required' => 'Nomor Urutan wajib diisi.',
+        ];
+        
+        // 2. Lakukan Validasi dengan Pesan Kustom
         $validated = $request->validate([
             'pertanyaan' => 'required|string|max:500',
             'jawaban' => 'required|string',
             'urutan' => 'required|integer|min:0',
-        ]);
+        ], $messages); // <-- PESAN KUSTOM DITERAPKAN DI SINI
 
         $faq->update($validated);
 
-        return redirect()->route('admin.faq.index')->with('success', 'Pertanyaan berhasil diperbarui!');
+        return redirect()->route('admin.faq.index')->with('success', '✅ Pertanyaan berhasil diperbarui!');
     }
 
     /**

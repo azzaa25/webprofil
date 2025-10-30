@@ -5,7 +5,11 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <h2 class="mb-4 text-primary">Kelola Berita & Pengumuman</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold text-primary">
+                <i class="bi bi-newspaper me-2"></i> Kelola Berita & Pengumuman
+            </h4>
+        </div>
         
         {{-- Tombol Aksi dan Filter --}}
         <div class="d-flex justify-content-between align-items-center mb-4">

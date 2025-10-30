@@ -5,19 +5,21 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <h2 class="mb-4 text-primary">Kelola Galeri</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold text-primary">
+                <i class="bi bi-images me-2"></i> Kelola Galeri
+            </h4>
+        </div>
         
-        {{-- Pesan Status --}}
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
+        {{-- Pesan Status (Dihapus, karena SweetAlert global di layouts/app.blade.php sudah menanganinya, dan SweetAlert lokal di bawah juga menanganinya.) --}}
         
         <div class="d-flex justify-content-between mb-4">
             {{-- Search Bar --}}
-            <input type="text" class="form-control me-3" style="width: 300px;" placeholder="Nama album/Kegiatan...">
+            {{-- Tambahkan form GET untuk fungsi search --}}
+            <form action="{{ route('admin.galeri.index') }}" method="GET" class="d-flex me-3">
+                <input type="text" name="search" class="form-control me-2" style="width: 300px;" placeholder="Nama album/Kegiatan..." value="{{ request('search') }}">
+                <button type="submit" class="btn btn-outline-secondary">Cari</button>
+            </form>
             
             <a href="{{ route('admin.galeri.create') }}" class="btn btn-success">
                 <i class="bi bi-plus-circle-fill me-1"></i> Tambah Album Baru
@@ -43,9 +45,9 @@
                             <td>
                                 @if($album->cover_path)
                                     <img src="{{ asset('storage/' . $album->cover_path) }}" 
-                                         alt="{{ $album->nama_album }}" 
-                                         class="img-fluid rounded shadow-sm" 
-                                         style="width: 60px; height: 60px; object-fit: cover;">
+                                        alt="{{ $album->nama_album }}" 
+                                        class="img-fluid rounded shadow-sm" 
+                                        style="width: 60px; height: 60px; object-fit: cover;">
                                 @else
                                     <i class="bi bi-image" style="font-size: 2rem; color: #ccc;"></i>
                                 @endif
@@ -54,7 +56,7 @@
                             <td>{{ $album->fotos_count }}</td>
                             <td>{{ $album->tanggal->format('d/m/Y') }}</td>
                             <td>
-                                {{-- Tombol LIHAT DETAIL (PERBAIKAN) --}}
+                                {{-- Tombol LIHAT DETAIL --}}
                                 <button type="button" class="btn btn-info btn-sm me-2 text-white"
                                     data-bs-toggle="modal"
                                     data-bs-target="#detailAlbumModal{{ $album->id_galeri }}"
@@ -67,15 +69,18 @@
                                     <i class="bi bi-pencil-square"></i>
                                 </a>
                                 
-                                {{-- Tombol Hapus (Memicu Modal Konfirmasi) --}}
-                                <button type="button" class="btn btn-danger btn-sm" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#confirmDeleteModal"
-                                    data-id="{{ $album->id_galeri }}"
-                                    data-name="{{ $album->nama_album }}"
-                                    title="Hapus Album">
-                                    <i class="bi bi-trash-fill"></i>
-                                </button>
+                                {{-- Tombol Hapus (Memicu SweetAlert) --}}
+                                <form action="{{ route('admin.galeri.destroy', $album->id_galeri) }}" 
+                                    method="POST" 
+                                    class="d-inline form-delete">
+                                    @csrf
+                                    @method('DELETE')
+                                    {{-- Hidden input untuk menyimpan nama, agar bisa ditampilkan di alert --}}
+                                    <input type="hidden" name="album_name" value="{{ $album->nama_album }}"> 
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
+                                        <i class="bi bi-trash-fill"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                         
@@ -92,9 +97,9 @@
                                         <div class="text-center mb-4 p-3 border rounded">
                                             @if($album->cover_path)
                                                 <img src="{{ asset('storage/' . $album->cover_path) }}" 
-                                                     alt="Cover {{ $album->nama_album }}" 
-                                                     class="img-fluid rounded shadow-sm" 
-                                                     style="max-height: 250px;">
+                                                    alt="Cover {{ $album->nama_album }}" 
+                                                    class="img-fluid rounded shadow-sm" 
+                                                    style="max-height: 250px;">
                                             @else
                                                 <i class="bi bi-image-alt fs-1 text-muted"></i>
                                                 <p class="text-muted">Tidak ada foto cover.</p>
@@ -113,9 +118,9 @@
                                             @forelse($album->fotos as $foto)
                                                 <div class="col-4 col-md-3">
                                                     <img src="{{ asset('storage/' . $foto->foto_path) }}" 
-                                                         alt="Foto {{ $foto->id }}" 
-                                                         class="img-fluid rounded"
-                                                         style="width: 100%; height: 100px; object-fit: cover;">
+                                                        alt="Foto {{ $foto->id }}" 
+                                                        class="img-fluid rounded"
+                                                        style="width: 100%; height: 100px; object-fit: cover;">
                                                 </div>
                                             @empty
                                                 <div class="col-12 text-muted small">Tidak ada foto detail di album ini.</div>
@@ -149,51 +154,51 @@
     </div>
 </div>
 
-{{-- MODAL KONFIRMASI HAPUS (DITEMPATKAN DI LUAR LOOP) --}}
-<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="confirmDeleteModalLabel">Konfirmasi Penghapusan Album</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                Apakah Anda yakin ingin menghapus album <span id="deleteAlbumName" class="fw-bold"></span> beserta semua fotonya secara permanen? Aksi ini tidak dapat dibatalkan.
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                <form id="deleteForm" method="POST" class="d-inline">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger">Ya, Hapus Permanen</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+{{-- MODAL KONFIRMASI HAPUS (DIHAPUS karena diganti SweetAlert) --}}
+
 
 @push('scripts')
+{{-- SweetAlert2 CDN (Ditambahkan untuk memastikan SweetAlert tersedia) --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const deleteModal = document.getElementById('confirmDeleteModal');
-    if (deleteModal) {
-        deleteModal.addEventListener('show.bs.modal', function (event) {
-            const button = event.relatedTarget; 
-            const id = button.getAttribute('data-id');
-            const name = button.getAttribute('data-name');
-            
-            const deleteForm = document.getElementById('deleteForm');
-            const deleteAlbumName = document.getElementById('deleteAlbumName');
+    document.addEventListener('DOMContentLoaded', function () {
+        const forms = document.querySelectorAll('.form-delete');
+        forms.forEach(form => {
+            form.addEventListener('submit', function (e) {
+                e.preventDefault(); 
 
-            deleteAlbumName.textContent = name;
+                // Ambil nama album dari hidden input yang baru ditambahkan
+                const albumName = form.querySelector('input[name="album_name"]').value;
 
-            const routeBase = "{{ route('admin.galeri.destroy', ':id') }}";
-            const routeUrl = routeBase.replace(':id', id);
-
-            deleteForm.action = routeUrl;
+                Swal.fire({
+                    title: 'Apakah kamu yakin?',
+                    text: `Anda akan menghapus album "${albumName}" beserta semua fotonya. Data yang dihapus tidak bisa dikembalikan!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); 
+                    }
+                });
+            });
         });
-    }
-});
+
+        // Logika session('success') untuk menampilkan notifikasi sukses
+        // (Dipertahankan, meskipun idealnya ada di layout global, untuk memastikan notifikasi muncul)
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil',
+                text: "{{ session('success') }}",
+                timer: 2000,
+                showConfirmButton: false
+            });
+        @endif
+    });
 </script>
 @endpush
 @endsection

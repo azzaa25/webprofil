@@ -7,6 +7,18 @@
     <div class="col-12">
         <h2 class="mb-4 text-primary">Tambah Pelayanan Baru</h2>
         
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>🚨 Mohon Perhatian!</strong> Ada beberapa kesalahan pengisian data:
+                <ul class="mb-0 mt-2">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        
         <div class="card shadow-sm p-4 mb-4">
             <form action="{{ route('admin.pelayanan.store') }}" method="POST">
                 @csrf
@@ -14,7 +26,8 @@
                 {{-- Nama Pelayanan --}}
                 <div class="mb-3">
                     <label for="nama_pelayanan" class="form-label">Nama Jenis Pelayanan</label>
-                    <input type="text" class="form-control @error('nama_pelayanan') is-invalid @enderror" id="nama_pelayanan" name="nama_pelayanan" value="{{ old('nama_pelayanan') }}" required>
+                    {{-- Atribut required DIHAPUS agar pesan validasi dari Controller yang muncul --}}
+                    <input type="text" class="form-control @error('nama_pelayanan') is-invalid @enderror" id="nama_pelayanan" name="nama_pelayanan" value="{{ old('nama_pelayanan') }}">
                     @error('nama_pelayanan')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -23,7 +36,8 @@
                 {{-- Deskripsi Singkat --}}
                 <div class="mb-3">
                     <label for="deskripsi" class="form-label">Deskripsi Singkat (Maks. 500 Karakter)</label>
-                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="3" required>{{ old('deskripsi') }}</textarea>
+                    {{-- Atribut required DIHAPUS agar pesan validasi dari Controller yang muncul --}}
+                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="3">{{ old('deskripsi') }}</textarea>
                     @error('deskripsi')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

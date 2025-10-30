@@ -10,6 +10,9 @@
 
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- SweetAlert2 CDN (Ditambahkan untuk penggunaan global) -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 
   <style>
     body { 
@@ -100,10 +103,11 @@
         <span class="fs-4 fw-bold">@yield('title', 'Dashboard Admin')</span>
       </div>
       
-      <!-- Kanan -->
-      <form action="{{ route('logout') }}" method="POST" class="m-0">
+      <!-- Kanan: Form dan Tombol Logout -->
+      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="m-0">
         @csrf
-        <button type="submit" class="btn btn-danger btn-sm">
+        {{-- Tombol Logout menggunakan type="button" agar SweetAlert bisa mencegatnya --}}
+        <button type="button" class="btn btn-danger btn-sm" id="logout-button">
           <i class="bi bi-box-arrow-right"></i> Logout
         </button>
       </form>
@@ -116,9 +120,9 @@
     <div class="text-center mb-4 border-bottom pb-3">
       <a href="{{ route('admin.dashboard') }}" class="d-block text-decoration-none text-white">
         <img src="{{ asset('img/logo_sukorame.png') }}" 
-            alt="Logo Kelurahan Sukorame" 
-            class="img-fluid mb-2"
-            style="width: 70px; height: 70px; object-fit: contain; border-radius: 50%; background-color: #fff; padding: 5px;">
+             alt="Logo Kelurahan Sukorame" 
+             class="img-fluid mb-2"
+             style="width: 70px; height: 70px; object-fit: contain; border-radius: 50%; background-color: #fff; padding: 5px;">
         <div class="fw-bold mt-2">Kelurahan Sukorame</div>
       </a>
     </div>
@@ -148,6 +152,46 @@
       document.getElementById('navbarContentShift').classList.toggle('full');
     });
   </script>
+  
+  {{-- LOGIKA SWEETALERT GLOBAL (Dipindahkan dari dashboard.blade.php) --}}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // 1. GLOBAL LOGOUT CONFIRMATION
+        const logoutButton = document.getElementById('logout-button');
+        const logoutForm = document.getElementById('logout-form');
+
+        if (logoutButton && logoutForm) {
+            logoutButton.addEventListener('click', function(e) {
+                Swal.fire({
+                    title: 'Yakin Ingin Keluar?',
+                    text: "Anda akan diarahkan kembali ke halaman login.",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#6c757d',
+                    confirmButtonText: 'Ya, Logout',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        logoutForm.submit();
+                    }
+                });
+            });
+        }
+
+        // 2. GLOBAL SESSION SUCCESS NOTIFICATION (untuk login, logout, atau aksi lainnya)
+        @if(session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: "{{ session('success') }}",
+                timer: 2500,
+                showConfirmButton: false
+            });
+        @endif
+    });
+  </script>
+
   @stack('scripts')
 </body>
 </html>

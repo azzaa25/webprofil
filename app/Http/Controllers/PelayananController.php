@@ -40,6 +40,18 @@ class PelayananController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. Definisikan Pesan Validasi Kustom
+        $messages = [
+            'required'               => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'max'                    => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
+            'unique'                 => '❌ **Nama Layanan** ini sudah ada. Mohon gunakan nama yang lain.',
+
+            // Pesan spesifik
+            'nama_pelayanan.required' => 'Nama Pelayanan wajib diisi.',
+            'deskripsi.required'     => 'Deskripsi pelayanan wajib diisi.',
+        ];
+
+        // 2. Lakukan Validasi dengan Pesan Kustom
         $validated = $request->validate([
             'nama_pelayanan' => 'required|string|max:255|unique:pelayanan,nama_pelayanan',
             'deskripsi' => 'required|string|max:500',
@@ -48,7 +60,7 @@ class PelayananController extends Controller
             'proses' => 'nullable|string',
             'waktu_layanan' => 'nullable|string|max:100',
             'keterangan' => 'nullable|string',
-        ]);
+        ], $messages); // <-- PESAN KUSTOM DITERAPKAN DI SINI
         
         // Konversi string multi-baris menjadi array untuk disimpan sebagai JSON
         $persyaratanArray = $validated['persyaratan'] ? explode("\n", trim($validated['persyaratan'])) : null;
@@ -65,7 +77,7 @@ class PelayananController extends Controller
             'tanggal_publikasi' => now(),
         ]);
 
-        return redirect()->route('admin.pelayanan.index')->with('success', 'Layanan berhasil ditambahkan!');
+        return redirect()->route('admin.pelayanan.index')->with('success', '✅ Layanan berhasil ditambahkan!');
     }
 
     /**
@@ -95,6 +107,18 @@ class PelayananController extends Controller
      */
     public function update(Request $request, Pelayanan $pelayanan)
     {
+        // 1. Definisikan Pesan Validasi Kustom
+        $messages = [
+            'required'               => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'max'                    => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
+            'unique'                 => '❌ **Nama Layanan** ini sudah ada. Mohon gunakan nama yang lain.',
+
+            // Pesan spesifik
+            'nama_pelayanan.required' => 'Nama Pelayanan wajib diisi.',
+            'deskripsi.required'     => 'Deskripsi pelayanan wajib diisi.',
+        ];
+
+        // 2. Lakukan Validasi dengan Pesan Kustom
         $validated = $request->validate([
             'nama_pelayanan' => [
                 'required',
@@ -108,7 +132,7 @@ class PelayananController extends Controller
             'proses' => 'nullable|string',
             'waktu_layanan' => 'nullable|string|max:100',
             'keterangan' => 'nullable|string',
-        ]);
+        ], $messages); // <-- PESAN KUSTOM DITERAPKAN DI SINI
 
         // Konversi string multi-baris menjadi array untuk disimpan sebagai JSON
         $persyaratanArray = $validated['persyaratan'] ? explode("\n", trim($validated['persyaratan'])) : null;
@@ -123,7 +147,7 @@ class PelayananController extends Controller
             'keterangan' => $validated['keterangan'],
         ]);
 
-        return redirect()->route('admin.pelayanan.index')->with('success', 'Layanan berhasil diperbarui!');
+        return redirect()->route('admin.pelayanan.index')->with('success', '✅ Layanan berhasil diperbarui!');
     }
 
     /**

@@ -7,6 +7,7 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
+    /* ... (CSS Anda yang sudah ada) ... */
     body {
       font-family: 'Poppins', sans-serif;
       background-color: #f7f9fc;
@@ -71,6 +72,18 @@
       padding: 10px 15px;
     }
 
+    /* CSS tambahan untuk menandai input yang error */
+    .form-control.is-invalid {
+      border-color: #dc3545;
+    }
+
+    /* CSS tambahan untuk pesan error kustom */
+    .invalid-feedback {
+      display: block; /* Agar pesan muncul di bawah input */
+      font-size: 0.85rem;
+      margin-top: 5px;
+    }
+
     .btn-login {
       background-color: #a89ff3;
       border: none;
@@ -100,21 +113,61 @@
 
     {{-- KANAN: Form Login --}}
     <div class="auth-right">
-      <h2>Selamat Datang 👋</h2>
+      <h2>Selamat Datang</h2>
       <p>Masuk ke akun admin Anda</p>
 
+      {{-- Pesan Error General (Email/Password salah) --}}
       @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <div class="alert alert-danger" role="alert">
+          {{ session('error') }}
+        </div>
+      @endif
+      
+      {{-- Pesan Sukses (setelah logout) --}}
+      @if(session('success'))
+        <div class="alert alert-success" role="alert">
+          {{ session('success') }}
+        </div>
       @endif
 
       <form method="POST" action="{{ route('login.submit') }}">
         @csrf
+        
+        {{-- FIELD EMAIL --}}
         <div class="mb-3">
-          <input type="email" name="email" class="form-control" placeholder="Email" required>
+          <input 
+            type="email" 
+            name="email" 
+            class="form-control @error('email') is-invalid @enderror" 
+            placeholder="Email"
+            value="{{ old('email') }}" {{-- Pertahankan input yang diisi sebelumnya --}}
+            {{-- Hapus atribut 'required' di sini --}}
+          >
+          {{-- MENAMPILKAN PESAN VALIDASI EMAIL --}}
+          @error('email')
+            <div class="invalid-feedback">
+              {{ $message }}
+            </div>
+          @enderror
         </div>
+        
+        {{-- FIELD PASSWORD --}}
         <div class="mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password" required>
+          <input 
+            type="password" 
+            name="password" 
+            class="form-control @error('password') is-invalid @enderror" 
+            placeholder="Password"
+            {{-- Hapus atribut 'required' di sini --}}
+          >
+          {{-- MENAMPILKAN PESAN VALIDASI PASSWORD --}}
+          @error('password')
+            <div class="invalid-feedback">
+              {{ $message }}
+            </div>
+          @enderror
         </div>
+        
         <button type="submit" class="btn btn-login">MASUK</button>
       </form>
     </div>
