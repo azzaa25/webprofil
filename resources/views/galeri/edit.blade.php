@@ -6,7 +6,10 @@
 <div class="row">
     <div class="col-12">
         <h2 class="mb-4 text-primary">Edit Galeri</h2>
+        <p class="text-muted">Anda sedang mengedit: **{{ $galeri->nama_album }}**</p>
         
+        {{-- Pesan Sukses untuk Hapus Foto Detail (Ditangani oleh SweetAlert global) --}}
+
         <div class="card shadow-sm p-4 mb-4">
             {{-- Form Update Album Utama --}}
             <form action="{{ route('admin.galeri.update', $galeri->id_galeri) }}" method="POST" enctype="multipart/form-data">
@@ -16,7 +19,13 @@
                 {{-- Nama Album --}}
                 <div class="mb-4">
                     <label for="nama_album" class="form-label">Nama Album</label>
-                    <input type="text" class="form-control @error('nama_album') is-invalid @enderror" id="nama_album" name="nama_album" value="{{ old('nama_album', $galeri->nama_album) }}" required>
+                    <input type="text" 
+                        class="form-control @error('nama_album') is-invalid @enderror" 
+                        id="nama_album" 
+                        name="nama_album" 
+                        value="{{ old('nama_album', $galeri->nama_album) }}" 
+                        {{-- required Dihapus --}}
+                    >
                     @error('nama_album') <div class="invalid-feedback">{{ $message }}</div> @enderror
                 </div>
 
@@ -37,7 +46,13 @@
                     {{-- Tanggal Kegiatan --}}
                     <div class="col-md-6 mb-4">
                         <label for="tanggal" class="form-label">Tanggal Kegiatan</label>
-                        <input type="date" class="form-control @error('tanggal') is-invalid @enderror" id="tanggal" name="tanggal" value="{{ old('tanggal', $galeri->tanggal->format('Y-m-d')) }}" required>
+                        <input type="date" 
+                            class="form-control @error('tanggal') is-invalid @enderror" 
+                            id="tanggal" 
+                            name="tanggal" 
+                            value="{{ old('tanggal', $galeri->tanggal->format('Y-m-d')) }}" 
+                            {{-- required Dihapus --}}
+                        >
                         @error('tanggal') <div class="invalid-feedback">{{ $message }}</div> @enderror
                     </div>
                 </div>
@@ -54,7 +69,7 @@
             {{-- Bagian Kelola Foto Detail --}}
             <h4 class="mb-4 text-secondary">Kelola Foto Detail Album</h4>
             
-            {{-- TOMBOL LIHAT DETAIL (PERBAIKAN INI) --}}
+            {{-- Tombol Lihat Detail Modal --}}
             @if($fotos->count() > 0)
             <div class="mb-4">
                 <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="#photoDetailModal">
@@ -80,23 +95,25 @@
                 @error('new_foto_album.*') <div class="text-danger small">{{ $message }}</div> @enderror
             </form>
 
-            {{-- Daftar Foto Saat Ini (tetap ditampilkan untuk aksi hapus) --}}
+            {{-- Daftar Foto Saat Ini (untuk aksi hapus) --}}
             <h6>Hapus Foto (Satu per Satu):</h6>
             <div class="row g-3">
                 @forelse($fotos as $foto)
                     <div class="col-6 col-sm-4 col-md-3 col-lg-2">
                         <div class="card p-2 shadow-sm">
                             <img src="{{ asset('storage/' . $foto->foto_path) }}" 
-                                 alt="Foto Album {{ $foto->id }}" 
-                                 class="img-fluid rounded" 
-                                 style="width: 100%; height: 150px; object-fit: cover;">
+                                alt="Foto Album {{ $foto->id }}" 
+                                class="img-fluid rounded" 
+                                style="width: 100%; height: 150px; object-fit: cover;">
                             
-                            {{-- Form Hapus Foto Detail --}}
-                            <form action="{{ route('admin.galeri.destroy_foto', $foto->id) }}" method="POST" class="mt-2">
+                            {{-- Form Hapus Foto Detail (DIUBAH UNTUK SWEETALERT) --}}
+                            <form action="{{ route('admin.galeri.destroy_foto', $foto->id) }}" 
+                                method="POST" 
+                                class="mt-2 form-delete-foto"> 
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm w-100" 
-                                        onclick="return confirm('Yakin hapus foto ini?');">
+                                <input type="hidden" name="foto_id" value="{{ $foto->id }}">
+                                <button type="submit" class="btn btn-danger btn-sm w-100">
                                     <i class="bi bi-trash"></i> Hapus
                                 </button>
                             </form>
@@ -113,7 +130,7 @@
     </div>
 </div>
 
-{{-- MODAL DETAIL GALERI FOTO (DITEMPATKAN DI LUAR DIV UTAMA) --}}
+{{-- MODAL DETAIL GALERI FOTO --}}
 <div class="modal fade" id="photoDetailModal" tabindex="-1" aria-labelledby="photoDetailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
@@ -127,9 +144,9 @@
                     <div class="col-md-4 col-lg-3">
                         <div class="card border-0 shadow-sm">
                             <img src="{{ asset('storage/' . $foto->foto_path) }}" 
-                                 alt="Foto Album {{ $foto->id }}" 
-                                 class="img-fluid rounded" 
-                                 style="width: 100%; height: 200px; object-fit: cover;">
+                                alt="Foto Album {{ $foto->id }}" 
+                                class="img-fluid rounded" 
+                                style="width: 100%; height: 200px; object-fit: cover;">
                             <div class="card-body p-2 text-center">
                                 <p class="card-text small text-muted">ID Foto: {{ $foto->id }}</p>
                             </div>
@@ -150,3 +167,47 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+{{-- CDN SweetAlert (Dipertahankan di sini untuk memastikan modal hapus foto bekerja, walau idealnya di layout) --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // 1. Logika Hapus Foto Detail menggunakan SweetAlert
+    const deleteFotoForms = document.querySelectorAll('.form-delete-foto');
+    deleteFotoForms.forEach(form => {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); 
+            const fotoId = form.querySelector('input[name="foto_id"]').value;
+
+            Swal.fire({
+                title: 'Hapus Foto?',
+                text: "Foto detail ini akan dihapus permanen dari album. Apakah Anda yakin?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, Hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit(); 
+                }
+            });
+        });
+    });
+
+    // 2. Logika Notifikasi Sukses
+    // Dipertahankan di sini jika layout global tidak memuat SweetAlert, namun idealnya ini di layouts/app.blade.php
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: "{{ session('success') }}",
+            timer: 2000,
+            showConfirmButton: false
+        });
+    @endif
+});
+</script>
+@endpush

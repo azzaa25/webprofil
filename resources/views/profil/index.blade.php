@@ -5,7 +5,11 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <h2 class="mb-4 text-primary">Kelola Profil</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold text-primary">
+                <i class="bi bi-person-badge me-2"></i> Kelola Profil Kelurahan
+            </h4>
+        </div>
         <p class="text-muted">Kelola informasi dasar, struktur organisasi, dan daftar lembaga kelurahan.</p>
 
         {{-- Pesan Status (Success/Error Alerts) --}}

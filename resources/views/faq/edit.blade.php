@@ -21,7 +21,7 @@
                 {{-- Pertanyaan --}}
                 <div class="mb-3">
                     <label for="pertanyaan" class="form-label">Pertanyaan</label>
-                    <textarea class="form-control @error('pertanyaan') is-invalid @enderror" id="pertanyaan" name="pertanyaan" rows="3" required>{{ old('pertanyaan', $faq->pertanyaan) }}</textarea>
+                    <textarea class="form-control @error('pertanyaan') is-invalid @enderror" id="pertanyaan" name="pertanyaan" rows="3" >{{ old('pertanyaan', $faq->pertanyaan) }}</textarea>
                     @error('pertanyaan')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -30,7 +30,7 @@
                 {{-- Jawaban --}}
                 <div class="mb-3">
                     <label for="jawaban" class="form-label">Jawaban</label>
-                    <textarea class="form-control @error('jawaban') is-invalid @enderror" id="jawaban" name="jawaban" rows="6" required>{{ old('jawaban', $faq->jawaban) }}</textarea>
+                    <textarea class="form-control @error('jawaban') is-invalid @enderror" id="jawaban" name="jawaban" rows="6" >{{ old('jawaban', $faq->jawaban) }}</textarea>
                     @error('jawaban')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -39,7 +39,7 @@
                 {{-- Urutan Tampil --}}
                 <div class="mb-4">
                     <label for="urutan" class="form-label">Urutan Tampil (Angka)</label>
-                    <input type="number" class="form-control @error('urutan') is-invalid @enderror" id="urutan" name="urutan" value="{{ old('urutan', $faq->urutan) }}" required>
+                    <input type="number" class="form-control @error('urutan') is-invalid @enderror" id="urutan" name="urutan" value="{{ old('urutan', $faq->urutan) }}" >
                     <div class="form-text">Angka yang lebih kecil akan tampil lebih dulu.</div>
                     @error('urutan')
                         <div class="invalid-feedback">{{ $message }}</div>

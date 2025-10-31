@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\BukuTamu;
+use App\Models\BukuTamu; // Pastikan model ini diimpor
+use Illuminate\Validation\Rule; // Diperlukan jika ada aturan unik/complex lainnya
 
 class BukuTamuController extends Controller
 {
@@ -13,6 +14,7 @@ class BukuTamuController extends Controller
      */
     public function index()
     {
+        // View ini kemungkinan adalah form frontend (misalnya: resources/views/buku-tamu/index.blade.php)
         return view('buku-tamu.index');
     }
 
@@ -22,11 +24,23 @@ class BukuTamuController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. Definisikan Pesan Validasi Kustom
+        $messages = [
+            'required'       => '⚠️ Kolom **:attribute** wajib diisi. Tidak boleh kosong.',
+            'string'         => 'Kolom **:attribute** harus berupa teks.',
+            'max'            => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
+            // Pesan spesifik
+            'nama_lengkap.required' => 'Nama lengkap Anda wajib diisi. Mohon periksa kembali.',
+            'alamat_lengkap.required' => 'Alamat lengkap wajib diisi untuk pencatatan.',
+            'keperluan.required' => 'Keperluan kunjungan wajib diisi.',
+        ];
+
+        // 2. Lakukan Validasi dengan Pesan Kustom
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:100',
             'alamat_lengkap' => 'required|string',
             'keperluan' => 'required|string|max:255',
-        ]);
+        ], $messages);
 
         BukuTamu::create([
             'nama_lengkap'   => $validated['nama_lengkap'],
@@ -35,14 +49,16 @@ class BukuTamuController extends Controller
             'tanggal'        => now()->format('Y-m-d'),
         ]);
 
+        // 3. Pesan Sukses untuk Pop-up
         return redirect()
             ->back()
-            ->with('success', 'Terima kasih! Data buku tamu Anda telah dikirim.');
+            ->with('success', 'Terima kasih! ✅ Data buku tamu Anda telah berhasil dicatat.');
     }
 
     /**
      * 🔹 Halaman Kelola Buku Tamu (ADMIN INDEX)
      * Menampilkan semua data buku tamu di dashboard admin.
+     * Menggunakan nama indexAdmin agar kompatibel dengan rute admin.buku-tamu.index
      */
     public function indexAdmin(Request $request)
     {
@@ -78,9 +94,9 @@ class BukuTamuController extends Controller
         $bukutamu = $query->paginate(10)->appends($request->query());
 
         // 🔸 Arahkan ke view admin
-        return view('buku-tamu.index', compact('bukutamu'));
+        // Catatan: Pastikan Anda memiliki view di 'buku-tamu.admin-index' atau 'buku-tamu.index' yang benar
+        return view('buku-tamu.index', compact('bukutamu')); 
     }
-
 
 
     /**
