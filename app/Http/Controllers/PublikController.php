@@ -8,6 +8,7 @@ use App\Models\Profile;
 use App\Models\Pelayanan;
 use App\Models\GaleriAlbum;
 use App\Models\GaleriFoto;
+use App\Models\Faq;
 
 
 class PublikController extends Controller
@@ -105,6 +106,10 @@ class PublikController extends Controller
     }
     public function faq()
     {
-        return view('faq');
+        // Ambil semua data FAQ, diurutkan berdasarkan kolom 'urutan'
+        $faqList = Faq::orderBy('urutan', 'asc')->get();
+
+        // Kirim ke view
+        return view('faq', compact('faqList'));
     }
 }
