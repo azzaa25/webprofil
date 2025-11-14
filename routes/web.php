@@ -73,6 +73,9 @@ Route::prefix('admin')->group(function () {
     Route::post('/lembaga', [ProfilController::class, 'storeLembaga'])->name('admin.lembaga.store');
     Route::put('/lembaga/{lembaga}', [ProfilController::class, 'updateLembaga'])->name('admin.lembaga.update');
     Route::delete('/lembaga/{lembaga}', [ProfilController::class, 'destroyLembaga'])->name('admin.lembaga.destroy');
+    Route::post('admin/profil/pejabat', [ProfilController::class, 'storePejabat'])->name('admin.pejabat.store');
+    Route::put('admin/profil/pejabat/{pejabat}', [ProfilController::class, 'updatePejabat'])->name('admin.pejabat.update');
+    Route::delete('admin/profil/pejabat/{pejabat}', [ProfilController::class, 'destroyPejabat'])->name('admin.pejabat.destroy');
 
     // BERITA
     Route::resource('/berita', BeritaController::class)->parameters([

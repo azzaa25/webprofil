@@ -109,61 +109,54 @@
             </h2>
         </div>
         <div class="container mx-auto px-6">
-            <div class="flex flex-wrap justify-center gap-16">
-                <!-- Kepala Desa -->
-                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8 mb-16">
+                
+                @forelse($pejabatList as $pejabat)
+                {{-- Card Pejabat Dinamis --}}
+                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2 max-w-[220px]">
                     <div
-                        class="bg-gradient-to-br from-white to-sukorame-purple-light/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
-                        <img src="https://i.pravatar.cc/150?img=1" alt="Kepala Desa"
-                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
-                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kepala Desa</h4>
-                        <p class="text-gray-500 text-sm">Pimpinan Kelurahan Sukorame</p>
+                        {{-- Tinggi Card Dibuat Tetap (h-[400px]) --}}
+                        class="bg-gradient-to-br from-white to-sukorame-purple-light/30 p-4 rounded-2xl shadow-md hover:shadow-2xl h-[400px] flex flex-col items-center">
+                        
+                        {{-- Foto --}}
+                        <div class="mb-4">
+                            @if(!empty($pejabat->foto_path) && Storage::disk('public')->exists($pejabat->foto_path))
+                                <img src="{{ asset('storage/' . $pejabat->foto_path) }}" alt="{{ $pejabat->jabatan }}"
+                                    class="w-32 h-32 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
+                            @else
+                                <img src="{{ asset('img/default_avatar.jpg') }}" alt="Foto tidak tersedia"
+                                    class="w-32 h-32 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
+                            @endif
+                        </div>
+                        
+                        {{-- Jabatan --}}
+                        <h4 class="font-extrabold text-lg text-sukorame-purple mb-2 break-words leading-tight px-1">
+                            {{ $pejabat->jabatan }}
+                        </h4>
+                        
+                        {{-- Deskripsi Konten (MENGHILANGKAN GRADIENT) --}}
+                        <div class="relative w-full text-center overflow-hidden">
+                            {{-- line-clamp-4 tetap digunakan untuk membatasi tinggi dan menjaga keseragaman card --}}
+                            <p class="text-gray-500 text-sm mt-1 line-clamp-4 px-1">
+                                {{ $pejabat->deskripsi }}
+                            </p>
+                            {{-- EFEK GRADASI DIHAPUS --}}
+                        </div>
                     </div>
                 </div>
+                @empty
+                <p class="text-gray-600">Data pemangku jabatan belum tersedia.</p>
+                @endforelse
+            </div>
 
-                <!-- Sekretaris -->
-                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
-                    <div
-                        class="bg-gradient-to-br from-white to-sukorame-green/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
-                        <img src="https://i.pravatar.cc/150?img=2" alt="Sekretaris"
-                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
-                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Sekretaris</h4>
-                        <p class="text-gray-500 text-sm">Koordinasi Administratif</p>
-                    </div>
-                </div>
-
-                <!-- Kasi Pelayanan -->
-                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
-                    <div
-                        class="bg-gradient-to-br from-white to-sukorame-purple-light/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
-                        <img src="https://i.pravatar.cc/150?img=3" alt="Kasi Pelayanan"
-                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
-                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kasi Pelayanan</h4>
-                        <p class="text-gray-500 text-sm">Pelayanan Masyarakat</p>
-                    </div>
-                </div>
-
-                <!-- Kasi Keuangan -->
-                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
-                    <div
-                        class="bg-gradient-to-br from-white to-sukorame-green/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
-                        <img src="https://i.pravatar.cc/150?img=4" alt="Kasi Keuangan"
-                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
-                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kasi Keuangan</h4>
-                        <p class="text-gray-500 text-sm">Pengelolaan Keuangan Desa</p>
-                    </div>
-                </div>
-
-                <!-- Kasi Pembangunan -->
-                <div class="text-center transform hover:scale-[1.05] transition duration-500 hover:-translate-y-2">
-                    <div
-                        class="bg-gradient-to-br from-white to-sukorame-purple-light/30 p-4 rounded-2xl shadow-md hover:shadow-2xl">
-                        <img src="https://i.pravatar.cc/150?img=5" alt="Kasi Pembangunan"
-                            class="w-36 h-36 rounded-full object-cover border-4 border-sukorame-purple-light shadow-lg mx-auto">
-                        <h4 class="mt-4 font-bold text-lg text-sukorame-purple">Kasi Pembangunan</h4>
-                        <p class="text-gray-500 text-sm">Perencanaan dan Infrastruktur</p>
-                    </div>
-                </div>
+            {{-- KODE BARU: Footer Pemangku Jabatan (DIBAWAH CARD) --}}
+            <div class="mt-8 pt-8 border-t-4 border-sukorame-purple-light text-center">
+                <h3 class="text-3xl md:text-4xl font-extrabold text-sukorame-purple tracking-widest uppercase mb-2 drop-shadow-md">
+                    KANTOR KELURAHAN SUKORAME
+                </h3>
+                <p class="text-xl md:text-2xl font-bold text-sukorame-green-dark tracking-wide italic">
+                    Sepenuh Hati Mengabdi dan Melayani
+                </p>
             </div>
         </div>
     </section>

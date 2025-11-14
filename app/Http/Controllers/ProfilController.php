@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Profile; // Asumsi ada model untuk data profil
 use App\Models\Lembaga; // Asumsi ada model untuk data lembaga
+use App\Models\Pejabat; // TAMBAHKAN MODEL BARU
 use Illuminate\Validation\ValidationException;
 
 class ProfilController extends Controller
@@ -21,8 +22,11 @@ class ProfilController extends Controller
 
         // Ambil daftar lembaga
         $lembagaList = Lembaga::all();
+
+        // TAMBAHKAN: Ambil daftar pejabat untuk tab baru
+        $pejabatList = Pejabat::all();
         
-        return view('profil.index', compact('profileData', 'lembagaList'));
+        return view('profil.index', compact('profileData', 'lembagaList', 'pejabatList')); // Tambahkan 'pejabatList'
     }
 
     // ----------------------------------------------------------------------
@@ -170,5 +174,87 @@ class ProfilController extends Controller
         $lembaga->delete();
 
         return back()->with('success', 'Lembaga berhasil dihapus.');
+    }
+
+    // ----------------------------------------------------------------------
+    // Bagian 4: Pemangku Jabatan (CRUD) - KODE BARU
+    // ----------------------------------------------------------------------
+
+    /**
+     * Menyimpan data Pejabat baru (termasuk upload foto).
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storePejabat(Request $request)
+    {
+        $request->validate([
+            'jabatan' => 'required|string|max:100',
+            'deskripsi' => 'required|string|max:500',
+            'foto_pejabat' => 'required|image|mimes:jpeg,png,jpg|max:1024', // 1MB Max
+        ]);
+
+        // Simpan foto
+        $fotoPath = $request->file('foto_pejabat')->store('profil/pejabat', 'public');
+
+        Pejabat::create([
+            'jabatan' => $request->jabatan,
+            'deskripsi' => $request->deskripsi,
+            'foto_path' => $fotoPath,
+        ]);
+
+        return back()->with('success', 'Pejabat berhasil ditambahkan!');
+    }
+
+    /**
+     * Mengupdate data Pejabat (termasuk mengganti foto).
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Pejabat  $pejabat
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function updatePejabat(Request $request, Pejabat $pejabat)
+    {
+        $request->validate([
+            'jabatan' => 'required|string|max:100',
+            'deskripsi' => 'required|string|max:500',
+            // Foto tidak wajib jika hanya update data teks
+            'foto_pejabat' => 'nullable|image|mimes:jpeg,png,jpg|max:1024', 
+        ]);
+
+        $data = [
+            'jabatan' => $request->jabatan,
+            'deskripsi' => $request->deskripsi,
+        ];
+
+        // Cek jika ada file foto baru diupload
+        if ($request->hasFile('foto_pejabat')) {
+            // Hapus foto lama jika ada
+            if ($pejabat->foto_path && Storage::disk('public')->exists($pejabat->foto_path)) {
+                Storage::disk('public')->delete($pejabat->foto_path);
+            }
+            // Simpan foto baru
+            $data['foto_path'] = $request->file('foto_pejabat')->store('profil/pejabat', 'public');
+        }
+
+        $pejabat->update($data);
+
+        return back()->with('success', 'Data Pejabat berhasil diperbarui!');
+    }
+
+    /**
+     * Menghapus Pejabat.
+     * @param  \App\Models\Pejabat  $pejabat
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function destroyPejabat(Pejabat $pejabat)
+    {
+        // Hapus file foto dari storage
+        if ($pejabat->foto_path && Storage::disk('public')->exists($pejabat->foto_path)) {
+            Storage::disk('public')->delete($pejabat->foto_path);
+        }
+
+        // Hapus record dari database
+        $pejabat->delete();
+
+        return back()->with('success', 'Pejabat berhasil dihapus.');
     }
 }

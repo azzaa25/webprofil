@@ -17,6 +17,7 @@ use App\Services\RealtimeDatabaseService;
 
 
 use Exception;
+use App\Models\Pejabat; // <-- TAMBAHKAN INI
 
 
 class PublikController extends Controller
@@ -25,7 +26,10 @@ class PublikController extends Controller
     public function index()
     {
         $berita = Berita::latest()->get();
-        return view('welcome', compact('berita'));
+        // TAMBAHKAN: Ambil daftar pejabat untuk ditampilkan di Beranda
+        $pejabatList = Pejabat::all(); 
+        
+        return view('welcome', compact('berita', 'pejabatList')); // <-- KIRIMKAN DATA PEJABAT
     }
 
     // Halaman Galeri
