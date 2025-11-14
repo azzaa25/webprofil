@@ -73,9 +73,9 @@
                                 <a href="{{ url('/profil') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Struktur
                                     Organisasi</a>
-                                <a href="#"
+                                <a href="{{ url('/demografi') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Demografi</a>
-                                <a href="#"
+                                <a href="{{ url('/kependudukan') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Kependudukan</a>
                                 <a href="{{ url('/buku-tamu') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Buku Tamu</a>
@@ -141,9 +141,9 @@
                     <a href="{{ url('/profil') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('profil') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Struktur
                         Organisasi</a>
-                    <a href="#"
+                    <a href="{{ url('/demografi') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold text-sukorame-purple hover:bg-gray-200">Demografi</a>
-                    <a href="#"
+                    <a href="{{ url('/kependudukan') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold text-sukorame-purple hover:bg-gray-200">Kependudukan</a>
                     <a href="{{ url('/buku-tamu') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('buku-tamu') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Buku

@@ -11,7 +11,14 @@ use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\PublikController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\FirestoreController;
 use Illuminate\Support\Facades\Auth;
+use App\Services\FirebaseAccessToken;
+
+Route::get('/test-token', function () {
+    return FirebaseAccessToken::get();
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +36,9 @@ Route::get('/pelayanan', [PublikController::class, 'pelayanan'])->name('publik.p
 Route::get('/pelayanan/{id}', [PublikController::class, 'detailPelayanan'])->name('publik.detail_pelayanan');
 Route::get('/profil', [PublikController::class, 'profil'])->name('publik.profil');
 Route::get('/faq', [PublikController::class, 'faq'])->name('publik.faq');
+Route::get('/kependudukan', [PublikController::class, 'kependudukan'])->name('publik.kependudukan');
+Route::get('/demografi', [PublikController::class, 'demografi'])->name('publik.demografi');
+// Route::get('/penduduks', [PublikController::class, 'kependudukan']);
 
 /*
 |--------------------------------------------------------------------------
