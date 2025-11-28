@@ -28,8 +28,8 @@
             theme: {
                 extend: {
                     colors: {
-                        'sukorame-green': '#d7f27b',
-                        'sukorame-purple': '#4c3588',
+                        'sukorame-green': '#f8f9fa',
+                        'sukorame-purple': '#6f42c1',
                         'sukorame-purple-light': '#a89cc8',
                     },
                     fontFamily: {
@@ -95,8 +95,7 @@
                     <a href="{{ url('/galeri') }}"
                         class="font-semibold transition-colors duration-300 {{ Request::is('galeri') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">Galeri</a>
                     <a href="{{url('/faq')}}"
-                        class="font-semibold transition-colors duration-300 text-sukorame-purple hover:text-black">FAQ
-                        ?</a>
+                        class="font-semibold transition-colors duration-300 {{ Request::is('faq') ? 'text-black font-bold' : 'text-sukorame-purple hover:text-black' }}">FAQ?</a>
 
                     {{-- Tombol Login --}}
                     <a href="{{ url('/login') }}"
@@ -227,7 +226,50 @@
                         </svg>
                         <span>Senin s/d Jum'at : 08.00–15.30</span>
                     </div>
+                    <div class="mt-6">
+                        <h3 class="font-semibold mb-3">Ikuti Kami</h3>
+                        <div class="flex space-x-4">
+
+                            <!-- Facebook -->
+                            <a href="https://facebook.com/" target="_blank" class="hover:text-gray-300 transition">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M22 12a10 10 0 10-11.5 9.9v-7h-2v-3h2v-2.3c0-2 1.2-3.1 3-3.1 .9 0 1.8.1 2 .1v2.3h-1.1c-1 0-1.3.6-1.3 1.2V12h2.6l-.4 3h-2.2v7A10 10 0 0022 12">
+                                    </path>
+                                </svg>
+                            </a>
+
+                            <!-- Instagram -->
+                            <a href="https://instagram.com/" target="_blank" class="hover:text-gray-300 transition">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M7 2C4.24 2 2 4.24 2 7v10c0 2.76 2.24 5 5 5h10c2.76 0 5-2.24 5-5V7c0-2.76-2.24-5-5-5H7zm10 2c1.65 0 3 1.35 3 3v10c0 1.65-1.35 3-3 3H7c-1.65 0-3-1.35-3-3V7c0-1.65 1.35-3 3-3h10zm-5 3.5A4.5 4.5 0 1112 17a4.5 4.5 0 010-9zm5.25-.88a1.12 1.12 0 11-2.25 0 1.12 1.12 0 012.25 0z" />
+                                </svg>
+                            </a>
+
+                            <!-- YouTube -->
+                            <a href="https://youtube.com/" target="_blank" class="hover:text-gray-300 transition">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M21.8 8.001a2.75 2.75 0 00-1.93-1.948C17.9 5.5 12 5.5 12 5.5s-5.9 0-7.87.553A2.75 2.75 0 002.2 8.001C1.75 9.98 1.75 12 1.75 12s0 2.02.45 3.999a2.75 2.75 0 001.93 1.949C6.1 18.5 12 18.5 12 18.5s5.9 0 7.87-.552a2.75 2.75 0 001.93-1.949C22.25 14.02 22.25 12 22.25 12s0-2.02-.45-3.999zM10 15.5v-7l6 3.5-6 3.5z" />
+                                </svg>
+                            </a>
+
+                            <!-- WhatsApp -->
+                            <!-- <a href="https://wa.me/6280000000000" target="_blank"
+                                class="hover:text-gray-300 transition">
+                                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12.04 2a9.93 9.93 0 00-8.65 14.86L2 22l5.29-1.38A9.93 9.93 0 1012.04 2zm5.72 14.34c-.24.67-1.38 1.3-1.91 1.38-.51.08-1.14.12-1.84-.11a16.27 16.27 0 01-1.74-.77 7.86 7.86 0 01-3.14-2.78A9.35 9.35 0 018 11.24c.09-.2.16-.44.25-.63.08-.19.13-.32.24-.5s.24-.3.36-.34.24-.02.34-.02h.24c.08 0 .18-.04.27.2.09.24.3.74.33.79s.05.12.01.2-.07.12-.15.2-.16.18-.23.24c-.08.08-.16.18-.07.35.1.18.45.74.97 1.2.67.6 1.23.8 1.41.9s.27.08.37-.05.43-.5.54-.67.23-.14.37-.08 1.01.47 1.18.55.29.12.33.19.04.68-.2 1.35z" />
+                                </svg>
+                            </a> -->
+
+                        </div>
+                    </div>
+
                 </div>
+
+
 
                 <div class="text-center">
                     <h2 class="font-bold text-white mb-2">Peta Wilayah</h2>

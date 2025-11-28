@@ -3,7 +3,7 @@
 @section('title', 'Pelayanan')
 
 @section('content')
-    <div class="bg-[#f9fdf5] py-14 px-6 md:px-10 overflow-hidden">
+    <div class=" py-14 px-6 md:px-10 overflow-hidden">
         <div class="container mx-auto max-w-6xl">
 
             {{-- Header --}}
@@ -18,24 +18,24 @@
 
             {{-- Janji & Jenis Pelayanan --}}
             <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                <div class="bg-[#D4F36B] p-8 rounded-2xl shadow-md border border-[#C5E25E]
+                <div class="bg-sukorame-purple p-8 rounded-2xl shadow-md border border-sukorame-green]
                                 transition-all duration-300 ease-in-out 
                                 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.01]">
-                    <h2 class="font-poppins text-lg font-bold uppercase mb-4 text-gray-900 border-b-2 border-gray-900 pb-2">
+                    <h2 class="font-poppins text-lg font-bold uppercase mb-4 text-white border-b-2 border-white/40 pb-2">
                         Janji Pelayanan
                     </h2>
-                    <p class="font-poppins text-gray-800 text-base leading-relaxed">
+                    <p class="font-poppins text-white text-base leading-relaxed">
                         Kami berkomitmen memberikan pelayanan publik yang cepat, mudah, ramah, transparan, dan akuntabel.
                     </p>
                 </div>
 
-                <div class="bg-[#D4F36B] p-8 rounded-2xl shadow-md border border-[#C5E25E]
+                <div class="bg-sukorame-purple p-8 rounded-2xl shadow-md border border-sukorame-green
                                 transition-all duration-300 ease-in-out 
                                 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.01]">
-                    <h2 class="font-poppins text-lg font-bold uppercase mb-4 text-gray-900 border-b-2 border-gray-900 pb-2">
+                    <h2 class="font-poppins text-lg font-bold uppercase mb-4 text-white border-b-2 border-white/40 pb-2">
                         Jenis Pelayanan
                     </h2>
-                    <p class="font-poppins text-gray-800 text-base leading-relaxed">
+                    <p class="font-poppins text-white text-base leading-relaxed">
                         Pelayanan administrasi kependudukan, surat keterangan, perizinan, dan layanan sosial masyarakat.
                     </p>
                 </div>
@@ -64,7 +64,7 @@
                             </div>
 
                             <div class="flex items-center text-gray-600 text-sm mb-4">
-                                <i class="fas fa-clock mr-2 text-gsukorame-purple"></i>
+                                <i class="fas fa-clock mr-2 text-sukorame-purple"></i>
                                 {{ $item->waktu_layanan ?? 'Tidak ditentukan' }}
                             </div>
 

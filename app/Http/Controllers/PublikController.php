@@ -116,7 +116,8 @@ class PublikController extends Controller
     {
         $profil = Profile::first(); // ambil 1 data (misal hanya ada 1 baris profil)
         $lembaga = Lembaga::orderBy('nama', 'asc')->get();
-        return view('profil', compact('profil', 'lembaga'));
+        $pejabatList = Pejabat::all();
+        return view('profil', compact('profil', 'lembaga', 'pejabatList'));
     }
     public function faq()
     {
