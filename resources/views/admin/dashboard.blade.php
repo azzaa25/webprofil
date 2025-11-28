@@ -9,76 +9,99 @@
     </h4>
 </div>
 
-{{-- Kartu Statistik --}}
-<div class="row g-3 mb-3">
+{{-- Kartu Statistik (Ditingkatkan dengan Ikon dan Warna) --}}
+<div class="row g-4 mb-4">
+    {{-- Total Buku Tamu --}}
     <div class="col-sm-6 col-lg-4">
-        <div class="card card-custom p-3 h-100 shadow-sm text-center">
-            <h6>Total Buku Tamu</h6>
-            <h3>{{ $totalPengunjung }}</h3>
-            <small>Bulan Ini</small>
+        <div class="card p-3 shadow-lg border-0 h-100 bg-primary text-white">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-white-50 mb-0">Total Buku Tamu</h6>
+                    <h3 class="fw-bold">{{ $totalPengunjung }}</h3>
+                    <small>Bulan Ini</small>
+                </div>
+                <i class="bi bi-book-half display-4 opacity-50"></i>
+            </div>
         </div>
     </div>
+    
+    {{-- Total Berita --}}
     <div class="col-sm-6 col-lg-4">
-        <div class="card card-custom p-3 h-100 shadow-sm text-center">
-            <h6>Total Berita</h6>
-            <h3>{{ $beritaAktif }}</h3>
-            <small>Semua Kategori</small>
+        <div class="card p-3 shadow-lg border-0 h-100" style="background-color: #28a745; color: white;">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-white-50 mb-0">Total Berita</h6>
+                    <h3 class="fw-bold">{{ $beritaAktif }}</h3>
+                    <small>Semua Kategori</small>
+                </div>
+                <i class="bi bi-newspaper display-4 opacity-50"></i>
+            </div>
         </div>
     </div>
+    
+    {{-- Galeri Foto --}}
     <div class="col-sm-6 col-lg-4">
-        <div class="card card-custom p-3 h-100 shadow-sm text-center">
-            <h6>Galeri Foto</h6>
-            <h3>{{ $totalGaleri }}</h3>
-            <small>Jumlah Album</small>
+        <div class="card p-3 shadow-lg border-0 h-100 bg-info text-white">
+            <div class="d-flex align-items-center justify-content-between">
+                <div>
+                    <h6 class="text-white-50 mb-0">Galeri Foto</h6>
+                    <h3 class="fw-bold">{{ $totalGaleri }}</h3>
+                    <small>Jumlah Album</small>
+                </div>
+                <i class="bi bi-images display-4 opacity-50"></i>
+            </div>
         </div>
     </div>
 </div>
 
 {{-- Statistik & Aktivitas --}}
-<div class="row g-3 mb-3">
+<div class="row g-4">
     {{-- Grafik Statistik Kunjungan --}}
-    <div class="col-lg-6">
-        <div class="card card-custom p-3 h-100 shadow-sm">
-            <h6>📈 Statistik Kunjungan</h6>
-            <div class="position-relative" style="height:320px;">
+    <div class="col-lg-7">
+        <div class="card p-4 shadow-lg border-0 h-100">
+            <h5 class="card-title fw-bold text-secondary mb-3">📈 Statistik Kunjungan Bulanan</h5>
+            <div class="position-relative" style="height:350px;">
                 <canvas id="statistikChart"></canvas>
             </div>
         </div>
     </div>
 
     {{-- Aktivitas Terkini --}}
-    <div class="col-lg-6">
-        <div class="card card-custom p-3 h-100 shadow-sm">
-            <h6>🕓 Aktivitas Terkini</h6>
-            <ul class="small mb-3 overflow-auto" style="max-height:150px;">
-                <!-- <li>📘 Total pengunjung bulan ini: <strong>{{ $totalPengunjung }}</strong></li> -->
-                <li>📰 Total berita di sistem: <strong>{{ $beritaAktif }}</strong></li>
-                <li>🖼️ Total galeri foto: <strong>{{ $totalGaleri }}</strong></li>
-                <li>📅 Terakhir diperbarui: {{ \Carbon\Carbon::now()->format('d M Y, H:i') }}</li>
+    <div class="col-lg-5">
+        <div class="card p-4 shadow-lg border-0 h-100">
+            <h5 class="card-title fw-bold text-secondary mb-3">🕓 Aktivitas Terbaru</h5>
+            
+            <ul class="list-group list-group-flush small mb-3">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Total Berita Aktif
+                    <span class="badge bg-success rounded-pill">{{ $beritaAktif }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Total Album Galeri
+                    <span class="badge bg-info rounded-pill">{{ $totalGaleri }}</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center text-muted">
+                    Terakhir Diperbarui
+                    <small>{{ \Carbon\Carbon::now()->format('d M Y, H:i') }}</small>
+                </li>
             </ul>
 
-            <h6>🧾 Buku Tamu Terbaru</h6>
-            <div class="table-responsive">
-                <table class="table table-sm align-middle">
-                    <tbody>
-                        @forelse (\App\Models\BukuTamu::latest('tanggal')->take(3)->get() as $tamu)
-                        <tr>
-                            <td>
-                                {{ $tamu->nama_lengkap }}<br>
-                                <small class="text-muted">{{ $tamu->keperluan }}</small><br>
-                                <small class="text-muted">{{ \Carbon\Carbon::parse($tamu->tanggal)->translatedFormat('d M Y') }}</small>
-                            </td>
-                            <td class="text-end">
-                                <a href="{{ url('admin/buku-tamu') }}" class="btn btn-primary btn-sm">Lihat</a>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="2" class="text-center text-muted">Belum ada data buku tamu.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            <h6 class="mt-3 fw-bold text-primary">🧾 Buku Tamu Terbaru</h6>
+            <div class="list-group">
+                @forelse (\App\Models\BukuTamu::latest('tanggal')->take(3)->get() as $tamu)
+                <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="fw-bold">{{ $tamu->nama_lengkap }}</div>
+                        <small class="text-success">{{ $tamu->keperluan }}</small><br>
+                        <small class="text-muted">{{ \Carbon\Carbon::parse($tamu->tanggal)->translatedFormat('d M Y') }}</small>
+                    </div>
+                    <a href="{{ url('admin/buku-tamu') }}" class="btn btn-outline-primary btn-sm ms-2">Lihat</a>
+                </div>
+                @empty
+                <div class="alert alert-light text-center mb-0" role="alert">
+                    Belum ada data buku tamu terbaru.
+                </div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -93,24 +116,25 @@
     document.addEventListener('DOMContentLoaded', function () {
         
         // 1. NOTIFIKASI SUKSES LOGIN (Jika ada session 'success')
+        // Memastikan notifikasi hanya muncul sekali setelah login
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil Masuk',
-                text: "{{ session('success') }}", // Menampilkan pesan dari AuthController
+                text: "{{ session('success') }}",
                 timer: 2500,
                 showConfirmButton: false
             });
         @endif
     });
 
-    // Kode Chart.js Anda (tidak diubah)
+    // Kode Chart.js Anda (tetap dipertahankan dengan sedikit penyesuaian)
     const ctx = document.getElementById('statistikChart').getContext('2d');
 
-    // Buat gradasi warna untuk garis
-    const gradient = ctx.createLinearGradient(0, 0, 0, 300);
-    gradient.addColorStop(0, 'rgba(54, 162, 235, 0.4)');
-    gradient.addColorStop(1, 'rgba(54, 162, 235, 0)');
+    // Buat gradasi warna untuk area di bawah garis
+    const gradient = ctx.createLinearGradient(0, 0, 0, 350);
+    gradient.addColorStop(0, 'rgba(0, 123, 255, 0.6)'); // Biru Cerah
+    gradient.addColorStop(1, 'rgba(0, 123, 255, 0)');
 
     new Chart(ctx, {
         type: 'line',
@@ -119,13 +143,13 @@
             datasets: [{
                 label: 'Jumlah Pengunjung',
                 data: @json($dataStatistik),
-                borderColor: 'rgba(54, 162, 235, 1)',
+                borderColor: '#007bff', // Biru primary
                 backgroundColor: gradient,
                 borderWidth: 3,
-                tension: 0.4, // membuat garis lebih lembut
+                tension: 0.4, 
                 fill: true,
                 pointRadius: 5,
-                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                pointBackgroundColor: '#007bff', 
                 pointBorderColor: '#fff',
                 pointHoverRadius: 7,
                 pointHoverBorderWidth: 2,
@@ -138,12 +162,12 @@
                 y: {
                     beginAtZero: true,
                     ticks: {
-                        stepSize: 1, // biar 1, 2, 3, bukan 0,2,4
-                        precision: 0, // biar gak ada koma
+                        stepSize: 1, 
+                        precision: 0, 
                         color: '#555',
                     },
                     grid: {
-                        color: 'rgba(200, 200, 200, 0.2)',
+                        color: 'rgba(200, 200, 200, 0.4)',
                     }
                 },
                 x: {
@@ -164,7 +188,7 @@
                     }
                 },
                 tooltip: {
-                    backgroundColor: 'rgba(54, 162, 235, 0.9)',
+                    backgroundColor: 'rgba(0, 123, 255, 0.9)',
                     titleColor: '#fff',
                     bodyColor: '#fff',
                     callbacks: {

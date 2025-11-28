@@ -5,11 +5,15 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <h2 class="mb-4 text-primary">Tambah Pelayanan Baru</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
+            <h4 class="fw-bold text-primary">
+                <i class="bi bi-file-earmark-plus-fill me-2"></i> Tambah Pelayanan Baru
+            </h4>
+        </div>
         
         @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>🚨 Mohon Perhatian!</strong> Ada beberapa kesalahan pengisian data:
+            <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                <i class="bi bi-x-octagon-fill me-2"></i> <strong>🚨 Mohon Perhatian!</strong> Ada beberapa kesalahan pengisian data. Silakan periksa kembali kolom yang ditandai.
                 <ul class="mb-0 mt-2">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -19,74 +23,100 @@
             </div>
         @endif
         
-        <div class="card shadow-sm p-4 mb-4">
+        <div class="card shadow-lg p-4 mb-4">
             <form action="{{ route('admin.pelayanan.store') }}" method="POST">
                 @csrf
 
-                {{-- Nama Pelayanan --}}
-                <div class="mb-3">
-                    <label for="nama_pelayanan" class="form-label">Nama Jenis Pelayanan</label>
-                    {{-- Atribut required DIHAPUS agar pesan validasi dari Controller yang muncul --}}
-                    <input type="text" class="form-control @error('nama_pelayanan') is-invalid @enderror" id="nama_pelayanan" name="nama_pelayanan" value="{{ old('nama_pelayanan') }}">
-                    @error('nama_pelayanan')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                {{-- Group 1: Informasi Utama & Deskripsi --}}
+                <h5 class="text-info mb-3"><i class="bi bi-info-circle-fill me-2"></i> Informasi Utama</h5>
                 
+                <div class="row g-3">
+                    {{-- Nama Pelayanan --}}
+                    <div class="col-md-8 mb-3">
+                        <label for="nama_pelayanan" class="form-label fw-bold">Nama Jenis Pelayanan</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-tag-fill"></i></span>
+                            <input type="text" class="form-control @error('nama_pelayanan') is-invalid @enderror" id="nama_pelayanan" name="nama_pelayanan" value="{{ old('nama_pelayanan') }}" required>
+                        </div>
+                        @error('nama_pelayanan')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    
+                    {{-- Waktu Layanan --}}
+                    <div class="col-md-4 mb-3">
+                        <label for="waktu_layanan" class="form-label fw-bold">Waktu Layanan</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="bi bi-clock-fill"></i></span>
+                            <input type="text" class="form-control @error('waktu_layanan') is-invalid @enderror" id="waktu_layanan" name="waktu_layanan" value="{{ old('waktu_layanan') }}" placeholder="Contoh: 1 hari kerja" required>
+                        </div>
+                        @error('waktu_layanan')
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
                 {{-- Deskripsi Singkat --}}
-                <div class="mb-3">
-                    <label for="deskripsi" class="form-label">Deskripsi Singkat (Maks. 500 Karakter)</label>
-                    {{-- Atribut required DIHAPUS agar pesan validasi dari Controller yang muncul --}}
-                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="3">{{ old('deskripsi') }}</textarea>
+                <div class="mb-4">
+                    <label for="deskripsi" class="form-label fw-bold">Deskripsi Singkat (Penjelasan umum layanan)</label>
+                    <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="deskripsi" name="deskripsi" rows="3" required>{{ old('deskripsi') }}</textarea>
+                    <div class="form-text">Maksimal 500 karakter.</div>
                     @error('deskripsi')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <div class="row">
+                <hr class="my-4">
+
+                {{-- Group 2: Persyaratan & Proses --}}
+                <h5 class="text-info mb-3"><i class="bi bi-list-ol me-2"></i> Detail Prosedur</h5>
+                
+                <div class="row g-4">
                     {{-- Persyaratan --}}
-                    <div class="col-md-6 mb-3">
-                        <label for="persyaratan" class="form-label">Persyaratan (Tulis setiap poin di baris baru)</label>
-                        <textarea class="form-control @error('persyaratan') is-invalid @enderror" id="persyaratan" name="persyaratan" rows="5">{{ old('persyaratan') }}</textarea>
-                        <div class="form-text">Contoh: Fotokopi KTP, Fotokopi KK. Pisahkan dengan ENTER.</div>
+                    <div class="col-md-6">
+                        <label for="persyaratan" class="form-label fw-bold text-success"><i class="bi bi-file-earmark-check-fill me-1"></i> Persyaratan</label>
+                        <textarea class="form-control @error('persyaratan') is-invalid @enderror" id="persyaratan" name="persyaratan" rows="8" placeholder="Tulis setiap poin persyaratan di baris baru" required>{{ old('persyaratan') }}</textarea>
+                        <div class="form-text">Pisahkan setiap persyaratan dengan menekan tombol **ENTER**.</div>
                         @error('persyaratan')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
                     
                     {{-- Proses Pengurusan --}}
-                    <div class="col-md-6 mb-3">
-                        <label for="proses" class="form-label">Proses Pengurusan (Tulis setiap langkah di baris baru)</label>
-                        <textarea class="form-control @error('proses') is-invalid @enderror" id="proses" name="proses" rows="5">{{ old('proses') }}</textarea>
-                        <div class="form-text">Contoh: Ambil nomor antrian, Verifikasi data oleh petugas. Pisahkan dengan ENTER.</div>
+                    <div class="col-md-6">
+                        <label for="proses" class="form-label fw-bold text-success"><i class="bi bi-arrow-right-circle-fill me-1"></i> Proses Pengurusan</label>
+                        <textarea class="form-control @error('proses') is-invalid @enderror" id="proses" name="proses" rows="8" placeholder="Tulis setiap langkah proses di baris baru" required>{{ old('proses') }}</textarea>
+                        <div class="form-text">Pisahkan setiap langkah proses dengan menekan tombol **ENTER**.</div>
                         @error('proses')
-                            <div class="invalid-feedback">{{ $message }}</div>
+                            <div class="invalid-feedback d-block">{{ $message }}</div>
                         @enderror
                     </div>
                 </div>
 
-                {{-- Waktu Layanan --}}
-                <div class="mb-3">
-                    <label for="waktu_layanan" class="form-label">Waktu Layanan (Contoh: 1 hari kerja)</label>
-                    <input type="text" class="form-control @error('waktu_layanan') is-invalid @enderror" id="waktu_layanan" name="waktu_layanan" value="{{ old('waktu_layanan') }}" placeholder="Contoh: 1 hari kerja">
-                    @error('waktu_layanan')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
+                <hr class="my-4">
+
+                {{-- Group 3: Keterangan Tambahan --}}
+                <h5 class="text-info mb-3"><i class="bi bi-chat-left-text-fill me-2"></i> Keterangan Tambahan</h5>
                 
                 {{-- Keterangan Tambahan --}}
                 <div class="mb-4">
-                    <label for="keterangan" class="form-label">Keterangan Tambahan</label>
+                    <label for="keterangan" class="form-label fw-bold">Keterangan (Opsional, info penting lain)</label>
                     <textarea class="form-control @error('keterangan') is-invalid @enderror" id="keterangan" name="keterangan" rows="5">{{ old('keterangan') }}</textarea>
+                    <div class="form-text">Masukkan informasi tambahan yang relevan bagi pemohon.</div>
                     @error('keterangan')
-                        <div class="invalid-feedback">{{ $message }}</div>
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
                     @enderror
                 </div>
 
-                <button type="submit" class="btn btn-success me-2">
-                    <i class="bi bi-save me-1"></i> Simpan Layanan
-                </button>
-                <a href="{{ route('admin.pelayanan.index') }}" class="btn btn-outline-secondary">Batal</a>
+                {{-- Tombol Aksi --}}
+                <div class="mt-4 pt-3 border-top text-end">
+                    <a href="{{ route('admin.pelayanan.index') }}" class="btn btn-outline-secondary me-2 shadow-sm">
+                        <i class="bi bi-x-circle-fill me-1"></i> Batal
+                    </a>
+                    <button type="submit" class="btn btn-success shadow-sm">
+                        <i class="bi bi-save me-1"></i> Simpan Layanan
+                    </button>
+                </div>
             </form>
         </div>
     </div>

@@ -5,146 +5,156 @@
 @section('content')
 <div class="row">
     <div class="col-12">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-3">
             <h4 class="fw-bold text-primary">
-                <i class="bi bi-images me-2"></i> Kelola Galeri
+                <i class="bi bi-images me-2"></i> Kelola Galeri Album Foto
             </h4>
         </div>
         
-        {{-- Pesan Status (Dihapus, karena SweetAlert global di layouts/app.blade.php sudah menanganinya, dan SweetAlert lokal di bawah juga menanganinya.) --}}
-        
-        <div class="d-flex justify-content-between mb-4">
+        {{-- Tombol Aksi dan Search Bar --}}
+        <div class="d-flex justify-content-between flex-column flex-md-row align-items-stretch align-items-md-center mb-5">
+            
             {{-- Search Bar --}}
-            {{-- Tambahkan form GET untuk fungsi search --}}
-            <form action="{{ route('admin.galeri.index') }}" method="GET" class="d-flex me-3">
-                <input type="text" name="search" class="form-control me-2" style="width: 300px;" placeholder="Nama album/Kegiatan..." value="{{ request('search') }}">
-                <button type="submit" class="btn btn-outline-secondary">Cari</button>
+            <form action="{{ route('admin.galeri.index') }}" method="GET" class="d-flex me-md-3 mb-3 mb-md-0 w-100 w-md-50">
+                <div class="input-group shadow-sm">
+                    <input type="text" name="search" class="form-control" placeholder="Cari nama album/Kegiatan..." value="{{ request('search') }}">
+                    <button type="submit" class="btn btn-outline-primary" title="Cari"><i class="bi bi-search"></i></button>
+                    @if(request('search'))
+                        <a href="{{ route('admin.galeri.index') }}" class="btn btn-outline-danger" title="Reset Pencarian">
+                            <i class="bi bi-x-lg"></i>
+                        </a>
+                    @endif
+                </div>
             </form>
             
-            <a href="{{ route('admin.galeri.create') }}" class="btn btn-success">
+            <a href="{{ route('admin.galeri.create') }}" class="btn btn-success shadow-sm flex-shrink-0">
                 <i class="bi bi-plus-circle-fill me-1"></i> Tambah Album Baru
             </a>
         </div>
 
-        {{-- Tabel Daftar Album --}}
-        <div class="card shadow-sm">
-            <div class="table-responsive">
-                <table class="table table-striped table-hover align-middle mb-0">
-                    <thead class="table-light">
-                        <tr>
-                            <th style="width: 10%;">Cover</th>
-                            <th style="width: 40%;">Nama Album</th>
-                            <th style="width: 15%;">Jumlah Foto</th>
-                            <th style="width: 15%;">Tanggal</th>
-                            <th style="width: 20%;">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($albums as $album)
-                        <tr>
-                            <td>
-                                @if($album->cover_path)
-                                    <img src="{{ asset('storage/' . $album->cover_path) }}" 
-                                        alt="{{ $album->nama_album }}" 
-                                        class="img-fluid rounded shadow-sm" 
-                                        style="width: 60px; height: 60px; object-fit: cover;">
-                                @else
-                                    <i class="bi bi-image" style="font-size: 2rem; color: #ccc;"></i>
-                                @endif
-                            </td>
-                            <td>{{ $album->nama_album }}</td>
-                            <td>{{ $album->fotos_count }}</td>
-                            <td>{{ $album->tanggal->format('d/m/Y') }}</td>
-                            <td>
-                                {{-- Tombol LIHAT DETAIL --}}
-                                <button type="button" class="btn btn-info btn-sm me-2 text-white"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#detailAlbumModal{{ $album->id_galeri }}"
-                                    title="Lihat Detail Album">
-                                    <i class="bi bi-eye"></i>
-                                </button>
-                                
-                                {{-- Tombol Edit --}}
-                                <a href="{{ route('admin.galeri.edit', $album->id_galeri) }}" class="btn btn-primary btn-sm me-2" title="Edit">
-                                    <i class="bi bi-pencil-square"></i>
-                                </a>
-                                
-                                {{-- Tombol Hapus (Memicu SweetAlert) --}}
-                                <form action="{{ route('admin.galeri.destroy', $album->id_galeri) }}" 
-                                    method="POST" 
-                                    class="d-inline form-delete">
-                                    @csrf
-                                    @method('DELETE')
-                                    {{-- Hidden input untuk menyimpan nama, agar bisa ditampilkan di alert --}}
-                                    <input type="hidden" name="album_name" value="{{ $album->nama_album }}"> 
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                                        <i class="bi bi-trash-fill"></i>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        
-                        {{-- MODAL DETAIL ALBUM (Ditempatkan di dalam loop) --}}
-                        <div class="modal fade" id="detailAlbumModal{{ $album->id_galeri }}" tabindex="-1" aria-labelledby="detailAlbumModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-primary text-white">
-                                        <h5 class="modal-title" id="detailAlbumModalLabel">Detail Album: {{ $album->nama_album }}</h5>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <h6>Cover Album:</h6>
-                                        <div class="text-center mb-4 p-3 border rounded">
-                                            @if($album->cover_path)
-                                                <img src="{{ asset('storage/' . $album->cover_path) }}" 
-                                                    alt="Cover {{ $album->nama_album }}" 
-                                                    class="img-fluid rounded shadow-sm" 
-                                                    style="max-height: 250px;">
-                                            @else
-                                                <i class="bi bi-image-alt fs-1 text-muted"></i>
-                                                <p class="text-muted">Tidak ada foto cover.</p>
-                                            @endif
-                                        </div>
-
-                                        <h6>Detail Kegiatan:</h6>
-                                        <p><strong>Nama:</strong> {{ $album->nama_album }}</p>
-                                        <p><strong>Tanggal:</strong> {{ $album->tanggal->isoFormat('dddd, D MMMM YYYY') }}</p>
-                                        <p><strong>Total Foto:</strong> {{ $album->fotos_count }}</p>
-
-                                        <hr>
-                                        
-                                        <h6>Pratinjau Foto Album:</h6>
-                                        <div class="row g-2">
-                                            @forelse($album->fotos as $foto)
-                                                <div class="col-4 col-md-3">
-                                                    <img src="{{ asset('storage/' . $foto->foto_path) }}" 
-                                                        alt="Foto {{ $foto->id }}" 
-                                                        class="img-fluid rounded"
-                                                        style="width: 100%; height: 100px; object-fit: cover;">
-                                                </div>
-                                            @empty
-                                                <div class="col-12 text-muted small">Tidak ada foto detail di album ini.</div>
-                                            @endforelse
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="{{ route('admin.galeri.edit', $album->id_galeri) }}" class="btn btn-warning me-auto">
-                                            <i class="bi bi-pencil"></i> Edit Album
-                                        </a>
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                </div>
-                            </div>
+        {{-- Daftar Album (Card Grid View) --}}
+        <div class="row g-4">
+            @forelse($albums as $album)
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="card h-100 shadow-lg border-0 transform-on-hover">
+                    
+                    {{-- Cover Album --}}
+                    @if($album->cover_path)
+                        <img src="{{ asset('storage/' . $album->cover_path) }}" 
+                             class="card-img-top album-cover" 
+                             alt="Cover {{ $album->nama_album }}" 
+                             style="height: 180px; object-fit: cover;">
+                    @else
+                        <div class="card-img-top d-flex flex-column align-items-center justify-content-center bg-light text-muted" style="height: 180px;">
+                            <i class="bi bi-image display-4"></i>
+                            <p class="small mb-0">No Cover</p>
                         </div>
+                    @endif
+                    
+                    <div class="card-body d-flex flex-column p-3">
+                        <h6 class="card-title fw-bold text-dark mb-2 line-clamp-2" title="{{ $album->nama_album }}">
+                            {{ $album->nama_album }}
+                        </h6>
                         
-                        @empty
-                        <tr>
-                            <td colspan="5" class="text-center">Tidak ada Album Galeri yang ditemukan.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        {{-- Metadata --}}
+                        <div class="d-flex justify-content-between small text-muted mb-3">
+                            <span><i class="bi bi-calendar me-1"></i> {{ $album->tanggal->format('d/m/Y') }}</span>
+                            <span class="fw-bold text-primary">
+                                <i class="bi bi-camera-fill me-1"></i> {{ $album->fotos_count }} Foto
+                            </span>
+                        </div>
+
+                        {{-- Tombol Aksi --}}
+                        <div class="mt-auto d-flex justify-content-end gap-1 pt-2 border-top">
+                            {{-- Tombol LIHAT DETAIL --}}
+                            <button type="button" class="btn btn-info btn-sm text-white shadow-sm"
+                                data-bs-toggle="modal"
+                                data-bs-target="#detailAlbumModal{{ $album->id_galeri }}"
+                                title="Lihat Album">
+                                <i class="bi bi-eye"></i>
+                            </button>
+                            
+                            {{-- Tombol Edit --}}
+                            <a href="{{ route('admin.galeri.edit', $album->id_galeri) }}" class="btn btn-warning btn-sm shadow-sm" title="Edit Rincian">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            
+                            {{-- Tombol Hapus --}}
+                            <form action="{{ route('admin.galeri.destroy', $album->id_galeri) }}" 
+                                method="POST" 
+                                class="d-inline form-delete">
+                                @csrf
+                                @method('DELETE')
+                                <input type="hidden" name="album_name" value="{{ $album->nama_album }}">
+                                <button type="submit" class="btn btn-danger btn-sm shadow-sm" title="Hapus Album">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
+            
+            {{-- MODAL DETAIL ALBUM (Ditempatkan di dalam loop) --}}
+            <div class="modal fade" id="detailAlbumModal{{ $album->id_galeri }}" tabindex="-1" aria-labelledby="detailAlbumModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title fw-bold" id="detailAlbumModalLabel">
+                                <i class="bi bi-images me-2"></i> Detail Album: {{ $album->nama_album }}
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            
+                            {{-- Metadata Detail --}}
+                            <div class="alert alert-light p-3 small d-flex justify-content-between">
+                                <span><i class="bi bi-calendar-event me-1"></i> Tanggal Kegiatan: <strong>{{ $album->tanggal->isoFormat('dddd, D MMMM YYYY') }}</strong></span>
+                                <span><i class="bi bi-camera me-1"></i> Total Foto: <strong class="text-primary">{{ $album->fotos_count }}</strong></span>
+                            </div>
+                            
+                            <h6>Pratinjau Foto Album:</h6>
+                            <div class="row g-2 mt-3">
+                                @forelse($album->fotos as $foto)
+                                    <div class="col-6 col-md-3 col-lg-2">
+                                        <a href="{{ asset('storage/' . $foto->foto_path) }}" target="_blank" title="Lihat Gambar Asli">
+                                            <img src="{{ asset('storage/' . $foto->foto_path) }}" 
+                                                 alt="Foto {{ $foto->id }}" 
+                                                 class="img-fluid rounded shadow-sm border photo-thumbnail"
+                                                 style="width: 100%; height: 120px; object-fit: cover;">
+                                        </a>
+                                    </div>
+                                @empty
+                                    <div class="col-12">
+                                        <div class="alert alert-warning text-center">
+                                            <i class="bi bi-exclamation-triangle-fill me-1"></i> Album ini belum memiliki foto detail.
+                                        </div>
+                                    </div>
+                                @endforelse
+                            </div>
+                            
+                        </div>
+                        <div class="modal-footer d-flex justify-content-between">
+                            <a href="{{ route('admin.galeri.edit', $album->id_galeri) }}" class="btn btn-warning shadow-sm">
+                                <i class="bi bi-pencil me-2"></i> Edit Album & Foto Detail
+                            </a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            @empty
+            <div class="col-12">
+                <div class="alert alert-info border-0 shadow-sm p-4 text-center">
+                    <h5 class="mb-2"><i class="bi bi-info-circle-fill me-2"></i> Tidak Ada Album Galeri Ditemukan</h5>
+                    <p class="mb-0">Belum ada Album Galeri yang terdaftar atau sesuai dengan pencarian Anda.</p>
+                    <a href="{{ route('admin.galeri.create') }}" class="btn btn-info mt-3 text-white shadow-sm">
+                        <i class="bi bi-plus-circle-fill me-1"></i> Tambah Album Pertama Anda
+                    </a>
+                </div>
+            </div>
+            @endforelse
         </div>
 
         {{-- Pagination --}}
@@ -154,11 +164,8 @@
     </div>
 </div>
 
-{{-- MODAL KONFIRMASI HAPUS (DIHAPUS karena diganti SweetAlert) --}}
-
-
 @push('scripts')
-{{-- SweetAlert2 CDN (Ditambahkan untuk memastikan SweetAlert tersedia) --}}
+{{-- SweetAlert2 CDN --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -167,17 +174,17 @@
             form.addEventListener('submit', function (e) {
                 e.preventDefault(); 
 
-                // Ambil nama album dari hidden input yang baru ditambahkan
+                // Ambil nama album dari hidden input
                 const albumName = form.querySelector('input[name="album_name"]').value;
 
                 Swal.fire({
-                    title: 'Apakah kamu yakin?',
+                    title: 'Konfirmasi Hapus Album',
                     text: `Anda akan menghapus album "${albumName}" beserta semua fotonya. Data yang dihapus tidak bisa dikembalikan!`,
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#6c757d',
-                    confirmButtonText: 'Ya, hapus!',
+                    confirmButtonText: 'Ya, Hapus Album!',
                     cancelButtonText: 'Batal'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -187,8 +194,6 @@
             });
         });
 
-        // Logika session('success') untuk menampilkan notifikasi sukses
-        // (Dipertahankan, meskipun idealnya ada di layout global, untuk memastikan notifikasi muncul)
         @if(session('success'))
             Swal.fire({
                 icon: 'success',
