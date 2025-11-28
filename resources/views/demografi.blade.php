@@ -6,15 +6,15 @@
     <div class="bg-[#f9fdf5] py-12 px-4">
         <div class="max-w-7xl mx-auto bg-white shadow-lg rounded-2xl p-8">
             <div class="flex items-center mb-6 border-b pb-3">
-                <i class="fas fa-city text-green-600 text-2xl mr-3"></i>
-                <h2 class="text-2xl font-bold text-gray-800">Data Demografi Bangunan</h2>
+                <i class="fas fa-city text-sukorame-green text-2xl mr-3"></i>
+                <h2 class="text-2xl font-bold text-gray-800">Demografi Tempat</h2>
             </div>
 
             <div class="overflow-x-auto rounded-lg border border-gray-200">
                 <table class="w-full text-left text-gray-700">
-                    <thead class="bg-green-600 text-white uppercase text-sm">
+                    <thead class="bg-sukorame-green text-gray-900 uppercase text-sm">
                         <tr>
-                            <th class="py-3 px-4">Nama Bangunan</th>
+                            <th class="py-3 px-4">Nama Tempat</th>
                             <th class="py-3 px-4">Kategori</th>
                             <th class="py-3 px-4">Deskripsi</th>
                             <th class="py-3 px-4">RT</th>
@@ -67,8 +67,8 @@
             {{-- Jumlah total data --}}
             @if(count($bangunans) > 0)
                 <div class="mt-4 text-sm text-gray-600">
-                    <i class="fas fa-database mr-1 text-green-600"></i>
-                    Total Data: <span class="font-semibold text-gray-800">{{ count($bangunans) }}</span>
+                    <i class="fas fa-database mr-1 text-sukorame-green"></i>
+                    Total Tempat: <span class="font-semibold text-gray-800">{{ count($bangunans) }}</span>
                 </div>
             @endif
         </div>

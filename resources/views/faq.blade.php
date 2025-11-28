@@ -1,7 +1,7 @@
 {{-- Lokasi file: resources/views/faq.blade.php --}}
 @extends('layouts.nav_webprof')
 
-@section('title', 'FAQ - Kelurahan Sukorame')
+@section('title', 'FAQ')
 
 @section('content')
 <div class="bg-[#f9fdf5] py-14 px-6 md:px-10 overflow-hidden font-[Poppins]">

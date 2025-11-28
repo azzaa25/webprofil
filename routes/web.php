@@ -11,14 +11,17 @@ use App\Http\Controllers\PelayananController;
 use App\Http\Controllers\PublikController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminUserController;
-use App\Http\Controllers\FirestoreController;
-use Illuminate\Support\Facades\Auth;
 use App\Services\FirebaseAccessToken;
+use Illuminate\Support\Facades\Auth;
 
-Route::get('/test-token', function () {
-    return FirebaseAccessToken::get();
-});
-
+/*
+|--------------------------------------------------------------------------
+| TEST TOKEN
+|--------------------------------------------------------------------------
+*/
+// Route::get('/test-token', function () {
+//     return FirebaseAccessToken::get();
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +41,7 @@ Route::get('/profil', [PublikController::class, 'profil'])->name('publik.profil'
 Route::get('/faq', [PublikController::class, 'faq'])->name('publik.faq');
 Route::get('/kependudukan', [PublikController::class, 'kependudukan'])->name('publik.kependudukan');
 Route::get('/demografi', [PublikController::class, 'demografi'])->name('publik.demografi');
-// Route::get('/penduduks', [PublikController::class, 'kependudukan']);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,36 +49,44 @@ Route::get('/demografi', [PublikController::class, 'demografi'])->name('publik.d
 |--------------------------------------------------------------------------
 */
 Route::middleware('guest')->group(function () {
-    // Halaman Login
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
-
 });
 
 /*
 |--------------------------------------------------------------------------
-| ROUTE HALAMAN ADMIN
+| ROUTE ADMIN (TERLINDUNGI MIDDLEWARE AUTH)
 |--------------------------------------------------------------------------
 */
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('auth')->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+
+    // USER ADMIN
     Route::get('/user', [AdminUserController::class, 'index'])->name('admin.user.index');
     Route::post('/user', [AdminUserController::class, 'store'])->name('admin.user.store');
     Route::put('/user/{id}', [AdminUserController::class, 'update'])->name('admin.user.update');
     Route::delete('/user/{id}', [AdminUserController::class, 'destroy'])->name('admin.user.destroy');
-    // Dashboard Admin
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // PROFIL
     Route::get('/profil', [ProfilController::class, 'index'])->name('admin.profil.index');
     Route::put('/profil/update/{type}', [ProfilController::class, 'update'])->name('admin.profil.update');
     Route::post('/profil/struktur/upload', [ProfilController::class, 'uploadStruktur'])->name('admin.profil.upload_struktur');
     Route::delete('/profil/struktur/delete', [ProfilController::class, 'deleteStruktur'])->name('admin.profil.delete_struktur');
+
     Route::post('/lembaga', [ProfilController::class, 'storeLembaga'])->name('admin.lembaga.store');
     Route::put('/lembaga/{lembaga}', [ProfilController::class, 'updateLembaga'])->name('admin.lembaga.update');
     Route::delete('/lembaga/{lembaga}', [ProfilController::class, 'destroyLembaga'])->name('admin.lembaga.destroy');
-    Route::post('admin/profil/pejabat', [ProfilController::class, 'storePejabat'])->name('admin.pejabat.store');
-    Route::put('admin/profil/pejabat/{pejabat}', [ProfilController::class, 'updatePejabat'])->name('admin.pejabat.update');
-    Route::delete('admin/profil/pejabat/{pejabat}', [ProfilController::class, 'destroyPejabat'])->name('admin.pejabat.destroy');
+
+    // Routes untuk Gambar SOP Pelayanan
+    Route::post('/profil/upload-sop', [ProfilController::class, 'uploadGambarSOP'])->name('profil.upload_sop');
+    Route::delete('/profil/delete-sop', [ProfilController::class, 'deleteGambarSOP'])->name('profil.delete_sop');   
+
+    // PEJABAT
+    Route::post('/profil/pejabat', [ProfilController::class, 'storePejabat'])->name('admin.pejabat.store');
+    Route::put('/profil/pejabat/{pejabat}', [ProfilController::class, 'updatePejabat'])->name('admin.pejabat.update');
+    Route::delete('/profil/pejabat/{pejabat}', [ProfilController::class, 'destroyPejabat'])->name('admin.pejabat.destroy');
 
     // BERITA
     Route::resource('/berita', BeritaController::class)->parameters([
@@ -101,12 +112,12 @@ Route::prefix('admin')->group(function () {
 
 /*
 |--------------------------------------------------------------------------
-| ROUTE LOGOUT
+| LOGOUT
 |--------------------------------------------------------------------------
 */
 Route::post('/logout', function () {
     Auth::logout();
     request()->session()->invalidate();
     request()->session()->regenerateToken();
-    return redirect('/'); // kembali ke halaman publik
+    return redirect('/');
 })->name('logout');

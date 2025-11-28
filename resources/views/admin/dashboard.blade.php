@@ -13,7 +13,7 @@
 <div class="row g-3 mb-3">
     <div class="col-sm-6 col-lg-4">
         <div class="card card-custom p-3 h-100 shadow-sm text-center">
-            <h6>Total Pengunjung</h6>
+            <h6>Total Buku Tamu</h6>
             <h3>{{ $totalPengunjung }}</h3>
             <small>Bulan Ini</small>
         </div>
@@ -51,7 +51,7 @@
         <div class="card card-custom p-3 h-100 shadow-sm">
             <h6>🕓 Aktivitas Terkini</h6>
             <ul class="small mb-3 overflow-auto" style="max-height:150px;">
-                <li>📘 Total pengunjung bulan ini: <strong>{{ $totalPengunjung }}</strong></li>
+                <!-- <li>📘 Total pengunjung bulan ini: <strong>{{ $totalPengunjung }}</strong></li> -->
                 <li>📰 Total berita di sistem: <strong>{{ $beritaAktif }}</strong></li>
                 <li>🖼️ Total galeri foto: <strong>{{ $totalGaleri }}</strong></li>
                 <li>📅 Terakhir diperbarui: {{ \Carbon\Carbon::now()->format('d M Y, H:i') }}</li>

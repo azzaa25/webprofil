@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,7 +24,7 @@
       height: 520px;
       background: #fff;
       border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
       overflow: hidden;
     }
 
@@ -79,7 +80,8 @@
 
     /* CSS tambahan untuk pesan error kustom */
     .invalid-feedback {
-      display: block; /* Agar pesan muncul di bawah input */
+      display: block;
+      /* Agar pesan muncul di bawah input */
       font-size: 0.85rem;
       margin-top: 5px;
     }
@@ -98,8 +100,63 @@
     .btn-login:hover {
       background-color: #8b7de8;
     }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 992px) {
+      .auth-container {
+        width: 90%;
+        height: auto;
+        flex-direction: column;
+      }
+
+      .auth-left,
+      .auth-right {
+        flex: unset;
+        width: 100%;
+        padding: 30px 20px;
+        text-align: center;
+      }
+
+      .auth-left img {
+        width: 120px;
+      }
+
+      .auth-right h2 {
+        margin-top: 10px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      body {
+        padding: 20px;
+        height: auto;
+      }
+
+      .auth-container {
+        border-radius: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+      }
+
+      .auth-right {
+        padding: 25px 15px;
+      }
+
+      .auth-left h3 {
+        font-size: 18px;
+      }
+
+      .auth-left p {
+        font-size: 14px;
+      }
+
+      .btn-login {
+        padding: 10px;
+        font-size: 14px;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <div class="auth-container">
@@ -122,7 +179,7 @@
           {{ session('error') }}
         </div>
       @endif
-      
+
       {{-- Pesan Sukses (setelah logout) --}}
       @if(session('success'))
         <div class="alert alert-success" role="alert">
@@ -132,17 +189,12 @@
 
       <form method="POST" action="{{ route('login.submit') }}">
         @csrf
-        
+
         {{-- FIELD EMAIL --}}
         <div class="mb-3">
-          <input 
-            type="email" 
-            name="email" 
-            class="form-control @error('email') is-invalid @enderror" 
-            placeholder="Email"
-            value="{{ old('email') }}" {{-- Pertahankan input yang diisi sebelumnya --}}
-            {{-- Hapus atribut 'required' di sini --}}
-          >
+          <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email"
+            value="{{ old('email') }}" {{-- Pertahankan input yang diisi sebelumnya --}} {{-- Hapus atribut 'required'
+            di sini --}}>
           {{-- MENAMPILKAN PESAN VALIDASI EMAIL --}}
           @error('email')
             <div class="invalid-feedback">
@@ -150,16 +202,11 @@
             </div>
           @enderror
         </div>
-        
+
         {{-- FIELD PASSWORD --}}
         <div class="mb-3">
-          <input 
-            type="password" 
-            name="password" 
-            class="form-control @error('password') is-invalid @enderror" 
-            placeholder="Password"
-            {{-- Hapus atribut 'required' di sini --}}
-          >
+          <input type="password" name="password" class="form-control @error('password') is-invalid @enderror"
+            placeholder="Password" {{-- Hapus atribut 'required' di sini --}}>
           {{-- MENAMPILKAN PESAN VALIDASI PASSWORD --}}
           @error('password')
             <div class="invalid-feedback">
@@ -167,11 +214,12 @@
             </div>
           @enderror
         </div>
-        
+
         <button type="submit" class="btn btn-login">MASUK</button>
       </form>
     </div>
   </div>
 
 </body>
+
 </html>

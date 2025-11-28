@@ -1,16 +1,16 @@
 @extends('layouts.nav_webprof')
 
-@section('title', 'Galeri - Kelurahan Sukorame')
+@section('title', 'Galeri')
 
 @section('content')
 
 {{-- HEADER --}}
 <section class="text-center py-12 md:py-16 px-4 bg-[#f9fdf5]">
     <div class="container mx-auto">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6">
+        <h1 class="font-poppins text-4xl font-extrabold text-gray-900 leading-tight">
             Selamat Datang,<br>Di Galeri Kelurahan Sukorame
         </h1>
-        <p class="text-gray-600 mb-8 max-w-xl mx-auto">
+        <p class="text-gray-700 mb-8 max-w-xl mx-auto">
             Temukan berbagai dokumentasi kegiatan dan acara penting yang telah dilaksanakan di lingkungan Kelurahan Sukorame.
         </p>
     </div>
@@ -25,8 +25,8 @@
                     <div class="bg-white p-2 rounded-xl overflow-hidden relative">
                         <img src="{{ asset('storage/' . $album->cover_path) }}"
                              alt="{{ $album->nama_album }}"
-                             class="w-full h-48 object-cover rounded-lg transform group-hover:scale-105 transition-transform duration-500">
-                        <div class="absolute inset-0 rounded-xl bg-black bg-opacity-0 group-hover:bg-opacity-25 transition-all"></div>
+                             class="w-full h-48 object-cover rounded-lg transform transition-transform duration-500">
+                        <div class="absolute inset-0 rounded-xl bg-black bg-opacity-15 group-hover:bg-opacity-0 transition-all"></div>
                     </div>
                     <div class="mt-3 text-center">
                         <p class="font-semibold text-lg text-gray-800">

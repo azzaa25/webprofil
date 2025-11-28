@@ -1,7 +1,7 @@
 {{-- resources/views/kependudukan.blade.php --}}
 @extends('layouts.nav_webprof')
 
-@section('title', 'Struktur Kependudukan Kelurahan Sukorame')
+@section('title', ' Kependudukan ')
 
 @section('content')
     <div class="bg-[#f9fdf5] py-12 md:py-16 px-4">
@@ -28,15 +28,14 @@
 
             {{-- Bagian B --}}
             {{-- Bagian B --}}
-            <!-- <section class="mb-12">
+            <section class="mb-12">
                 <h2 class="text-xl font-semibold mb-4">B. Usia</h2>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full border border-gray-300">
-                        <thead class="bg-green-100">
+                    <table class="border border-gray-300">
+                        <thead class="bg-sukorame-green">
                             <tr>
                                 <th class="border px-4 py-2">Kelompok Usia</th>
-                                <th class="border px-4 py-2">Laki-laki</th>
-                                <th class="border px-4 py-2">Perempuan</th>
+                                <th class="border px-4 py-2">Jumlah</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -58,45 +57,45 @@
 
 
             {{-- Bagian C --}}
-            <section class="mb-12">
-                <h2 class="text-xl font-semibold mb-4">C. Pendidikan</h2>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full border border-gray-300">
-                        <thead class="bg-green-100">
-                            <tr>
-                                <th class="border px-4 py-2">Tingkat Pendidikan</th>
-                                <th class="border px-4 py-2">Laki-laki</th>
-                                <th class="border px-4 py-2">Perempuan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($pendidikan as $tingkat => $jumlah)
+            <!-- <section class="mb-12">
+                    <h2 class="text-xl font-semibold mb-4">C. Pendidikan</h2>
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full border border-gray-300">
+                            <thead class="bg-green-100">
                                 <tr>
-                                    <td class="border px-4 py-2">{{ $tingkat }}</td>
-                                    <td class="border px-4 py-2" colspan="2">{{ $jumlah }} orang</td>
+                                    <th class="border px-4 py-2">Tingkat Pendidikan</th>
+                                    <th class="border px-4 py-2">Laki-laki</th>
+                                    <th class="border px-4 py-2">Perempuan</th>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" class="text-center py-2">Tidak ada data pendidikan</td>
-                                </tr>
-                            @endforelse
+                            </thead>
+                            <tbody>
+                                @forelse ($pendidikan as $tingkat => $jumlah)
+                                    <tr>
+                                        <td class="border px-4 py-2">{{ $tingkat }}</td>
+                                        <td class="border px-4 py-2" colspan="2">{{ $jumlah }} orang</td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="3" class="text-center py-2">Tidak ada data pendidikan</td>
+                                    </tr>
+                                @endforelse
 
-                        </tbody>
-                    </table>
-                </div>
-            </section> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section> -->
 
 
             {{-- Bagian D --}}
             <section>
-                <h2 class="text-xl font-semibold mb-4">B. Pekerjaan</h2>
+                <h2 class="text-xl font-semibold mb-4">C. Pekerjaan</h2>
                 <div class="overflow-x-auto">
-                    <table class="min-w-full border border-gray-300">
-                        <thead class="bg-green-100">
+                    <table class="border border-gray-300">
+                        <thead class="bg-sukorame-green">
                             <tr>
                                 <th class="border px-4 py-2">Jenis Pekerjaan</th>
                                 <th class="border px-4 py-2">Jumlah</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody>
@@ -111,6 +110,33 @@
                                 </tr>
                             @endforelse
 
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            {{-- Bagian E --}}
+            <section class="mt-12">
+                <h2 class="text-xl font-semibold mb-4">D. Agama</h2>
+                <div class="overflow-x-auto">
+                    <table class="border border-gray-300">
+                        <thead class="bg-sukorame-green">
+                            <tr>
+                                <th class="border px-4 py-2">Agama</th>
+                                <th class="border px-4 py-2">Jumlah</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($agama as $namaAgama => $jumlah)
+                                <tr>
+                                    <td class="border px-4 py-2">{{ $namaAgama }}</td>
+                                    <td class="border px-4 py-2">{{ $jumlah }} orang</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="2" class="text-center py-2">Tidak ada data agama</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

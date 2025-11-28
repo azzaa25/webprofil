@@ -15,6 +15,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+
 
     {{-- Alpine.js for interactivity (mobile menu) --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -70,7 +73,7 @@
                             <div class="py-1">
                                 <a href="{{ url('/') }}"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Beranda</a>
-                                <a href="{{ url('/profil') }}"
+                                <a href="{{ url('/profil') }}#struktur"
                                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Struktur
                                     Organisasi</a>
                                 <a href="{{ url('/demografi') }}"
@@ -105,11 +108,6 @@
 
                 {{-- Tombol Menu Mobile --}}
                 <div class="md:hidden flex items-center space-x-3">
-                    {{-- Tombol Login versi Mobile --}}
-                    <a href="{{ url('/login') }}"
-                        class="px-3 py-1 rounded-md bg-sukorame-purple text-white text-sm font-semibold hover:bg-sukorame-purple-light transition-colors">
-                        Login
-                    </a>
 
                     <button @click="open = !open" class="text-sukorame-purple focus:outline-none">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -122,8 +120,12 @@
         </div>
 
         {{-- Menu Mobile Dropdown --}}
+        {{-- Menu Mobile Dropdown --}}
         <div x-show="open" @click.away="open = false" class="md:hidden bg-sukorame-green border-t border-gray-200">
+
             <div x-data="{ subMenuOpen: false }">
+
+                {{-- Beranda + submenu --}}
                 <button @click="subMenuOpen = !subMenuOpen"
                     class="w-full flex items-center justify-between px-4 py-3 text-sm font-semibold text-left text-sukorame-purple hover:bg-sukorame-purple hover:text-white">
                     <span>Beranda</span>
@@ -138,29 +140,57 @@
                 <div x-show="subMenuOpen" x-transition class="bg-gray-100">
                     <a href="{{ url('/') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('/') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Beranda</a>
-                    <a href="{{ url('/profil') }}"
+
+                    <a href="{{ url('/profil') }}#struktur"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('profil') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Struktur
                         Organisasi</a>
+
                     <a href="{{ url('/demografi') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold text-sukorame-purple hover:bg-gray-200">Demografi</a>
+
                     <a href="{{ url('/kependudukan') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold text-sukorame-purple hover:bg-gray-200">Kependudukan</a>
+
                     <a href="{{ url('/buku-tamu') }}"
                         class="block pl-8 pr-4 py-2 text-sm font-semibold {{ Request::is('buku-tamu') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-gray-200' }}">Buku
                         Tamu</a>
                 </div>
             </div>
 
+            {{-- Link Menu Utama --}}
             <a href="{{ url('/profil') }}"
-                class="block px-4 py-3 text-sm font-semibold {{ Request::is('profil') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Profil</a>
+                class="block px-4 py-3 text-sm font-semibold {{ Request::is('profil') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple-light hover:text-white' }}">
+                Profil
+            </a>
+
             <a href="{{ url('/pelayanan') }}"
-                class="block px-4 py-3 text-sm font-semibold {{ Request::is('pelayanan') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Pelayanan</a>
+                class="block px-4 py-3 text-sm font-semibold {{ Request::is('pelayanan') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple-light hover:text-white' }}">
+                Pelayanan
+            </a>
+
             <a href="{{ url('/berita') }}"
-                class="block px-4 py-3 text-sm font-semibold {{ Request::is('berita') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Berita</a>
+                class="block px-4 py-3 text-sm font-semibold {{ Request::is('berita') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple-light hover:text-white' }}">
+                Berita
+            </a>
+
             <a href="{{ url('/galeri') }}"
-                class="block px-4 py-3 text-sm font-semibold {{ Request::is('galeri') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple hover:text-white' }}">Galeri</a>
-            <a href="{{url('/faq')}}" class="block px-4 py-3 text-sm font-semibold">FAQ ?</a>
+                class="block px-4 py-3 text-sm font-semibold {{ Request::is('galeri') ? 'bg-sukorame-purple text-white' : 'text-sukorame-purple hover:bg-sukorame-purple-light hover:text-white' }}">
+                Galeri
+            </a>
+
+            <a href="{{ url('/faq') }}"
+                class="block px-4 py-3 text-sm font-semibold text-sukorame-purple hover:bg-sukorame-purple-light hover:text-white">
+                FAQ ?
+            </a>
+
+            {{-- LOGIN dipindah ke dalam menu mobile --}}
+            <a href="{{ url('/login') }}"
+                class="block mx-4 my-4 text-center px-4 py-2 rounded-lg bg-sukorame-purple text-white font-semibold hover:bg-sukorame-purple-light transition-colors duration-300">
+                Login
+            </a>
+
         </div>
+
     </header>
 
     <main>
@@ -187,7 +217,7 @@
                                 d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
                             </path>
                         </svg>
-                        <span>Kelurahan.Sukorame@gmail.com</span>
+                        <span>kelurahan.sukorame@gmail.com</span>
                     </div>
                     <div class="flex items-center">
                         <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"

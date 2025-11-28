@@ -21,6 +21,7 @@ class Profile extends Model
         'misi',
         'sejarah',
         'struktur_path',
+        'gambar_sop',
     ];
 
     protected $hidden = [

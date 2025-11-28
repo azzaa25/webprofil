@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Storage;
 use App\Services\FirestoreService;
 use Kreait\Firebase\Factory;
 use App\Services\RealtimeDatabaseService;
-
-
+use Carbon\Carbon;
 use Exception;
-use App\Models\Pejabat; // <-- TAMBAHKAN INI
+use App\Models\Pejabat;
+use App\Models\Lembaga;
 
 
 class PublikController extends Controller
@@ -27,8 +27,8 @@ class PublikController extends Controller
     {
         $berita = Berita::latest()->get();
         // TAMBAHKAN: Ambil daftar pejabat untuk ditampilkan di Beranda
-        $pejabatList = Pejabat::all(); 
-        
+        $pejabatList = Pejabat::all();
+
         return view('welcome', compact('berita', 'pejabatList')); // <-- KIRIMKAN DATA PEJABAT
     }
 
@@ -41,7 +41,7 @@ class PublikController extends Controller
         // Ambil gambar slider dari berita
         $sliderImages = Berita::whereNotNull('gambar')
             ->latest('tanggal_publikasi')
-            ->take(5)
+            ->take(3)
             ->pluck('gambar');
 
         return view('galeri', compact('albums', 'sliderImages'));
@@ -105,8 +105,9 @@ class PublikController extends Controller
             ->orderBy('tanggal_publikasi', 'desc')
             ->take(3)
             ->get();
+        $profileData = Profile::firstOrCreate(['id_profil' => 1]);
 
-        return view('detail_pelayanan', compact('pelayanan', 'lainnya'));
+        return view('detail_pelayanan', compact('pelayanan', 'lainnya', 'profileData'));
     }
 
 
@@ -114,7 +115,8 @@ class PublikController extends Controller
     public function profil()
     {
         $profil = Profile::first(); // ambil 1 data (misal hanya ada 1 baris profil)
-        return view('profil', compact('profil'));
+        $lembaga = Lembaga::orderBy('nama', 'asc')->get();
+        return view('profil', compact('profil', 'lembaga'));
     }
     public function faq()
     {
@@ -139,49 +141,36 @@ class PublikController extends Controller
     public function kependudukan()
     {
         try {
-            // Ambil semua dokumen dari Firestore (tanpa variabel collection)
-            $rawData = $this->firestore->getAll('users'); // langsung nama koleksi
 
-            $documents = $rawData['documents'] ?? [];
+            // Ambil data dari Realtime Database
+            $rawData = $this->rtdb->getAll('penduduks');
+            $dataWarga = is_array($rawData) ? array_values($rawData) : [];
 
-            $dataWarga = [];
-
-            // 🔹 Konversi struktur Firestore ke array biasa
-            foreach ($documents as $doc) {
-                $fields = $doc['fields'] ?? [];
-                $item = [];
-
-                foreach ($fields as $key => $value) {
-                    $item[$key] = $value['stringValue']
-                        ?? $value['integerValue']
-                        ?? $value['doubleValue']
-                        ?? $value['booleanValue']
-                        ?? null;
-                }
-
-                $dataWarga[] = $item;
-            }
-
-            // 🔹 Hitung jumlah berdasarkan jenis kelamin
+            //------------------------------------------------------
+            // 1. Hitung jumlah berdasarkan jenis kelamin
+            //------------------------------------------------------
             $jumlahLaki = 0;
             $jumlahPerempuan = 0;
             $jumlahAnomali = 0;
 
             foreach ($dataWarga as $warga) {
-                $jk = strtolower($warga['jenisKelamin'] ?? '');
+
+                $jk = strtolower($warga['jenisKelamin'] ?? $warga['jeniskelamin'] ?? '');
 
                 if (in_array($jk, ['laki-laki', 'l', 'male'])) {
                     $jumlahLaki++;
                 } elseif (in_array($jk, ['perempuan', 'p', 'female'])) {
                     $jumlahPerempuan++;
-                } elseif (in_array($jk, ['', 'anomali'])) {
+                } else {
                     $jumlahAnomali++;
                 }
             }
 
             $totalPenduduk = $jumlahLaki + $jumlahPerempuan + $jumlahAnomali;
 
-            // 🔹 Hitung distribusi usia (kelompok umur)
+            //------------------------------------------------------
+            // 2. Hitung kelompok usia berdasarkan tanggal lahir
+            //------------------------------------------------------
             $kelompokUsia = [
                 '0-12 bulan' => 0,
                 '1-5 tahun' => 0,
@@ -193,9 +182,24 @@ class PublikController extends Controller
                 '60+ tahun' => 0,
             ];
 
-            foreach ($dataWarga as $w) {
-                $usia = (int) ($w['usia'] ?? 0);
+            foreach ($dataWarga as &$w) {
 
+                $tgl = $w['tanggalLahir'] ?? null;
+
+                if ($tgl) {
+                    try {
+                        $usia = Carbon::parse($tgl)->age;
+                    } catch (Exception $e) {
+                        $usia = 0;
+                    }
+                } else {
+                    $usia = 0;
+                }
+
+                // Simpan usia agar bisa ditampilkan di blade jika perlu
+                $w['usia'] = $usia;
+
+                // Kelompokkan usia
                 if ($usia <= 1)
                     $kelompokUsia['0-12 bulan']++;
                 elseif ($usia <= 5)
@@ -214,21 +218,36 @@ class PublikController extends Controller
                     $kelompokUsia['60+ tahun']++;
             }
 
-            // 🔹 Hitung distribusi pendidikan
+            //------------------------------------------------------
+            // 3. Distribusi Pendidikan
+            //------------------------------------------------------
             $pendidikan = [];
             foreach ($dataWarga as $w) {
                 $p = ucfirst(strtolower($w['pendidikan'] ?? 'Tidak diketahui'));
                 $pendidikan[$p] = ($pendidikan[$p] ?? 0) + 1;
             }
 
-            // 🔹 Hitung distribusi pekerjaan
+            //------------------------------------------------------
+            // 4. Distribusi Pekerjaan
+            //------------------------------------------------------
             $pekerjaan = [];
             foreach ($dataWarga as $w) {
                 $p = ucfirst(strtolower($w['pekerjaan'] ?? 'Tidak diketahui'));
                 $pekerjaan[$p] = ($pekerjaan[$p] ?? 0) + 1;
             }
 
-            // 🔹 Kirim semua data ke view
+            //------------------------------------------------------
+            // 4. Distribusi Agamo
+            //------------------------------------------------------
+            $agama = [];
+            foreach ($dataWarga as $w) {
+                $a = ucfirst(strtolower($w['agama'] ?? 'Tidak diketahui'));
+                $agama[$a] = ($agama[$a] ?? 0) + 1;
+            }
+
+            //------------------------------------------------------
+            // RETURN KE VIEW
+            //------------------------------------------------------
             return view('kependudukan', [
                 'jumlahLaki' => $jumlahLaki,
                 'jumlahPerempuan' => $jumlahPerempuan,
@@ -237,11 +256,14 @@ class PublikController extends Controller
                 'kelompokUsia' => $kelompokUsia,
                 'pendidikan' => $pendidikan,
                 'pekerjaan' => $pekerjaan,
+                'agama' => $agama,
                 'dataWarga' => $dataWarga
             ]);
 
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 
@@ -270,6 +292,7 @@ class PublikController extends Controller
 
         return view('demografi', compact('bangunans'));
     }
+
 
 
 }

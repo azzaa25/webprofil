@@ -21,7 +21,6 @@ class Pelayanan extends Model
         'keterangan',
         'dibuat_oleh',
         'tanggal_publikasi',
-        'jumlah_dilihat',
     ];
 
     protected $casts = [
