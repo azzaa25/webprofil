@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pelayanan;
+use App\Models\Profile; // TAMBAHKAN: Import Model Profile
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -14,6 +15,10 @@ class PelayananController extends Controller
      */
     public function index(Request $request)
     {
+        // AMBIL DATA PROFILE GLOBAL (Untuk menampilkan bagian SOP di view)
+        // Kita asumsikan record Profile dengan ID 1 adalah record konfigurasi global.
+        $profileData = Profile::firstOrCreate(['id_profil' => 1]);
+
         $query = Pelayanan::query();
         
         // Fitur Cari/Search
@@ -24,7 +29,8 @@ class PelayananController extends Controller
 
         $pelayananList = $query->latest()->paginate(10);
 
-        return view('pelayanan.index', compact('pelayananList'));
+        // KIRIM $profileData BERSAMA $pelayananList
+        return view('pelayanan.index', compact('pelayananList', 'profileData'));
     }
 
     /**
@@ -42,13 +48,13 @@ class PelayananController extends Controller
     {
         // 1. Definisikan Pesan Validasi Kustom
         $messages = [
-            'required'               => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
-            'max'                    => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
-            'unique'                 => '❌ **Nama Layanan** ini sudah ada. Mohon gunakan nama yang lain.',
+            'required'              => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'max'                   => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
+            'unique'                => '❌ **Nama Layanan** ini sudah ada. Mohon gunakan nama yang lain.',
 
             // Pesan spesifik
             'nama_pelayanan.required' => 'Nama Pelayanan wajib diisi.',
-            'deskripsi.required'     => 'Deskripsi pelayanan wajib diisi.',
+            'deskripsi.required'      => 'Deskripsi pelayanan wajib diisi.',
         ];
 
         // 2. Lakukan Validasi dengan Pesan Kustom
@@ -63,8 +69,12 @@ class PelayananController extends Controller
         ], $messages); // <-- PESAN KUSTOM DITERAPKAN DI SINI
         
         // Konversi string multi-baris menjadi array untuk disimpan sebagai JSON
-        $persyaratanArray = $validated['persyaratan'] ? explode("\n", trim($validated['persyaratan'])) : null;
-        $prosesArray = $validated['proses'] ? explode("\n", trim($validated['proses'])) : null;
+        $persyaratanArray = $validated['persyaratan'] ? array_map('trim', explode("\n", $validated['persyaratan'])) : null;
+        $prosesArray = $validated['proses'] ? array_map('trim', explode("\n", $validated['proses'])) : null;
+        
+        // Filter array untuk menghilangkan baris kosong
+        $persyaratanArray = $persyaratanArray ? array_filter($persyaratanArray) : null;
+        $prosesArray = $prosesArray ? array_filter($prosesArray) : null;
 
         Pelayanan::create([
             'nama_pelayanan' => $validated['nama_pelayanan'],
@@ -109,13 +119,13 @@ class PelayananController extends Controller
     {
         // 1. Definisikan Pesan Validasi Kustom
         $messages = [
-            'required'               => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
-            'max'                    => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
-            'unique'                 => '❌ **Nama Layanan** ini sudah ada. Mohon gunakan nama yang lain.',
+            'required'              => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'max'                   => 'Kolom **:attribute** terlalu panjang. Maksimal :max karakter.',
+            'unique'                => '❌ **Nama Layanan** ini sudah ada. Mohon gunakan nama yang lain.',
 
             // Pesan spesifik
             'nama_pelayanan.required' => 'Nama Pelayanan wajib diisi.',
-            'deskripsi.required'     => 'Deskripsi pelayanan wajib diisi.',
+            'deskripsi.required'      => 'Deskripsi pelayanan wajib diisi.',
         ];
 
         // 2. Lakukan Validasi dengan Pesan Kustom
@@ -135,8 +145,12 @@ class PelayananController extends Controller
         ], $messages); // <-- PESAN KUSTOM DITERAPKAN DI SINI
 
         // Konversi string multi-baris menjadi array untuk disimpan sebagai JSON
-        $persyaratanArray = $validated['persyaratan'] ? explode("\n", trim($validated['persyaratan'])) : null;
-        $prosesArray = $validated['proses'] ? explode("\n", trim($validated['proses'])) : null;
+        $persyaratanArray = $validated['persyaratan'] ? array_map('trim', explode("\n", $validated['persyaratan'])) : null;
+        $prosesArray = $validated['proses'] ? array_map('trim', explode("\n", $validated['proses'])) : null;
+        
+        // Filter array untuk menghilangkan baris kosong
+        $persyaratanArray = $persyaratanArray ? array_filter($persyaratanArray) : null;
+        $prosesArray = $prosesArray ? array_filter($prosesArray) : null;
 
         $pelayanan->update([
             'nama_pelayanan' => $validated['nama_pelayanan'],

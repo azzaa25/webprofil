@@ -54,7 +54,7 @@ class BeritaController extends Controller
     {
         // 1. Definisikan Pesan Kustom (Menggantikan pesan default)
         $messages = [
-            'required'            => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'required'            => ' Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
             'string'              => 'Kolom **:attribute** harus berupa teks.',
             'max'                 => 'Kolom **:attribute** tidak boleh lebih dari :max karakter.',
             'in'                  => 'Pilihan **:attribute** tidak valid.',
@@ -131,7 +131,7 @@ class BeritaController extends Controller
 
         // 1. Definisikan Pesan Kustom
         $messages = [
-            'required'            => '⚠️ Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
+            'required'            => ' Kolom **:attribute** wajib diisi. Mohon periksa kembali.',
             'string'              => 'Kolom **:attribute** harus berupa teks.',
             'max'                 => 'Kolom **:attribute** tidak boleh lebih dari :max karakter.',
             'in'                  => 'Pilihan **:attribute** tidak valid.',

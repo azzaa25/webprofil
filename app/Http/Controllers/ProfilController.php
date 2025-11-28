@@ -257,4 +257,64 @@ class ProfilController extends Controller
 
         return back()->with('success', 'Pejabat berhasil dihapus.');
     }
+
+    // ----------------------------------------------------------------------
+    // Bagian 5: Gambar SOP Pelayanan (Upload Gambar Global) - KODE BARU
+    // ----------------------------------------------------------------------
+
+    /**
+     * Mengupload atau mengganti gambar SOP Pelayanan (gambar global).
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function uploadGambarSOP(Request $request)
+    {
+        // Validasi input: wajib ada, harus gambar, format tertentu, maks 2MB
+        $request->validate([
+            'gambar_sop_image' => 'required|image|mimes:jpeg,png,jpg|max:2048', // 2MB Max
+        ]);
+
+        // Selalu ambil atau buat record konfigurasi dengan ID 1
+        $profile = Profile::firstOrCreate(['id_profil' => 1]);
+
+        // Hapus gambar lama (jika ada) dari storage
+        if ($profile->gambar_sop && Storage::disk('public')->exists($profile->gambar_sop)) {
+            Storage::disk('public')->delete($profile->gambar_sop);
+        }
+
+        // Simpan gambar baru ke storage
+        // Menyimpan di folder 'profil/sop'
+        $path = $request->file('gambar_sop_image')->store('profil/sop', 'public');
+        
+        // Update path di database
+        $profile->gambar_sop = $path;
+        $profile->save();
+
+        return back()->with('success', 'Gambar SOP Pelayanan berhasil diupload/diperbarui!');
+    }
+
+    /**
+     * Menghapus gambar SOP Pelayanan (gambar global).
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function deleteGambarSOP()
+    {
+        // Selalu ambil atau buat record konfigurasi dengan ID 1
+        $profile = Profile::firstOrCreate(['id_profil' => 1]);
+
+        // Cek apakah ada file yang harus dihapus
+        if ($profile->gambar_sop && Storage::disk('public')->exists($profile->gambar_sop)) {
+            
+            // Hapus file dari storage
+            Storage::disk('public')->delete($profile->gambar_sop);
+            
+            // Hapus path dari database
+            $profile->gambar_sop = null;
+            $profile->save();
+            
+            return back()->with('success', 'Gambar SOP Pelayanan berhasil dihapus.');
+        }
+
+        return back()->with('error', 'Tidak ada gambar SOP Pelayanan untuk dihapus.');
+    }
 }

@@ -1,7 +1,7 @@
 {{-- Lokasi file: resources/views/bukutamu.blade.php --}}
 @extends('layouts.nav_webprof')
 
-@section('title', 'Buku Tamu - Kelurahan Sukorame')
+@section('title', 'Buku Tamu')
 
 @section('content')
     <section class="bg-[#f9fdf5] py-16 md:py-24 px-6">
@@ -12,7 +12,7 @@
                     Buku Tamu Kelurahan Sukorame
                 </h1>
                 <p class="text-lg md:text-xl italic text-gray-700 mt-2">
-                    Silakan isi formulir berikut sesuai keperluan Anda ✍️
+                    Silakan isi formulir berikut sesuai keperluan Anda
                 </p>
             </div>
 
@@ -81,7 +81,7 @@
                 <div class="pt-4">
                     <button
                         type="submit"
-                        class="w-full bg-[#d7f27b] text-sukorame-purple font-bold uppercase py-3 rounded-full shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-in-out">
+                        class="w-full bg-[#d7f27b] text-sukorame-purple font-bold uppercase py-3 rounded-full shadow-md hover:shadow-xl  transition-all duration-300 ease-in-out">
                         Kirim Buku Tamu
                     </button>
                 </div>
@@ -95,9 +95,9 @@
                 <p class="text-lg italic text-gray-700 mt-2">Lapor Mbak Wali <span class="font-semibold text-black">112</span></p>
 
                 {{-- Tombol Lapor --}}
-                <a href="https://lapor.go.id"
+                <a href="https://lapormbakwali.kedirikota.go.id/"
                     target="_blank"
-                    class="inline-block mt-6 bg-sukorame-purple text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#b392f5] hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                    class="inline-block mt-6 bg-sukorame-purple text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#b392f5] hover:shadow-xl transition-all duration-300">
                     Lapor Sekarang
                 </a>
             </div>
