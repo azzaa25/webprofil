@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- HEADER --}}
-<section class="text-center py-12 md:py-16 px-4 bg-[#f9fdf5]">
+<section class="text-center py-12 md:py-16 px-4 bg-white">
     <div class="container mx-auto">
         <h1 class="font-poppins text-4xl font-extrabold text-gray-900 leading-tight">
             Selamat Datang,<br>Di Galeri Kelurahan Sukorame
@@ -17,11 +17,11 @@
 </section>
 
 {{-- GRID GALERI --}}
-<section class="py-12 md:py-20 bg-[#f9fdf5]">
+<section class="py-12 md:py-20 bg-white">
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach ($albums as $album)
-                <a href="{{ route('publik.galeri_detail', $album->id_galeri) }}" class="group bg-[#cbb2ff] rounded-2xl p-4 shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+                <a href="{{ route('publik.galeri_detail', $album->id_galeri) }}" class="group bg-sukorame-green rounded-2xl p-4 shadow-md hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
                     <div class="bg-white p-2 rounded-xl overflow-hidden relative">
                         <img src="{{ asset('storage/' . $album->cover_path) }}"
                              alt="{{ $album->nama_album }}"
@@ -42,9 +42,9 @@
 </section>
 
 {{-- SLIDER BERITA --}}
-<section class="py-12 md:py-20 px-4 bg-[#f9fdf5]">
+<section class="py-12 md:py-20 px-4 bg-white">
     <div class="container mx-auto max-w-4xl relative">
-        <div id="sliderContainer" class="bg-[#d4f78f] p-4 rounded-2xl shadow-xl overflow-hidden relative">
+        <div id="sliderContainer" class="bg-sukorame-green p-4 rounded-2xl shadow-xl overflow-hidden relative">
             <div id="sliderTrack" class="flex transition-transform duration-700 ease-in-out">
                 @foreach ($sliderImages as $gambar)
                     <div class="min-w-full">

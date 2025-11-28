@@ -13,8 +13,9 @@
         </div>
         <div class="relative z-10 container mx-auto px-6">
             <h1 class="text-4xl md:text-6xl font-extrabold mb-6 drop-shadow-lg tracking-wide">
-                KOTA KEDIRI MAPAN
+                KOTA KEDIRI M<span class="text-[#dc3545]">A</span>PAN
             </h1>
+
             @php
                 $beritaTerbaru = $berita->take(3);
             @endphp
@@ -75,12 +76,12 @@
 
                 <div class="group p-8 rounded-2xl shadow-md hover:shadow-2xl hover:scale-[1.03] transition duration-500 transform hover:-translate-y-1 
 
-                                       /* Default State (Warna Solid Terang) */
-                                       bg-sukorame-purple text-white  
-                                       flex flex-col justify-center items-center text-center h-64 relative overflow-hidden
+                                           /* Default State (Warna Solid Terang) */
+                                           bg-sukorame-purple text-white  
+                                           flex flex-col justify-center items-center text-center h-64 relative overflow-hidden
 
-                                       /* Hover State (Warna Solid Gelap - Disesuaikan) */
-                                       hover:bg-sukorame-purple hover:text-white hover:border-sukorame-purple">
+                                           /* Hover State (Warna Solid Gelap - Disesuaikan) */
+                                           hover:bg-sukorame-purple hover:text-white hover:border-sukorame-purple">
 
                     <div class="flex flex-col items-center justify-center transition-all duration-500">
                         <i class="fas fa-file-alt text-4xl mb-3 group-hover:text-white transition-colors duration-500"></i>
@@ -90,11 +91,11 @@
 
                     <p class="text-sm leading-relaxed mt-4 max-w-xs transition-opacity duration-500 ease-in-out 
 
-                                          /* Awalnya tersembunyi */
-                                          opacity-0 h-0 overflow-hidden 
+                                              /* Awalnya tersembunyi */
+                                              opacity-0 h-0 overflow-hidden 
 
-                                          /* Muncul saat hover */
-                                          group-hover:opacity-100 group-hover:h-auto group-hover:text-white">
+                                              /* Muncul saat hover */
+                                              group-hover:opacity-100 group-hover:h-auto group-hover:text-white">
                         Pelayanan administrasi publik untuk menerbitkan berbagai jenis surat pengantar
                         atau keterangan yang diperlukan oleh warga untuk urusan resmi.
                     </p>
@@ -102,12 +103,12 @@
 
                 <div class="group p-8 rounded-2xl shadow-md hover:shadow-2xl hover:scale-[1.03] transition duration-500 transform hover:-translate-y-1 
 
-                                       /* Default State (Warna Solid Terang) */
-                                       bg-sukorame-green text-sukorame-purple 
-                                       flex flex-col justify-center items-center text-center h-64 relative overflow-hidden
+                                           /* Default State (Warna Solid Terang) */
+                                           bg-sukorame-green text-sukorame-purple 
+                                           flex flex-col justify-center items-center text-center h-64 relative overflow-hidden
 
-                                       /* Hover State (Warna Solid Gelap - Disesuaikan) */
-                                       hover:bg-sukorame-green hover:text-sukorame-purple hover:border-sukorame-green">
+                                           /* Hover State (Warna Solid Gelap - Disesuaikan) */
+                                           hover:bg-sukorame-green hover:text-sukorame-purple hover:border-sukorame-green">
 
                     <div class="flex flex-col items-center justify-center transition-all duration-500">
                         <i
@@ -118,8 +119,8 @@
                     </div>
 
                     <p class="text-sm leading-relaxed mt-4 max-w-xs transition-opacity duration-500 ease-in-out 
-                                          opacity-0 h-0 overflow-hidden 
-                                          group-hover:opacity-100 group-hover:h-auto group-hover:text-sukorame-purple">
+                                              opacity-0 h-0 overflow-hidden 
+                                              group-hover:opacity-100 group-hover:h-auto group-hover:text-sukorame-purple">
                         Informasi dan berita terkini dari masyarakat dan kegiatan kelurahan untuk memperkuat transparansi
                         dan partisipasi warga.
                     </p>
@@ -127,12 +128,12 @@
 
                 <div class="group p-8 rounded-2xl shadow-md hover:shadow-xl hover:scale-[1.03] transition duration-500 transform hover:-translate-y-1 
 
-                                       /* Default State (Warna Solid Gelap) */
-                                       bg-sukorame-purple text-white 
-                                       flex flex-col justify-center items-center text-center h-64 relative overflow-hidden
+                                           /* Default State (Warna Solid Gelap) */
+                                           bg-sukorame-purple text-white 
+                                           flex flex-col justify-center items-center text-center h-64 relative overflow-hidden
 
-                                       /* Hover State (Warna Solid Lebih Gelap - Disesuaikan) */
-                                       hover:bg-[#3d2073] hover:text-white">
+                                           /* Hover State (Warna Solid Lebih Gelap - Disesuaikan) */
+                                           hover:bg-[#3d2073] hover:text-white">
 
                     <div class="flex flex-col items-center justify-center transition-all duration-500">
                         <i class="fas fa-images text-4xl mb-3"></i>
@@ -140,8 +141,8 @@
                     </div>
 
                     <p class="text-sm leading-relaxed mt-4 max-w-xs transition-opacity duration-500 ease-in-out 
-                                          opacity-0 h-0 overflow-hidden 
-                                          group-hover:opacity-100 group-hover:h-auto">
+                                              opacity-0 h-0 overflow-hidden 
+                                              group-hover:opacity-100 group-hover:h-auto">
                         Dokumentasi kegiatan pemerintahan dan masyarakat sebagai bentuk akuntabilitas publik dan kebersamaan
                         warga Sukorame.
                     </p>
@@ -151,7 +152,7 @@
     </section>
 
     {{-- 3. Pemangku Jabatan --}}
-    <section class="py-20 bg-gradient-to-t from-sukorame-green/10 via-white to-sukorame-purple-light/10">
+    <section>
         <div class="bg-sukorame-green py-4 mb-12 rounded-lg shadow-lg shadow-sukorame-green/40">
             <h2 class="text-3xl font-extrabold text-sukorame-purple text-center uppercase tracking-wide">
                 PEMANGKU JABATAN
@@ -212,7 +213,7 @@
     </section>
 
     {{-- 4. Aplikasi Layanan Publik (KEMBALI KE POSISI TERBAWAH DENGAN TAMPILAN GRID 6 KOLOM) --}}
-    <section class="py-20 bg-gradient-to-b from-white via-gray-50 to-sukorame-green/10 text-center">
+    <section class="py-20 text-center">
         <div class="bg-sukorame-green py-4 mb-12 rounded-lg shadow-lg shadow-sukorame-green/40">
             <h2 class="text-3xl font-extrabold text-sukorame-purple uppercase tracking-wide">
                 APLIKASI LAYANAN PUBLIK
@@ -222,7 +223,7 @@
             {{-- Tampilan Grid/Flex yang Disesuaikan --}}
             <div
                 class="flex flex-wrap justify-center gap-x-8 gap-y-12 mb-16 max-w-7xl mx-auto 
-                                                                                lg:grid lg:grid-cols-6 lg:gap-x-4 lg:gap-y-0">
+                                                                                    lg:grid lg:grid-cols-6 lg:gap-x-4 lg:gap-y-0">
 
                 {{-- E-Suket --}}
                 <a href="https://esuket.kedirikota.go.id/" target="_blank"

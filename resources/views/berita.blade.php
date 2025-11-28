@@ -5,7 +5,7 @@
 @section('content')
 
     {{-- HERO SECTION --}}
-    <section class="text-center py-12 md:py-16 px-4 bg-[#f9fdf5]">
+    <section class="text-center py-12 md:py-16 px-4 bg-white">
         <div class="container mx-auto">
             <h1 class="font-poppins text-4xl font-extrabold text-gray-900 leading-tight">
                 Selamat Datang, Di Halaman Berita
@@ -17,7 +17,7 @@
     </section>
 
     {{-- GRID BERITA --}}
-    <section class="py-12 md:py-20 bg-[#f9fdf5]">
+    <section class="py-12 md:py-20 bg-white">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
 
             {{-- Jika kosong --}}

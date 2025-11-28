@@ -4,7 +4,7 @@
 @section('title', 'FAQ')
 
 @section('content')
-<div class="bg-[#f9fdf5] py-14 px-6 md:px-10 overflow-hidden font-[Poppins]">
+<div class="bg-white py-14 px-6 md:px-10 overflow-hidden font-[Poppins]">
     <div class="container mx-auto max-w-5xl faq">
 
         {{-- Judul Halaman --}}
@@ -20,7 +20,7 @@
         {{-- Daftar Pertanyaan dari Database --}}
         <div class="space-y-6">
             @foreach ($faqList as $index => $faq)
-                <div class="bg-[#D4F36B] rounded-2xl p-5 shadow-sm">
+                <div class="bg-sukorame-green rounded-2xl p-5 shadow-sm">
                     <button type="button"
                         class="w-full flex justify-between items-center font-semibold text-left text-black text-lg focus:outline-none transition-all duration-300 ease-in-out">
                         {{ $loop->iteration }}. {{ $faq->pertanyaan }}
